@@ -21,12 +21,12 @@ export const Home = () => {
   };
 
   return (
-    <div className="container">
-      <h1 className={styles.myTest}>Todo App</h1>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <TodoInput todo={todo} setTodo={setTodo} addTodo={addTodo} />
-        <TodoLists lists={todos} deleteTodo={deleteTodo} />
-      </div>
+    <div className={styles.container}>
+      <h1 className={styles.fontTest1}>Todo App</h1>
+      {/* <div style={{ display: "flex", flexDirection: "column" }}> */}
+      <TodoInput todo={todo} setTodo={setTodo} addTodo={addTodo} />
+      <TodoLists lists={todos} deleteTodo={deleteTodo} />
+      {/* </div> */}
     </div>
   );
 };

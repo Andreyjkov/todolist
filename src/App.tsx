@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import "./app.css";
+import "./index.css";
 import { Home } from "./pages";
 
 function App() {
-  return <h1>work</h1>;
+  return <Home />;
 }
 
 export default App;
