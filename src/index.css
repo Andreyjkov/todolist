@@ -2,26 +2,7 @@
   font-family: "Oswald-Regular";
   src: url("./assets/fonts/Oswald-Regular.ttf");
 }
+html,
 body {
-  /* background-color: grey; */
-}
-.app {
-  /* padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  background-color: #fff8dc; */
-}
-
-.container {
-  /* display: flex;
-  border: 1px solid;
-  border-radius: 10px;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin: 20px;
-  padding: 20px;
-  gap: 10px; */
+  height: 100%;
 }
