@@ -1,21 +1,36 @@
 import React from "react";
-import styles from "./styles.module.css";
+import styles from "./TodoLists.module.css";
 
-interface Props {
-  lists: string[];
-  deleteTodo: (text: string) => void;
+export interface ITodoData {
+  id: number;
+  value: string;
+  date: Date;
 }
 
-export const TodoLists = ({ lists, deleteTodo }: Props) => {
+interface Props {
+  todosData: ITodoData[];
+  deleteTodo: (id: number) => void;
+}
+
+export const TodoLists = ({ todosData, deleteTodo }: Props) => {
   return (
-    <>
-      {lists.length > 0 ? (
-        <ul>
-          {lists.map((todo, i) => {
+    <div className={styles.container}>
+      {todosData?.length ? (
+        <ul className={styles.listSection}>
+          {todosData.map((todo) => {
             return (
-              <div key={i}>
-                <li className={styles.myTest}>{todo}</li>
-                <button className="delete-btn" onClick={() => deleteTodo(todo)}>
+              <div key={todo.id} className={styles.listRow}>
+                <div className={styles.valueBox}>
+                  <li className={styles.boxId}>{todo.id}</li>
+                  <li className={styles.boxTodo}>{todo.value}</li>
+                  <li className={styles.boxDate}>
+                    {todo.date.toLocaleString()}
+                  </li>
+                </div>
+                <button
+                  className={styles.button}
+                  onClick={() => deleteTodo(todo.id)}
+                >
                   Delete
                 </button>
               </div>
@@ -23,8 +38,8 @@ export const TodoLists = ({ lists, deleteTodo }: Props) => {
           })}
         </ul>
       ) : (
-        <p>no task</p>
+        <p className={styles.noTaskText}>no task</p>
       )}
-    </>
+    </div>
   );
 };
