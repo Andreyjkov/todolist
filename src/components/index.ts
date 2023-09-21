@@ -1,2 +1,2 @@
-export * from "./TodoInput/NewTodo";
+export * from "./NewTodo/NewTodo";
 export * from "./TodoLists/TodoLists";

@@ -1,29 +1,23 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styles from "./Home.module.css";
 
-import { ITodoData, NewTodo, TodoLists } from "../../components";
+import { NewTodo, TodoLists } from "../../components";
+import { businessService } from "../../businessService/businessService";
 
 export const Home = () => {
-  const [todosData, setTodosData] = useState<ITodoData[]>([]);
+  const [_, setTriger] = useState(false);
 
-  const addTodo = useCallback((value: string) => {
-    const date = new Date();
-
-    const objDataTodo = {
-      id: date.getTime(),
-      value: value,
-      date: date,
-    };
-
-    setTodosData((prev) => [...prev, objDataTodo]);
+  const handleAddTodo = useCallback((value: string) => {
+    businessService.addTodo(value);
+    setTriger((prev) => !prev);
   }, []);
 
-  const deleteTodo = (id: number) => {
-    const newTodos = todosData.filter((todo) => {
-      return todo.id !== id;
-    });
-    setTodosData(newTodos);
+  const handleDeleteTodo = (id: number) => {
+    businessService.deleteTodo(id);
+    setTriger((prev) => !prev);
   };
+
+  console.log("@render Home");
 
   return (
     <div className={styles.container}>
@@ -32,8 +26,8 @@ export const Home = () => {
       </div>
 
       <div className={styles.content}>
-        <NewTodo addTodo={addTodo} />
-        <TodoLists todosData={todosData} deleteTodo={deleteTodo} />
+        <NewTodo addTodo={handleAddTodo} />
+        <TodoLists deleteTodo={handleDeleteTodo} />
       </div>
     </div>
   );

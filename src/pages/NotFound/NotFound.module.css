@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: gray;
+  padding: 0 30px;
+  height: 100%;
+}
+.header {
+  padding: 20px;
+}
+.title {
+  color: antiquewhite;
+  font-size: 30px;
+  text-align: center;
+}

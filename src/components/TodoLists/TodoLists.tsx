@@ -1,18 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./TodoLists.module.css";
-
-export interface ITodoData {
-  id: number;
-  value: string;
-  date: Date;
-}
+import { Link } from "react-router-dom";
+import {
+  ITodoData,
+  businessService,
+} from "../../businessService/businessService";
 
 interface Props {
-  todosData: ITodoData[];
   deleteTodo: (id: number) => void;
 }
 
-export const TodoLists = ({ todosData, deleteTodo }: Props) => {
+export const TodoLists = ({ deleteTodo }: Props) => {
+  const [todosData, setTodosData] = useState<ITodoData[]>([]);
+
+  useEffect(() => {
+    setTodosData(businessService.getTodos());
+  }, [deleteTodo]);
+
+  console.log("@render TodoLists");
+
   return (
     <div className={styles.container}>
       {todosData?.length ? (
@@ -20,13 +26,19 @@ export const TodoLists = ({ todosData, deleteTodo }: Props) => {
           {todosData.map((todo) => {
             return (
               <div key={todo.id} className={styles.listRow}>
-                <div className={styles.valueBox}>
-                  <li className={styles.boxId}>{todo.id}</li>
-                  <li className={styles.boxTodo}>{todo.value}</li>
-                  <li className={styles.boxDate}>
-                    {todo.date.toLocaleString()}
-                  </li>
-                </div>
+                <Link
+                  to={`/todo/${todo.id}`}
+                  state={todo}
+                  className={styles.link}
+                >
+                  <div className={styles.valueBox}>
+                    <li className={styles.boxId}>{todo.id}</li>
+                    <li className={styles.boxTodo}>{todo.value}</li>
+                    <li className={styles.boxDate}>
+                      {todo.date.toLocaleString("ru")}
+                    </li>
+                  </div>
+                </Link>
                 <button
                   className={styles.button}
                   onClick={() => deleteTodo(todo.id)}

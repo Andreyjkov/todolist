@@ -1,4 +1,4 @@
-import React, { useState, memo } from "react";
+import React, { memo, useState } from "react";
 import styles from "./NewTodo.module.css";
 
 interface Props {
@@ -10,10 +10,11 @@ export const NewTodo = memo(({ addTodo }: Props) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     addTodo(value);
     setValue("");
   };
+
+  console.log("@render NewTodo");
 
   return (
     <div className={styles.container}>

@@ -8,6 +8,7 @@
     "jsx": "react",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
 
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
   }

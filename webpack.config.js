@@ -5,12 +5,14 @@ module.exports = {
   mode: "development",
   entry: "./src/index.tsx",
   target: "web",
-  output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "main.js",
-  },
+  // output: {
+  //   path: path.resolve(__dirname, "dist"),
+  //   filename: "main.js",
+  // },
+  output: { publicPath: "/" },
   devServer: {
     port: "3000",
+    historyApiFallback: true,
     static: ["./public"],
     open: true,
     hot: true,
@@ -59,6 +61,11 @@ module.exports = {
             },
           },
         ],
+      },
+      {
+        test: /\.js$/,
+        enforce: "pre",
+        use: ["source-map-loader"],
       },
       {
         test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/i,
