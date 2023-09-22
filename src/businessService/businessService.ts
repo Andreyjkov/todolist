@@ -1,35 +1,48 @@
 import { ITodoData } from "../type";
 
+type Actoin = {
+  type: string;
+  value?: string;
+  id?: number;
+};
+
 let todos: ITodoData[] = [];
 
-const addTodo = (value: string) => {
-  const date = new Date();
-  const objDataTodo = {
-    id: date.getTime(),
-    value: value,
-    date: date,
+function createStore() {
+  return {
+    dispatch: (action: Actoin) => {
+      todos = todosReducer(action);
+    },
+    getState: () => todos,
   };
-  todos = [...todos, objDataTodo];
-};
+}
 
-const deleteTodo = (id: number) => {
-  const newTodos = todos.filter((todo) => {
-    return todo.id !== id;
-  });
-  todos = newTodos;
-};
+function todosReducer(action: Actoin) {
+  switch (action.type) {
+    case "ADD_TODO":
+      const date = new Date();
+      return [
+        ...todos,
+        {
+          id: date.getTime(),
+          value: action.value,
+          date: date,
+        },
+      ];
+    case "DELETE_TODO":
+      return todos.filter((todo) => {
+        return todo.id !== action.id;
+      });
+    default:
+      return todos;
+  }
+}
 
 const getTodoById = (id: string) => {
   return todos.find((todo) => todo.id === +id);
 };
 
-const getTodos = () => {
-  return todos;
-};
-
 export const businessService = {
-  addTodo,
-  deleteTodo,
-  getTodos,
   getTodoById,
+  createStore,
 };
