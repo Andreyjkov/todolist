@@ -5,19 +5,26 @@ import { NewTodo, TodoLists } from "../../components";
 import { businessService } from "../../businessService/businessService";
 
 export const Home = () => {
-  const [_, setTriger] = useState(false);
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    setTodos(businessService.getTodos());
+  }, []);
 
   const handleAddTodo = useCallback((value: string) => {
     businessService.addTodo(value);
-    setTriger((prev) => !prev);
+    setTodos(businessService.getTodos());
   }, []);
 
-  const handleDeleteTodo = (id: number) => {
-    businessService.deleteTodo(id);
-    setTriger((prev) => !prev);
-  };
+  const handleDeleteTodo = useCallback(
+    (id: number) => {
+      businessService.deleteTodo(id);
+      setTodos(businessService.getTodos());
+    },
+    [todos]
+  );
 
-  console.log("@render Home");
+  console.log("render Home");
 
   return (
     <div className={styles.container}>
@@ -27,7 +34,7 @@ export const Home = () => {
 
       <div className={styles.content}>
         <NewTodo addTodo={handleAddTodo} />
-        <TodoLists deleteTodo={handleDeleteTodo} />
+        <TodoLists deleteTodo={handleDeleteTodo} todos={todos} />
       </div>
     </div>
   );

@@ -1,14 +1,9 @@
-export interface ITodoData {
-  id: number;
-  value: string;
-  date: Date;
-}
+import { ITodoData } from "../type";
 
 let todos: ITodoData[] = [];
 
 const addTodo = (value: string) => {
   const date = new Date();
-
   const objDataTodo = {
     id: date.getTime(),
     value: value,
@@ -24,6 +19,10 @@ const deleteTodo = (id: number) => {
   todos = newTodos;
 };
 
+const getTodoById = (id: string) => {
+  return todos.find((todo) => todo.id === +id);
+};
+
 const getTodos = () => {
   return todos;
 };
@@ -32,4 +31,5 @@ export const businessService = {
   addTodo,
   deleteTodo,
   getTodos,
+  getTodoById,
 };
