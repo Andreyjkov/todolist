@@ -1,14 +1,14 @@
 import React from 'react';
 import styles from './List.module.css';
-import { Link } from 'react-router-dom';
 import { ITodoData } from '../../type';
 
 interface Props {
   handleBtn: (id: number) => void;
   items: ITodoData[];
+  handleLinkTo: (id: number) => void;
 }
 
-export const List = ({ handleBtn, items }: Props) => {
+export const List = ({ handleBtn, items, handleLinkTo }: Props) => {
   return (
     <div className={styles.container}>
       {items?.length ? (
@@ -16,7 +16,10 @@ export const List = ({ handleBtn, items }: Props) => {
           {items.map((item) => {
             return (
               <div key={item.id} className={styles.listRow}>
-                <Link to={`/todo/${item.id}`} className={styles.link}>
+                <div
+                  onClick={() => handleLinkTo(item.id)}
+                  className={styles.link}
+                >
                   <div className={styles.valueBox}>
                     <li className={styles.boxId}>{item.id}</li>
                     <li className={styles.boxTodo}>{item.value}</li>
@@ -24,7 +27,7 @@ export const List = ({ handleBtn, items }: Props) => {
                       {item.date.toLocaleString('ru')}
                     </li>
                   </div>
-                </Link>
+                </div>
                 <button
                   className={styles.button}
                   onClick={() => handleBtn(item.id)}

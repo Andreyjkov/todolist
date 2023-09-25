@@ -1,12 +1,14 @@
 import React, { memo, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { List } from '../List/List';
 import { businessService } from '../../businessService/businessService';
-import { ACTION_TYPE_DELETE } from '../../constants/actionTypes';
-import { EVENT_NAME } from '../../constants/eventName';
+import { ACTION_TYPE_DELETE, EVENT_NAME } from '../../constants';
 
 export const TodoLists = memo(() => {
   const store = businessService.todoStore();
   const [todos, setTodos] = useState(store.getState());
+  const navigate = useNavigate();
 
   const listener = () => {
     setTodos(store.getState());
@@ -26,5 +28,15 @@ export const TodoLists = memo(() => {
     setTodos(data);
   };
 
-  return <List handleBtn={handleDeleteTodo} items={todos} />;
+  const handleLinkTo = (id: number) => {
+    navigate(`/todo/${id}`);
+  };
+
+  return (
+    <List
+      handleBtn={handleDeleteTodo}
+      items={todos}
+      handleLinkTo={handleLinkTo}
+    />
+  );
 });
