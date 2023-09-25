@@ -5,11 +5,33 @@ module.exports = {
   mode: "development",
   entry: "./src/index.tsx",
   target: "web",
-  // output: {
-  //   path: path.resolve(__dirname, "dist"),
-  //   filename: "main.js",
-  // },
-  output: { publicPath: "/" },
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "main.js",
+  },
+  optimization: {
+    splitChunks: {
+      chunks: "async",
+      minSize: 20000,
+      minRemainingSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 30,
+      maxInitialRequests: 30,
+      enforceSizeThreshold: 50000,
+      cacheGroups: {
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+          reuseExistingChunk: true,
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+      },
+    },
+  },
   devServer: {
     port: "3000",
     historyApiFallback: true,

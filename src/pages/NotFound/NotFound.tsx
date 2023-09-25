@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./NotFound.module.css";
 
-export const NotFound = () => {
+const NotFound = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -10,3 +10,4 @@ export const NotFound = () => {
     </div>
   );
 };
+export default NotFound;

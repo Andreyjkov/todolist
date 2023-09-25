@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styles from "./TodoDetails.module.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { NotFound } from "../NotFound/NotFound";
+import NotFound from "../NotFound/NotFound";
 import { businessService } from "../../businessService/businessService";
 import { ITodoData } from "../../type";
 
-export const TodoDetails = () => {
+const TodoDetails = () => {
   const params = useParams();
   const navigate = useNavigate();
   const todos = businessService.todoStore().getState();
@@ -39,3 +39,4 @@ export const TodoDetails = () => {
     </div>
   );
 };
+export default TodoDetails;
