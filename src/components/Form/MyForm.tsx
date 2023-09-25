@@ -1,20 +1,20 @@
 import React, { memo, useState } from "react";
-import styles from "./NewTodo.module.css";
+import styles from "./MyForm.module.css";
 
 interface Props {
-  addTodo: (value: string) => void;
+  submit: (value: string) => void;
 }
 
-export const NewTodo = memo(({ addTodo }: Props) => {
+export const MyForm = memo(({ submit }: Props) => {
   const [value, setValue] = useState("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    addTodo(value);
+    submit(value);
     setValue("");
   };
 
-  console.log("@render NewTodo");
+  console.log("@render MyForm");
 
   return (
     <div className={styles.container}>
@@ -25,7 +25,7 @@ export const NewTodo = memo(({ addTodo }: Props) => {
           value={value}
           placeholder="Ceate a new todo"
           onChange={(e) => setValue(e.target.value)}
-          className={styles.inputTodo}
+          className={styles.input}
         />
         <button type="submit" className={styles.button} disabled={!value}>
           Add

@@ -1,23 +1,23 @@
 import { ITodoData } from "../type";
 
 type Actoin = {
-  type: string;
+  type: "ADD_TODO" | "DELETE_TODO";
   value?: string;
   id?: number;
 };
 
 let todos: ITodoData[] = [];
 
-function createStore() {
+const todoStore = () => {
   return {
     dispatch: (action: Actoin) => {
       todos = todosReducer(action);
     },
     getState: () => todos,
   };
-}
+};
 
-function todosReducer(action: Actoin) {
+const todosReducer = (action: Actoin) => {
   switch (action.type) {
     case "ADD_TODO":
       const date = new Date();
@@ -36,13 +36,31 @@ function todosReducer(action: Actoin) {
     default:
       return todos;
   }
-}
+};
 
-const getTodoById = (id: string) => {
+const getTodoById = (todos: ITodoData[], id: number) => {
   return todos.find((todo) => todo.id === +id);
+};
+
+const subscribeEvent = (eventName: string, listener: any) => {
+  document.addEventListener(eventName, listener);
+  console.log("subscribe");
+};
+
+const unsubscribeEvent = (eventName: string, listener: any) => {
+  document.removeEventListener(eventName, listener);
+  console.log("unsubscribe");
+};
+
+const publishEvent = (eventName: string) => {
+  const event = new CustomEvent(eventName);
+  document.dispatchEvent(event);
 };
 
 export const businessService = {
   getTodoById,
-  createStore,
+  todoStore,
+  subscribeEvent,
+  unsubscribeEvent,
+  publishEvent,
 };

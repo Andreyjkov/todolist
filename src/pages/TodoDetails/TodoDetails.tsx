@@ -8,15 +8,13 @@ import { ITodoData } from "../../type";
 export const TodoDetails = () => {
   const params = useParams();
   const navigate = useNavigate();
+  const todos = businessService.todoStore().getState();
 
-  const storeTodos = businessService.createStore().getState();
-  const [todo, setTodo] = useState<ITodoData>(
-    businessService.getTodoById(params.id)
-  );
+  const [todo, setTodo] = useState<ITodoData>();
 
   useEffect(() => {
-    setTodo(businessService.getTodoById(params.id));
-  }, []);
+    setTodo(businessService.getTodoById(todos, +params.id));
+  }, [params.id]);
 
   if (!todo) {
     return <NotFound />;

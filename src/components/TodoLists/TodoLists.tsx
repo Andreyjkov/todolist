@@ -1,45 +1,29 @@
-import React, { memo } from "react";
-import styles from "./TodoLists.module.css";
-import { Link } from "react-router-dom";
-import { ITodoData } from "../../type";
+import React, { memo, useEffect, useState } from "react";
+import { List } from "../List/List";
+import { businessService } from "../../businessService/businessService";
 
-interface Props {
-  deleteTodo: (id: number) => void;
-  todos: ITodoData[];
-}
+export const TodoLists = memo(() => {
+  const store = businessService.todoStore();
+  const [todos, setTodos] = useState(store.getState());
 
-export const TodoLists = memo(({ deleteTodo, todos }: Props) => {
+  const listener = () => {
+    setTodos(store.getState());
+  };
+
+  useEffect(() => {
+    businessService.subscribeEvent("newTodo", listener);
+    return () => {
+      return businessService.unsubscribeEvent("newTodo", listener);
+    };
+  }, []);
+
+  const handleDeleteTodo = (id: number) => {
+    store.dispatch({ type: "DELETE_TODO", id });
+
+    const data = store.getState();
+    setTodos(data);
+  };
   console.log("render TodoLists");
 
-  return (
-    <div className={styles.container}>
-      {todos?.length ? (
-        <ul className={styles.listSection}>
-          {todos.map((todo) => {
-            return (
-              <div key={todo.id} className={styles.listRow}>
-                <Link to={`/todo/${todo.id}`} className={styles.link}>
-                  <div className={styles.valueBox}>
-                    <li className={styles.boxId}>{todo.id}</li>
-                    <li className={styles.boxTodo}>{todo.value}</li>
-                    <li className={styles.boxDate}>
-                      {todo.date.toLocaleString("ru")}
-                    </li>
-                  </div>
-                </Link>
-                <button
-                  className={styles.button}
-                  onClick={() => deleteTodo(todo.id)}
-                >
-                  Delete
-                </button>
-              </div>
-            );
-          })}
-        </ul>
-      ) : (
-        <p className={styles.noTaskText}>no task</p>
-      )}
-    </div>
-  );
+  return <List handleBtn={handleDeleteTodo} items={todos} />;
 });
