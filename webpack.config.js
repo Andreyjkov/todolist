@@ -1,17 +1,17 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: "development",
-  entry: "./src/index.tsx",
-  target: "web",
+  mode: 'development',
+  entry: './src/index.tsx',
+  target: 'web',
   output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "main.js",
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'main.js',
   },
   optimization: {
     splitChunks: {
-      chunks: "async",
+      chunks: 'async',
       minSize: 20000,
       minRemainingSize: 0,
       minChunks: 1,
@@ -33,37 +33,37 @@ module.exports = {
     },
   },
   devServer: {
-    port: "3000",
+    port: '3000',
     historyApiFallback: true,
-    static: ["./public"],
+    static: ['./public'],
     open: true,
     hot: true,
     liveReload: true,
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
+    extensions: ['.tsx', '.ts', '.js'],
   },
-  plugins: [new HtmlWebpackPlugin({ template: "./public/index.html" })],
+  plugins: [new HtmlWebpackPlugin({ template: './public/index.html' })],
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
             presets: [
-              "@babel/preset-env", //compiling ES2015+ syntax
-              "@babel/preset-react", //for react
-              "@babel/preset-typescript",
+              '@babel/preset-env', //compiling ES2015+ syntax
+              '@babel/preset-react', //for react
+              '@babel/preset-typescript',
             ],
-            plugins: ["@babel/plugin-transform-runtime"],
+            plugins: ['@babel/plugin-transform-runtime'],
           },
         },
       },
       {
         test: /\.tsx?$/,
-        use: "ts-loader",
+        use: 'ts-loader',
         exclude: /node_modules/,
       },
       {
@@ -71,14 +71,14 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
-            loader: "style-loader",
+            loader: 'style-loader',
           },
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               sourceMap: true,
               modules: {
-                localIdentName: "[name]__[local]__[hash:base64:5]",
+                localIdentName: '[name]__[local]__[hash:base64:5]',
               },
             },
           },
@@ -86,12 +86,12 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        enforce: "pre",
-        use: ["source-map-loader"],
+        enforce: 'pre',
+        use: ['source-map-loader'],
       },
       {
         test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/i,
-        type: "asset",
+        type: 'asset',
       },
     ],
   },

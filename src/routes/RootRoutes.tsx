@@ -1,14 +1,14 @@
-import React, { Suspense, lazy } from "react";
-import { Route, Routes } from "react-router-dom";
-import { Home } from "../pages";
+import React, { Suspense, lazy } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { Home } from '../pages';
 
-const TodoDetails = lazy(() => import("../pages/TodoDetails/TodoDetails"));
-const NotFound = lazy(() => import("../pages/NotFound/NotFound"));
+const TodoDetails = lazy(() => import('../pages/TodoDetails/TodoDetails'));
+const NotFound = lazy(() => import('../pages/NotFound/NotFound'));
 
 const ROUTS = {
-  HOME: "/",
-  TODO_DETAILS: "todo/:id",
-  NOT_FOUND: "*",
+  HOME: '/',
+  TODO_DETAILS: 'todo/:id',
+  NOT_FOUND: '*',
 };
 
 export const RootRoutes = () => {

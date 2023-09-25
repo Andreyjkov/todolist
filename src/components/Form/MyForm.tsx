@@ -1,20 +1,18 @@
-import React, { memo, useState } from "react";
-import styles from "./MyForm.module.css";
+import React, { memo, useState } from 'react';
+import styles from './MyForm.module.css';
 
 interface Props {
   submit: (value: string) => void;
 }
 
 export const MyForm = memo(({ submit }: Props) => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     submit(value);
-    setValue("");
+    setValue('');
   };
-
-  console.log("@render MyForm");
 
   return (
     <div className={styles.container}>

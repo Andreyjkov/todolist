@@ -1,7 +1,7 @@
-import React, { memo } from "react";
-import styles from "./List.module.css";
-import { Link } from "react-router-dom";
-import { ITodoData } from "../../type";
+import React from 'react';
+import styles from './List.module.css';
+import { Link } from 'react-router-dom';
+import { ITodoData } from '../../type';
 
 interface Props {
   handleBtn: (id: number) => void;
@@ -9,8 +9,6 @@ interface Props {
 }
 
 export const List = ({ handleBtn, items }: Props) => {
-  console.log("render List");
-
   return (
     <div className={styles.container}>
       {items?.length ? (
@@ -23,7 +21,7 @@ export const List = ({ handleBtn, items }: Props) => {
                     <li className={styles.boxId}>{item.id}</li>
                     <li className={styles.boxTodo}>{item.value}</li>
                     <li className={styles.boxDate}>
-                      {item.date.toLocaleString("ru")}
+                      {item.date.toLocaleString('ru')}
                     </li>
                   </div>
                 </Link>

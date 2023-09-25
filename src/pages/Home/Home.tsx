@@ -1,11 +1,9 @@
-import React from "react";
-import styles from "./Home.module.css";
+import React from 'react';
+import styles from './Home.module.css';
 
-import { TodoLists, CreateTodo } from "../../components";
+import { TodoLists, CreateTodo } from '../../components';
 
 export const Home = () => {
-  console.log("render Home");
-
   return (
     <div className={styles.container}>
       <div className={styles.header}>

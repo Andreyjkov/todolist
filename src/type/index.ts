@@ -1,1 +1,1 @@
-export * from "./ITodoData";
+export * from './ITodoData';

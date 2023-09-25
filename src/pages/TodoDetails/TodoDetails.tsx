@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import styles from "./TodoDetails.module.css";
-import { useNavigate, useParams } from "react-router-dom";
-import NotFound from "../NotFound/NotFound";
-import { businessService } from "../../businessService/businessService";
-import { ITodoData } from "../../type";
+import React, { useEffect, useState } from 'react';
+import styles from './TodoDetails.module.css';
+import { useNavigate, useParams } from 'react-router-dom';
+import NotFound from '../NotFound/NotFound';
+import { businessService } from '../../businessService/businessService';
+import { ITodoData } from '../../type';
 
 const TodoDetails = () => {
   const params = useParams();
@@ -28,7 +28,7 @@ const TodoDetails = () => {
             <p className={styles.text}>id: {todo?.id}</p>
             <p className={styles.text}>value: {todo?.value}</p>
             <p className={styles.text}>
-              date: {todo?.date.toLocaleString("ru")}
+              date: {todo?.date.toLocaleString('ru')}
             </p>
           </div>
           <button onClick={() => navigate(-1)} className={styles.cardBtn}>

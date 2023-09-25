@@ -1,6 +1,8 @@
-import React, { memo, useEffect, useState } from "react";
-import { List } from "../List/List";
-import { businessService } from "../../businessService/businessService";
+import React, { memo, useEffect, useState } from 'react';
+import { List } from '../List/List';
+import { businessService } from '../../businessService/businessService';
+import { ACTION_TYPE_DELETE } from '../../constants/actionTypes';
+import { EVENT_NAME } from '../../constants/eventName';
 
 export const TodoLists = memo(() => {
   const store = businessService.todoStore();
@@ -11,19 +13,18 @@ export const TodoLists = memo(() => {
   };
 
   useEffect(() => {
-    businessService.subscribeEvent("newTodo", listener);
+    businessService.subscribeEvent(EVENT_NAME, listener);
     return () => {
-      return businessService.unsubscribeEvent("newTodo", listener);
+      return businessService.unsubscribeEvent(EVENT_NAME, listener);
     };
   }, []);
 
   const handleDeleteTodo = (id: number) => {
-    store.dispatch({ type: "DELETE_TODO", id });
+    store.dispatch({ type: ACTION_TYPE_DELETE, id });
 
     const data = store.getState();
     setTodos(data);
   };
-  console.log("render TodoLists");
 
   return <List handleBtn={handleDeleteTodo} items={todos} />;
 });

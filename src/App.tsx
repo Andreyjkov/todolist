@@ -1,5 +1,5 @@
-import React from "react";
-import { RootRoutes } from "./routes/RootRoutes";
+import React from 'react';
+import { RootRoutes } from './routes/RootRoutes';
 
 function App() {
   return <RootRoutes />;

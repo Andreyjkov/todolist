@@ -1,7 +1,8 @@
-import { ITodoData } from "../type";
+import { ACTION_TYPE_ADD, ACTION_TYPE_DELETE } from '../constants';
+import { ITodoData } from '../type';
 
-type Actoin = {
-  type: "ADD_TODO" | "DELETE_TODO";
+type Action = {
+  type: string;
   value?: string;
   id?: number;
 };
@@ -10,17 +11,18 @@ let todos: ITodoData[] = [];
 
 const todoStore = () => {
   return {
-    dispatch: (action: Actoin) => {
+    dispatch: (action: Action) => {
       todos = todosReducer(action);
     },
     getState: () => todos,
   };
 };
 
-const todosReducer = (action: Actoin) => {
+const todosReducer = (action: Action) => {
+  const date = new Date();
+
   switch (action.type) {
-    case "ADD_TODO":
-      const date = new Date();
+    case ACTION_TYPE_ADD:
       return [
         ...todos,
         {
@@ -29,7 +31,7 @@ const todosReducer = (action: Actoin) => {
           date: date,
         },
       ];
-    case "DELETE_TODO":
+    case ACTION_TYPE_DELETE:
       return todos.filter((todo) => {
         return todo.id !== action.id;
       });
@@ -42,14 +44,12 @@ const getTodoById = (todos: ITodoData[], id: number) => {
   return todos.find((todo) => todo.id === +id);
 };
 
-const subscribeEvent = (eventName: string, listener: any) => {
+const subscribeEvent = (eventName: string, listener: () => void) => {
   document.addEventListener(eventName, listener);
-  console.log("subscribe");
 };
 
-const unsubscribeEvent = (eventName: string, listener: any) => {
+const unsubscribeEvent = (eventName: string, listener: () => void) => {
   document.removeEventListener(eventName, listener);
-  console.log("unsubscribe");
 };
 
 const publishEvent = (eventName: string) => {
