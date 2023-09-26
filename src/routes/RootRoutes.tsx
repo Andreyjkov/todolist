@@ -1,19 +1,27 @@
 import React, { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { Home } from '../pages';
 import { ROUTS } from '../constants';
+import { Loading } from '../components';
 
+const Home = lazy(() => import('../pages/Home/Home'));
 const TodoDetails = lazy(() => import('../pages/TodoDetails/TodoDetails'));
 const NotFound = lazy(() => import('../pages/NotFound/NotFound'));
 
 export const RootRoutes = () => {
   return (
     <Routes>
-      <Route path={ROUTS.HOME} element={<Home />} />
+      <Route
+        path={ROUTS.HOME}
+        element={
+          <Suspense fallback={<Loading />}>
+            <Home />
+          </Suspense>
+        }
+      />
       <Route
         path={ROUTS.TODO_DETAILS}
         element={
-          <Suspense fallback={<div>...Louding</div>}>
+          <Suspense fallback={<Loading />}>
             <TodoDetails />
           </Suspense>
         }
@@ -21,7 +29,7 @@ export const RootRoutes = () => {
       <Route
         path={ROUTS.NOT_FOUND}
         element={
-          <Suspense fallback={<div>...Louding</div>}>
+          <Suspense fallback={<Loading />}>
             <NotFound />
           </Suspense>
         }

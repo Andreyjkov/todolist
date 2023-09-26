@@ -3,7 +3,7 @@ import styles from './Home.module.css';
 
 import { TodoLists, TodoCreate } from '../../components';
 
-export const Home = () => {
+const Home = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -17,3 +17,4 @@ export const Home = () => {
     </div>
   );
 };
+export default Home;
