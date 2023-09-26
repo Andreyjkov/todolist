@@ -4,16 +4,16 @@ import { useNavigate, useParams } from 'react-router-dom';
 import NotFound from '../NotFound/NotFound';
 import { businessService } from '../../businessService/businessService';
 import { ITodoData } from '../../type';
+import { ROUTS } from '../../constants';
 
 const TodoDetails = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const todos = businessService.todoStore().getState();
 
   const [todo, setTodo] = useState<ITodoData>();
 
   useEffect(() => {
-    setTodo(businessService.getTodoById(todos, +params.id));
+    setTodo(businessService.getTodoById(+params.id));
   }, [params.id]);
 
   if (!todo) {
@@ -31,7 +31,10 @@ const TodoDetails = () => {
               date: {todo?.date.toLocaleString('ru')}
             </p>
           </div>
-          <button onClick={() => navigate(-1)} className={styles.cardBtn}>
+          <button
+            onClick={() => navigate(ROUTS.HOME)}
+            className={styles.cardBtn}
+          >
             Go back
           </button>
         </div>

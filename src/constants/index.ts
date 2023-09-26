@@ -1,2 +1,3 @@
 export * from './actionTypes';
-export * from './eventName';
+export * from './eventTypes';
+export * from './routsPath';

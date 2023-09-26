@@ -1,15 +1,13 @@
 import React, { memo } from 'react';
 import { businessService } from '../../businessService/businessService';
 import { MyForm } from '../Form/MyForm';
-import { ACTION_TYPE_ADD, EVENT_NAME } from '../../constants';
+import { TODO_ACTION_TYPE } from '../../constants';
 
-export const CreateTodo = memo(() => {
+export const TodoCreate = memo(() => {
   const store = businessService.todoStore();
 
   const handleNewTodo = (value: string) => {
-    store.dispatch({ type: ACTION_TYPE_ADD, value });
-
-    businessService.publishEvent(EVENT_NAME);
+    store.dispatch({ type: TODO_ACTION_TYPE.ADD_TODO, value });
   };
 
   return <MyForm submit={handleNewTodo} />;

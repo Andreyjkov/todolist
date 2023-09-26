@@ -3,8 +3,8 @@ import styles from './List.module.css';
 import { ITodoData } from '../../type';
 
 interface Props {
-  handleBtn: (id: number) => void;
-  items: ITodoData[];
+  handleBtn: (item: ITodoData) => void;
+  items: ITodoData[] | undefined;
   handleLinkTo: (id: number) => void;
 }
 
@@ -30,7 +30,7 @@ export const List = ({ handleBtn, items, handleLinkTo }: Props) => {
                 </div>
                 <button
                   className={styles.button}
-                  onClick={() => handleBtn(item.id)}
+                  onClick={() => handleBtn(item)}
                 >
                   Delete
                 </button>

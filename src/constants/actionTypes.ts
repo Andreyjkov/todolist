@@ -1,2 +1,4 @@
-export const ACTION_TYPE_ADD = 'add_todo';
-export const ACTION_TYPE_DELETE = 'delete_todo';
+export enum TODO_ACTION_TYPE {
+  ADD_TODO = 'add_todo',
+  DELETE_TODO = 'delete_todo',
+}

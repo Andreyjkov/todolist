@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Home.module.css';
 
-import { TodoLists, CreateTodo } from '../../components';
+import { TodoLists, TodoCreate } from '../../components';
 
 export const Home = () => {
   return (
@@ -11,7 +11,7 @@ export const Home = () => {
       </div>
 
       <div className={styles.content}>
-        <CreateTodo />
+        <TodoCreate />
         <TodoLists />
       </div>
     </div>

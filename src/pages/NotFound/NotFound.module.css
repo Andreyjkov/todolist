@@ -1,15 +1,27 @@
 .container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: gray;
   padding: 0 30px;
   height: 100%;
 }
 .header {
+  display: flex;
+  flex-direction: column;
   padding: 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
 .title {
   color: antiquewhite;
-  font-size: 30px;
+  font-size: 50px;
   text-align: center;
+}
+
+.link {
+  color: antiquewhite;
+  text-decoration: none;
 }

@@ -3,33 +3,35 @@ import { useNavigate } from 'react-router-dom';
 
 import { List } from '../List/List';
 import { businessService } from '../../businessService/businessService';
-import { ACTION_TYPE_DELETE, EVENT_NAME } from '../../constants';
+import { TODO_EVENT_NAME, TODO_ACTION_TYPE } from '../../constants';
+import { ITodoData } from '../../type';
 
 export const TodoLists = memo(() => {
   const store = businessService.todoStore();
-  const [todos, setTodos] = useState(store.getState());
+  const [todos, setTodos] = useState<ITodoData[] | undefined>();
   const navigate = useNavigate();
 
-  const listener = () => {
+  const updateState = () => {
     setTodos(store.getState());
   };
 
   useEffect(() => {
-    businessService.subscribeEvent(EVENT_NAME, listener);
+    updateState();
+    businessService.subscribeEvent(TODO_EVENT_NAME.UPDATE_TODO, updateState);
     return () => {
-      return businessService.unsubscribeEvent(EVENT_NAME, listener);
+      businessService.unsubscribeEvent(
+        TODO_EVENT_NAME.UPDATE_TODO,
+        updateState
+      );
     };
   }, []);
 
-  const handleDeleteTodo = (id: number) => {
-    store.dispatch({ type: ACTION_TYPE_DELETE, id });
-
-    const data = store.getState();
-    setTodos(data);
+  const handleDeleteTodo = (item: ITodoData) => {
+    store.dispatch({ type: TODO_ACTION_TYPE.DELETE_TODO, id: item.id });
   };
 
   const handleLinkTo = (id: number) => {
-    navigate(`${id}`);
+    navigate(`todoDetals/${id}`);
   };
 
   return (
