@@ -29,7 +29,7 @@ export const TodoLists = memo(() => {
   };
 
   const handleLinkTo = (id: number) => {
-    navigate(`/todo/${id}`);
+    navigate(`${id}`);
   };
 
   return (

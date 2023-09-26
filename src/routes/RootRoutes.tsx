@@ -7,7 +7,7 @@ const NotFound = lazy(() => import('../pages/NotFound/NotFound'));
 
 const ROUTS = {
   HOME: '/',
-  TODO_DETAILS: 'todo/:id',
+  TODO_DETAILS: ':id',
   NOT_FOUND: '*',
 };
 
