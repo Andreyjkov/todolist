@@ -24,19 +24,42 @@ const TodoDetails = () => {
     <div className={styles.container}>
       <div className={styles.cardContainer}>
         <div className={styles.card}>
-          <div className={styles.cardContent}>
-            <p className={styles.text}>id: {todo?.id}</p>
-            <p className={styles.text}>value: {todo?.value}</p>
-            <p className={styles.text}>
-              date: {todo?.date.toLocaleString('ru')}
+          <div className={styles.header}>
+            <h1 className={styles.title}>Todo details</h1>
+            <p className={styles.subTitle}>
+              <span>id:</span>
+              {todo?.id}
             </p>
           </div>
-          <button
-            onClick={() => navigate(ROUTS.HOME)}
-            className={styles.cardBtn}
-          >
-            Go back
-          </button>
+
+          <div className={styles.valueSection}>
+            <div className={styles.editBox}>
+              <p>Value:</p>
+              <button className={styles.cardBtn}>Edit</button>
+            </div>
+            <div className={styles.valueBox}>
+              <p className={styles.valueText}>{todo?.value}</p>
+            </div>
+          </div>
+
+          <div className={styles.dateSection}>
+            <p className={styles.subTitle}>
+              <span>created: </span>
+              {todo?.date.toLocaleString('ru')}
+            </p>
+            <p className={styles.subTitle}>
+              <span>updated: </span>
+              {todo?.date.toLocaleString('ru')}
+            </p>
+          </div>
+          <div className={styles.footer}>
+            <button
+              onClick={() => navigate(ROUTS.HOME)}
+              className={styles.cardBtn}
+            >
+              Go back
+            </button>
+          </div>
         </div>
       </div>
     </div>

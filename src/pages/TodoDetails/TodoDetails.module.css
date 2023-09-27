@@ -10,28 +10,65 @@
   padding: 30px;
 }
 .card {
-  max-width: fit-content;
-  height: 300px;
+  max-width: 400px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 20px;
   border-radius: 5px;
-  background-color: rgb(196, 196, 196);
+  background-color: #fafafa;
   box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.2);
+  gap: 20px;
 }
-.cardContent {
+.title {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 5px;
+}
+.subTitle {
+  font-size: 14px;
+  text-align: center;
+  color: #606060;
+}
+.subTitle > span {
+  color: #000;
+}
+.valueBox {
   overflow: auto;
+  border: solid 1px;
+  border-color: #606060;
+  border-radius: 5px;
 }
-.text {
-  font-size: 30px;
+.valueSection {
+  display: flex;
+  flex-direction: column;
+  max-height: 300px;
+}
+.editBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.valueText {
+  font-size: 18px;
+  color: #606060;
   word-break: break-all;
+  padding: 10px;
+}
+.dateSection {
+  display: flex;
+  justify-content: space-between;
 }
 .cardBtn {
-  margin: 50px 50px 10px 50px;
-
   padding: 5px 20px;
   border: none;
   cursor: pointer;
   border-radius: 5px;
+}
+.footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
 }
