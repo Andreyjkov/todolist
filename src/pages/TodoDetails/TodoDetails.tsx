@@ -10,7 +10,7 @@ const TodoDetails = () => {
   const params = useParams();
   const navigate = useNavigate();
 
-  const [todo, setTodo] = useState<ITodoData>();
+  const [todo, setTodo] = useState<ITodoData | undefined>();
 
   useEffect(() => {
     setTodo(businessService.getTodoById(+params.id));

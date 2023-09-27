@@ -3,7 +3,11 @@ import { useNavigate } from 'react-router-dom';
 
 import { List } from '../List/List';
 import { businessService } from '../../businessService/businessService';
-import { TODO_EVENT_NAME, TODO_ACTION_TYPE } from '../../constants';
+import {
+  TODO_EVENT_NAME,
+  TODO_ACTION_TYPE,
+  PATH_LINK_TO,
+} from '../../constants';
 import { ITodoData } from '../../type';
 
 export const TodoLists = memo(() => {
@@ -31,7 +35,7 @@ export const TodoLists = memo(() => {
   };
 
   const handleLinkTo = (id: number) => {
-    navigate(`todoDetals/${id}`);
+    navigate(`${PATH_LINK_TO}${id}`);
   };
 
   return (

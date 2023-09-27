@@ -19,21 +19,23 @@ const todoStore = () => {
 };
 
 const todosReducer = (action: Action) => {
-  const date = new Date();
-
   switch (action.type) {
     case TODO_ACTION_TYPE.ADD_TODO:
-      todos = [
-        ...todos,
-        {
-          id: date.getTime(),
-          value: action.value,
-          date: date,
-        },
-      ];
-      publishEvent(TODO_EVENT_NAME.UPDATE_TODO);
+      {
+        const date = new Date();
 
-      return;
+        todos = [
+          ...todos,
+          {
+            id: date.getTime(),
+            value: action.value,
+            date: date,
+          },
+        ];
+        publishEvent(TODO_EVENT_NAME.UPDATE_TODO);
+      }
+
+      break;
     case TODO_ACTION_TYPE.DELETE_TODO:
       todos = todos.filter((todo) => {
         return todo.id !== action.id;
@@ -41,13 +43,11 @@ const todosReducer = (action: Action) => {
 
       publishEvent(TODO_EVENT_NAME.UPDATE_TODO);
 
-      return;
-    default:
-      return todos;
+      break;
   }
 };
 
-const getTodoById = (id: number) => {
+const getTodoById = (id: number): ITodoData | undefined => {
   return todos.find((todo) => todo.id === id);
 };
 
