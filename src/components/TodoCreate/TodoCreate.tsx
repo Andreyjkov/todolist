@@ -7,7 +7,10 @@ export const TodoCreate = memo(() => {
   const store = businessService.todoStore();
 
   const handleNewTodo = (value: string) => {
-    store.dispatch({ type: TODO_ACTION_TYPE.ADD_TODO, value });
+    store.dispatch({
+      type: TODO_ACTION_TYPE.ADD_TODO,
+      payload: { value: value },
+    });
   };
 
   return <MyForm submit={handleNewTodo} />;

@@ -1,11 +1,24 @@
 import { TODO_ACTION_TYPE, TODO_EVENT_NAME } from '../constants';
 import { ITodoData } from '../type';
+import {
+  AddTodoPayload,
+  DeleteTodoPayload,
+  EditTodoPayload,
+} from '../type/AddTodoPayload';
 
-type Action = {
-  type: TODO_ACTION_TYPE;
-  value?: string;
-  id?: number;
-};
+type Action =
+  | {
+      type: TODO_ACTION_TYPE.ADD_TODO;
+      payload: AddTodoPayload;
+    }
+  | {
+      type: TODO_ACTION_TYPE.DELETE_TODO;
+      payload: DeleteTodoPayload;
+    }
+  | {
+      type: TODO_ACTION_TYPE.EDIT_TODO;
+      payload: EditTodoPayload;
+    };
 
 let todos: ITodoData[] = [];
 
@@ -28,20 +41,40 @@ const todosReducer = (action: Action) => {
           ...todos,
           {
             id: date.getTime(),
-            value: action.value,
+            value: action.payload.value,
             date: date,
+            updateDate: date,
           },
         ];
-        publishEvent(TODO_EVENT_NAME.UPDATE_TODO);
+        publishEvent(TODO_EVENT_NAME.UPDATE_TODOS);
       }
 
       break;
     case TODO_ACTION_TYPE.DELETE_TODO:
       todos = todos.filter((todo) => {
-        return todo.id !== action.id;
+        return todo.id !== action.payload.id;
       });
 
-      publishEvent(TODO_EVENT_NAME.UPDATE_TODO);
+      publishEvent(TODO_EVENT_NAME.UPDATE_TODOS);
+
+      break;
+    case TODO_ACTION_TYPE.EDIT_TODO:
+      {
+        const updateDate = new Date();
+        todos = todos.map((item) => {
+          if (item.id === action.payload.id) {
+            return {
+              id: item.id,
+              value: action.payload.value,
+              date: action.payload.date,
+              updateDate: updateDate,
+            };
+          } else {
+            return item;
+          }
+        });
+        publishEvent(TODO_EVENT_NAME.UPDATE_TODOS);
+      }
 
       break;
   }

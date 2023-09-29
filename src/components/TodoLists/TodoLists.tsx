@@ -21,17 +21,20 @@ export const TodoLists = memo(() => {
 
   useEffect(() => {
     updateState();
-    businessService.subscribeEvent(TODO_EVENT_NAME.UPDATE_TODO, updateState);
+    businessService.subscribeEvent(TODO_EVENT_NAME.UPDATE_TODOS, updateState);
     return () => {
       businessService.unsubscribeEvent(
-        TODO_EVENT_NAME.UPDATE_TODO,
+        TODO_EVENT_NAME.UPDATE_TODOS,
         updateState
       );
     };
   }, []);
 
   const handleDeleteTodo = (item: ITodoData) => {
-    store.dispatch({ type: TODO_ACTION_TYPE.DELETE_TODO, id: item.id });
+    store.dispatch({
+      type: TODO_ACTION_TYPE.DELETE_TODO,
+      payload: { id: item.id },
+    });
   };
 
   const handleLinkTo = (id: number) => {

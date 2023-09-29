@@ -26,10 +26,13 @@ export const List = ({ handleBtn, items, handleLinkTo }: Props) => {
                     <li className={styles.boxDate}>
                       {item.date.toLocaleString('ru')}
                     </li>
+                    <li className={styles.boxDate}>
+                      {item.updateDate.toLocaleString('ru')}
+                    </li>
                   </div>
                 </div>
                 <button
-                  className={styles.button}
+                  className={styles.deleteButton}
                   onClick={() => handleBtn(item)}
                 >
                   Delete

@@ -1,20 +1,48 @@
 import React, { useEffect, useState } from 'react';
-import styles from './TodoDetails.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
+
+import styles from './TodoDetails.module.css';
 import NotFound from '../NotFound/NotFound';
 import { businessService } from '../../businessService/businessService';
 import { ITodoData } from '../../type';
-import { ROUTS } from '../../constants';
+import { ROUTS, TODO_ACTION_TYPE, TODO_EVENT_NAME } from '../../constants';
+import { EditTodoModal } from '../../components/EditTodoModal/EditTodoModal';
+import { EditTodoPayload } from '../../type/AddTodoPayload';
 
 const TodoDetails = () => {
   const params = useParams();
   const navigate = useNavigate();
+  const store = businessService.todoStore();
 
   const [todo, setTodo] = useState<ITodoData | undefined>();
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const updateState = () => {
+    setTodo(businessService.getTodoById(+params.id));
+  };
 
   useEffect(() => {
-    setTodo(businessService.getTodoById(+params.id));
-  }, [params.id]);
+    updateState();
+
+    businessService.subscribeEvent(TODO_EVENT_NAME.UPDATE_TODOS, updateState);
+    return () => {
+      businessService.unsubscribeEvent(
+        TODO_EVENT_NAME.UPDATE_TODOS,
+        updateState
+      );
+    };
+  }, []);
+
+  const submitModal = (todo: EditTodoPayload) => {
+    store.dispatch({
+      type: TODO_ACTION_TYPE.EDIT_TODO,
+      payload: todo,
+    });
+  };
+
+  const closeModal = () => {
+    setIsOpenModal(false);
+  };
 
   if (!todo) {
     return <NotFound />;
@@ -22,6 +50,13 @@ const TodoDetails = () => {
 
   return (
     <div className={styles.container}>
+      {isOpenModal && (
+        <EditTodoModal
+          closeModal={closeModal}
+          submitModal={submitModal}
+          dataModal={todo}
+        />
+      )}
       <div className={styles.cardContainer}>
         <div className={styles.card}>
           <div className={styles.header}>
@@ -35,7 +70,12 @@ const TodoDetails = () => {
           <div className={styles.valueSection}>
             <div className={styles.editBox}>
               <p>Value:</p>
-              <button className={styles.cardBtn}>Edit</button>
+              <button
+                className={styles.editButton}
+                onClick={() => setIsOpenModal(true)}
+              >
+                Edit
+              </button>
             </div>
             <div className={styles.valueBox}>
               <p className={styles.valueText}>{todo?.value}</p>
@@ -44,18 +84,14 @@ const TodoDetails = () => {
 
           <div className={styles.dateSection}>
             <p className={styles.subTitle}>
-              <span>created: </span>
-              {todo?.date.toLocaleString('ru')}
-            </p>
-            <p className={styles.subTitle}>
-              <span>updated: </span>
+              <span>date: </span>
               {todo?.date.toLocaleString('ru')}
             </p>
           </div>
           <div className={styles.footer}>
             <button
               onClick={() => navigate(ROUTS.HOME)}
-              className={styles.cardBtn}
+              className={styles.goBackButton}
             >
               Go back
             </button>

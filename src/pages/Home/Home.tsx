@@ -9,7 +9,6 @@ const Home = () => {
       <div className={styles.header}>
         <h1 className={styles.title}>Todo App</h1>
       </div>
-
       <div className={styles.content}>
         <TodoCreate />
         <TodoLists />
