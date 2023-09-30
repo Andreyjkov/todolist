@@ -1,5 +1,6 @@
-import { TODO_ACTION_TYPE, TODO_EVENT_NAME } from '../constants';
-import { ITodoData } from '../type';
+import { TODO_ACTION_TYPE } from '@constants/actionTypes';
+import { TODO_EVENT_NAME } from '@constants/eventTypes';
+import { ITodoData } from '@type/ITodoData';
 import {
   AddTodoPayload,
   DeleteTodoPayload,

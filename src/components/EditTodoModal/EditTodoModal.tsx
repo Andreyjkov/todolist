@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
+
 import styles from './EditTodoModal.module.css';
-import { ITodoData } from '../../type';
+import { ITodoData } from '@/type/ITodoData';
 
 interface IProps {
   closeModal: () => void;
@@ -34,12 +35,12 @@ export const EditTodoModal = ({
       return;
     }
 
-    const date = new Date(inputDateRef.current.value);
-    const value = textareaRef.current.value;
-    const modifiedTodo = { ...todo, date, value };
+    submitModal({
+      ...todo,
+      date: new Date(inputDateRef.current.value),
+      value: textareaRef.current.value,
+    });
 
-    setTodo(modifiedTodo);
-    submitModal(modifiedTodo);
     closeModal();
   };
 

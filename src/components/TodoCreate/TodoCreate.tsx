@@ -1,7 +1,8 @@
 import React, { memo } from 'react';
-import { businessService } from '../../businessService/businessService';
-import { MyForm } from '../Form/MyForm';
-import { TODO_ACTION_TYPE } from '../../constants';
+
+import { businessService } from '@/businessService/businessService';
+import { MyForm } from '@/components';
+import { TODO_ACTION_TYPE } from '@/constants';
 
 export const TodoCreate = memo(() => {
   const store = businessService.todoStore();

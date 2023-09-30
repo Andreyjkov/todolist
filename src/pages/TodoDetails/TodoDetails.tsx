@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import styles from './TodoDetails.module.css';
-import NotFound from '../NotFound/NotFound';
-import { businessService } from '../../businessService/businessService';
-import { ITodoData } from '../../type';
-import { ROUTS, TODO_ACTION_TYPE, TODO_EVENT_NAME } from '../../constants';
-import { EditTodoModal } from '../../components/EditTodoModal/EditTodoModal';
-import { EditTodoPayload } from '../../type/AddTodoPayload';
+import { businessService } from '@/businessService/businessService';
+import { ITodoData } from '@/type/ITodoData';
+import { ROUTS, TODO_ACTION_TYPE, TODO_EVENT_NAME } from '@/constants';
+import { EditTodoModal } from '@/components/EditTodoModal/EditTodoModal';
+import { EditTodoPayload } from '@/type/AddTodoPayload';
+import NotFound from '@/pages/NotFound/NotFound';
 
 const TodoDetails = () => {
   const params = useParams();

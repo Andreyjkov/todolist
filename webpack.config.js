@@ -35,7 +35,7 @@ module.exports = {
     },
   },
   devServer: {
-    port: '3000',
+    port: 3000,
     historyApiFallback: true,
     static: ['./public'],
     open: true,
@@ -44,6 +44,12 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+      '@type': path.resolve(__dirname, 'src/type'),
+      '@constants': path.resolve(__dirname, 'src/constants'),
+      '@components': path.resolve(__dirname, 'src/components'),
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({ template: './public/index.html' }),

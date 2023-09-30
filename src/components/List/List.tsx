@@ -1,6 +1,7 @@
 import React from 'react';
+
 import styles from './List.module.css';
-import { ITodoData } from '../../type';
+import { ITodoData } from '@type/ITodoData';
 
 interface Props {
   handleBtn: (item: ITodoData) => void;
