@@ -2,7 +2,7 @@ interface IProps {
   [key: string]: string;
 }
 
-export const validateForm = (element: IProps) => {
+export const todoValidation = (element: IProps) => {
   const errors: {
     [key: string]: string;
   } = {};
@@ -31,6 +31,11 @@ export const validateForm = (element: IProps) => {
 
         if (new Date(element[field]) < new Date('1986-01-01T00:00')) {
           errors[field] = 'Date cannot be less than 1986';
+          break;
+        }
+
+        if (new Date(element[field]) > new Date('2100-01-01T00:00')) {
+          errors[field] = 'Date cannot be greater than 2100';
           break;
         }
         break;

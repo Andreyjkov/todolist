@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import styles from './TodoEditModal.module.css';
 import { ITodoData } from '@/type/ITodoData';
-import { validateForm } from '@/utils/todoValidation';
+import { todoValidation } from '@/utils/todoValidation';
 
 interface IProps {
   closeModal: () => void;
@@ -30,7 +30,7 @@ export const TodoEditModal = ({
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const obj = validateForm({
+    const obj = todoValidation({
       [e.target.name]: e.target.value,
     });
 
@@ -92,6 +92,7 @@ export const TodoEditModal = ({
                 step="1"
                 name="date"
                 min="1986-01-01T00:00"
+                max="2100-01-01T00:00"
                 onChange={(e) => handleChange(e)}
                 defaultValue={dataModal.date.toISOString().split('.')[0]}
                 required={true}

@@ -5,8 +5,8 @@
   "description": "to do list",
   "main": "./src/index.tsx",
   "scripts": {
-    "start": "webpack server --config webpack.dev.config.js",
-    "build": "webpack --config webpack.prod.config.js",
+    "start": "webpack-dev-server .",
+    "build": "Webpack .",
     "lint": "eslint src/**/*/*.{ts,tsx} --quiet --fix"
   },
   "author": "",
