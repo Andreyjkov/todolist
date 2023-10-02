@@ -16,15 +16,12 @@
   gap: 10px;
   box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.2);
 }
-.link {
-  flex: 1;
-  color: black;
-  text-decoration: none;
-}
 .valueBox {
   display: flex;
   align-items: center;
   flex-grow: 1;
+  gap: 5px;
+  cursor: pointer;
 }
 .deleteButton {
   background-color: #dc3545;
@@ -40,7 +37,7 @@
   background-color: #c82333;
 }
 .boxTodo {
-  flex: 5;
+  flex: 10;
   font-size: 18px;
   word-break: break-all;
 }
@@ -51,7 +48,6 @@
 .boxId {
   flex: 1;
   font-size: 14px;
-  margin-right: 10px;
 }
 .noTaskText {
   text-align: center;

@@ -10,10 +10,11 @@
 }
 .modalContent {
   background-color: #fefefe;
-  margin: 15% auto;
+  margin: 30px auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  max-width: 400px;
+  border-radius: 10px;
 }
 .header {
   display: flex;
@@ -42,8 +43,11 @@
   text-decoration: none;
   cursor: pointer;
 }
-.dateField__label {
+.dateField_label {
   max-width: 250px;
+}
+label {
+  font-weight: bold;
 }
 .textarea {
   width: 100%;

@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import styles from './TodoDetails.module.css';
 import { businessService } from '@/businessService/businessService';
 import { ITodoData } from '@/type/ITodoData';
-import { ROUTS, TODO_ACTION_TYPE, TODO_EVENT_NAME } from '@/constants';
-import { EditTodoModal } from '@/components/EditTodoModal/EditTodoModal';
+import { TODO_ACTION_TYPE, TODO_EVENT_NAME } from '@/constants';
+import { TodoEditModal } from '@/components/TodoEditModal/TodoEditModal';
 import { EditTodoPayload } from '@/type/AddTodoPayload';
 import NotFound from '@/pages/NotFound/NotFound';
+import { TodoCard } from '@/components/TodoCard/TodoCard';
+import { TodoEditModal1 } from '@/components/TodoEditModal1/TodoEditModal1';
+import { TodoEditModal2 } from '@/components/TodoEditModal2/TodoEditModal2';
 
 const TodoDetails = () => {
   const params = useParams();
-  const navigate = useNavigate();
   const store = businessService.todoStore();
 
   const [todo, setTodo] = useState<ITodoData | undefined>();
@@ -43,54 +45,19 @@ const TodoDetails = () => {
   const closeModal = () => {
     setIsOpenModal(false);
   };
+  const openModal = () => {
+    setIsOpenModal(true);
+  };
 
   if (!todo) {
     return <NotFound />;
   }
 
   return (
-    <div className={styles.cardContainer}>
-      <div className={styles.card}>
-        <div className={styles.header}>
-          <h1 className={styles.title}>Todo details</h1>
-          <p className={styles.subTitle}>
-            <span>id:</span>
-            {todo?.id}
-          </p>
-        </div>
-
-        <div className={styles.valueSection}>
-          <div className={styles.editBox}>
-            <p>Value:</p>
-            <button
-              className={styles.editButton}
-              onClick={() => setIsOpenModal(true)}
-            >
-              Edit
-            </button>
-          </div>
-          <div className={styles.valueBox}>
-            <p className={styles.valueText}>{todo?.value}</p>
-          </div>
-        </div>
-
-        <div className={styles.dateSection}>
-          <p className={styles.subTitle}>
-            <span>date: </span>
-            {todo?.date.toLocaleString('ru')}
-          </p>
-        </div>
-        <div className={styles.footer}>
-          <button
-            onClick={() => navigate(ROUTS.HOME)}
-            className={styles.goBackButton}
-          >
-            Go back
-          </button>
-        </div>
-      </div>
+    <div className={styles.сontainer}>
+      <TodoCard todo={todo} openModal={openModal} />
       {isOpenModal && (
-        <EditTodoModal
+        <TodoEditModal2
           closeModal={closeModal}
           submitModal={submitModal}
           dataModal={todo}

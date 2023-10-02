@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import styles from './EditTodoModal.module.css';
+import styles from './TodoEditModal.module.css';
 import { ITodoData } from '@/type/ITodoData';
 
 interface IProps {
@@ -9,7 +9,7 @@ interface IProps {
   dataModal: ITodoData;
 }
 
-export const EditTodoModal = ({
+export const TodoEditModal = ({
   submitModal,
   closeModal,
   dataModal,
@@ -56,7 +56,7 @@ export const EditTodoModal = ({
 
         <div className={styles.editSection}>
           <label>
-            Edit value:
+            Value:
             <br />
             <textarea
               className={
@@ -73,8 +73,8 @@ export const EditTodoModal = ({
             />
           </label>
 
-          <label className={styles.dateField__label}>
-            date:
+          <label className={styles.dateField_label}>
+            Date:
             <br />
             <input
               className={
@@ -83,6 +83,7 @@ export const EditTodoModal = ({
                   : styles.datePicker
               }
               type="datetime-local"
+              step="1"
               defaultValue={dataModal.date.toISOString().split('.')[0]}
               ref={inputDateRef}
               onFocus={() => {
