@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { List } from '@/components';
+import { List } from '@/components/List/List';
 import { businessService } from '@/businessService/businessService';
 import { TODO_EVENT_NAME, TODO_ACTION_TYPE, PATH_LINK_TO } from '@/constants';
 import { ITodoData } from '@type/ITodoData';

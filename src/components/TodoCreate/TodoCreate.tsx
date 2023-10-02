@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 
 import { businessService } from '@/businessService/businessService';
-import { MyForm } from '@/components';
+import { MyForm } from '@/components/Form/MyForm';
 import { TODO_ACTION_TYPE } from '@/constants';
 
 export const TodoCreate = memo(() => {

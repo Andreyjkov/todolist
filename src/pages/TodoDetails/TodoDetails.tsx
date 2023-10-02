@@ -5,12 +5,10 @@ import styles from './TodoDetails.module.css';
 import { businessService } from '@/businessService/businessService';
 import { ITodoData } from '@/type/ITodoData';
 import { TODO_ACTION_TYPE, TODO_EVENT_NAME } from '@/constants';
-import { TodoEditModal } from '@/components/TodoEditModal/TodoEditModal';
 import { EditTodoPayload } from '@/type/AddTodoPayload';
 import NotFound from '@/pages/NotFound/NotFound';
 import { TodoCard } from '@/components/TodoCard/TodoCard';
-import { TodoEditModal1 } from '@/components/TodoEditModal1/TodoEditModal1';
-import { TodoEditModal2 } from '@/components/TodoEditModal2/TodoEditModal2';
+import { TodoEditModal } from '@/components/TodoEditModal/TodoEditModal';
 
 const TodoDetails = () => {
   const params = useParams();
@@ -57,7 +55,7 @@ const TodoDetails = () => {
     <div className={styles.сontainer}>
       <TodoCard todo={todo} openModal={openModal} />
       {isOpenModal && (
-        <TodoEditModal2
+        <TodoEditModal
           closeModal={closeModal}
           submitModal={submitModal}
           dataModal={todo}
