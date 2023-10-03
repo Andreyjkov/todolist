@@ -59,20 +59,20 @@ label {
   resize: none;
 }
 
-.textarea:invalid,
+/* .textarea:invalid,
 .datePicker:invalid {
   border-color: red;
   border-width: 2px;
-}
+} */
 
 .textarea:focus,
 .datePicker:focus {
   color: #212529;
   background-color: #fff;
-  /* border-color: #bdbdbd; */
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(158, 158, 158, 0.25);
 }
+
 .datePicker {
   padding: 10px 15px;
   margin: 5px 0;
@@ -81,9 +81,14 @@ label {
   border-radius: 4px;
   background-color: #f8f8f8;
   font-size: 16px;
+  width: 80%;
 }
 .error {
   color: red;
+}
+.borderError {
+  border-color: red;
+  border-width: 2px;
 }
 
 .saveButton {

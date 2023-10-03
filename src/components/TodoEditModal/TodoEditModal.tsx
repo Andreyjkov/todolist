@@ -16,10 +16,12 @@ export const TodoEditModal = ({
   dataModal,
 }: IProps) => {
   const [todo, setTodo] = useState<ITodoData | undefined>();
+
   const [errMsg, setErrMsg] = useState<{ [key: string]: string }>({
     value: '',
     date: '',
   });
+
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const inputDateRef = useRef<HTMLInputElement | null>(null);
 
@@ -30,16 +32,17 @@ export const TodoEditModal = ({
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
+    const key = e.target.name;
+
     const obj = todoValidation({
-      [e.target.name]: e.target.value,
+      [key]: e.target.value,
     });
 
-    const keys = Object.keys(obj)[0];
-    const val = obj[keys];
+    const val = obj[key];
     if (val) {
-      setErrMsg({ ...errMsg, [keys]: val });
+      setErrMsg({ ...errMsg, [key]: val });
     } else {
-      errMsg[keys] && setErrMsg({ ...errMsg, [keys]: '' });
+      errMsg[key] && setErrMsg({ ...errMsg, [key]: '' });
     }
   };
 
@@ -50,7 +53,6 @@ export const TodoEditModal = ({
         date: new Date(inputDateRef.current.value),
         value: textareaRef.current.value,
       });
-
       closeModal();
     }
   };
@@ -72,22 +74,28 @@ export const TodoEditModal = ({
             <textarea
               name="value"
               rows={4}
-              className={styles.textarea}
-              defaultValue={todo?.value}
+              className={
+                errMsg.value
+                  ? `${styles.textarea} ${styles.borderError}`
+                  : styles.textarea
+              }
+              defaultValue={dataModal.value}
               onChange={(e) => handleChange(e)}
-              required={true}
-              minLength={3}
               ref={textareaRef}
             />
             {errMsg.value && <div className={styles.error}>{errMsg.value}</div>}
           </label>
 
-          <label>
+          <label className={styles.datePicker__label}>
             Date:
             <br />
             <div>
               <input
-                className={styles.datePicker}
+                className={
+                  errMsg.date
+                    ? `${styles.datePicker} ${styles.borderError}`
+                    : styles.datePicker
+                }
                 type="datetime-local"
                 step="1"
                 name="date"
