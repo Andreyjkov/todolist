@@ -1,8 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
+import dayjs from 'dayjs';
 
 import styles from './TodoEditModal.module.css';
 import { ITodoData } from '@/type/ITodoData';
-import { todoValidation } from '@/utils/todoValidation';
+import { useMyForm } from '@/hooks/useMyForm';
+import { MIN_DATE_VALID } from '@/constants/validation';
 
 interface IProps {
   closeModal: () => void;
@@ -15,44 +17,37 @@ export const TodoEditModal = ({
   closeModal,
   dataModal,
 }: IProps) => {
-  const [todo, setTodo] = useState<ITodoData | undefined>();
-
-  const [errMsg, setErrMsg] = useState<{ [key: string]: string }>({
-    value: '',
-    date: '',
-  });
+  const { errors, validateFormData } = useMyForm();
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const inputDateRef = useRef<HTMLInputElement | null>(null);
 
-  useEffect(() => {
-    setTodo(dataModal);
-  }, []);
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const key = e.target.name;
-
-    const obj = todoValidation({
-      [key]: e.target.value,
-    });
-
-    const val = obj[key];
-    if (val) {
-      setErrMsg({ ...errMsg, [key]: val });
-    } else {
-      errMsg[key] && setErrMsg({ ...errMsg, [key]: '' });
-    }
-  };
-
   const handleSubmit = () => {
-    if (Object.values(errMsg).every((value) => value === '')) {
-      submitModal({
-        ...todo,
-        date: new Date(inputDateRef.current.value),
-        value: textareaRef.current.value,
-      });
+    const formData = validateFormData([
+      {
+        ref: textareaRef,
+        validations: {
+          required: true,
+          minLength: 3,
+          maxLength: 7,
+        },
+      },
+      {
+        ref: inputDateRef,
+        validations: {
+          required: true,
+          min: MIN_DATE_VALID,
+        },
+      },
+    ]);
+
+    if (formData) {
+      const newTodoData = {
+        ...dataModal,
+        value: formData.value,
+        date: dayjs(formData.date).toDate(),
+      };
+      submitModal(newTodoData);
       closeModal();
     }
   };
@@ -75,15 +70,14 @@ export const TodoEditModal = ({
               name="value"
               rows={4}
               className={
-                errMsg.value
+                errors?.value
                   ? `${styles.textarea} ${styles.borderError}`
                   : styles.textarea
               }
               defaultValue={dataModal.value}
-              onChange={(e) => handleChange(e)}
               ref={textareaRef}
             />
-            {errMsg.value && <div className={styles.error}>{errMsg.value}</div>}
+            {errors?.value ? <ErrorMessage errors={errors.value} /> : null}
           </label>
 
           <label className={styles.datePicker__label}>
@@ -92,23 +86,21 @@ export const TodoEditModal = ({
             <div>
               <input
                 className={
-                  errMsg.date
+                  errors?.date
                     ? `${styles.datePicker} ${styles.borderError}`
                     : styles.datePicker
                 }
                 type="datetime-local"
                 step="1"
                 name="date"
-                min="1986-01-01T00:00"
-                max="2100-01-01T00:00"
-                onChange={(e) => handleChange(e)}
                 defaultValue={dataModal.date.toISOString().split('.')[0]}
                 required={true}
                 ref={inputDateRef}
+                lang="en"
               />
               <span className="validity"></span>
             </div>
-            {errMsg.date && <div className={styles.error}>{errMsg.date}</div>}
+            {errors?.date ? <ErrorMessage errors={errors.date} /> : null}
           </label>
         </div>
 
@@ -120,5 +112,23 @@ export const TodoEditModal = ({
         </button>
       </div>
     </div>
+  );
+};
+
+interface IErrorMessageProps {
+  errors: string[];
+}
+
+const ErrorMessage = ({ errors }: IErrorMessageProps) => {
+  return errors.length ? (
+    errors.map((error, i) => {
+      return (
+        <div className={styles.error} key={i}>
+          {error}
+        </div>
+      );
+    })
+  ) : (
+    <></>
   );
 };

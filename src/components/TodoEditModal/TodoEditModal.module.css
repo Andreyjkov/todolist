@@ -58,13 +58,6 @@ label {
   font-size: 16px;
   resize: none;
 }
-
-/* .textarea:invalid,
-.datePicker:invalid {
-  border-color: red;
-  border-width: 2px;
-} */
-
 .textarea:focus,
 .datePicker:focus {
   color: #212529;
