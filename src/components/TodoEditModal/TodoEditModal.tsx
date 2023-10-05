@@ -1,10 +1,13 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import dayjs from 'dayjs';
 
 import styles from './TodoEditModal.module.css';
 import { ITodoData } from '@/type/ITodoData';
-import { useMyForm } from '@/hooks/useMyForm';
-import { MIN_DATE_VALID } from '@/constants/validation';
+import { END_DATE_VALID, START_DATE_VALID } from '@/constants/validation';
+import { validateFormData } from '@/utils/validateFormData';
+import { patterns } from '@/constants/pattern';
+import { DATE_FORMAT } from '@/constants/dateFormat';
+import { IErrorsObj } from '@/type/Validation';
 
 interface IProps {
   closeModal: () => void;
@@ -17,38 +20,57 @@ export const TodoEditModal = ({
   closeModal,
   dataModal,
 }: IProps) => {
-  const { errors, validateFormData } = useMyForm();
+  const [errors, setErrors] = useState<IErrorsObj | null>();
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const inputDateRef = useRef<HTMLInputElement | null>(null);
 
   const handleSubmit = () => {
-    const formData = validateFormData([
+    // Path, vakidations, type;
+    // {
+    //   path ,
+    //   type,
+    //   validations
+    // }
+    const errorsObj = validateFormData([
       {
         ref: textareaRef,
+
         validations: {
           required: true,
-          minLength: 3,
-          maxLength: 7,
+          minLength: { value: 3 },
+          maxLength: { value: 7 },
         },
       },
       {
         ref: inputDateRef,
         validations: {
           required: true,
-          min: MIN_DATE_VALID,
+          min: {
+            value: START_DATE_VALID,
+          },
+          max: { value: END_DATE_VALID },
+          pattern: {
+            value: patterns.dateTimePattern,
+            message: 'Date does not match pattern',
+          },
         },
       },
     ]);
 
-    if (formData) {
+    if (Object.keys(errorsObj).length === 0) {
+      setErrors(null);
+
       const newTodoData = {
         ...dataModal,
-        value: formData.value,
-        date: dayjs(formData.date).toDate(),
+        value: textareaRef.current.value,
+        date: dayjs(inputDateRef.current.value).toDate(),
       };
+
       submitModal(newTodoData);
       closeModal();
+    } else {
+      setErrors(errorsObj);
     }
   };
 
@@ -93,12 +115,11 @@ export const TodoEditModal = ({
                 type="datetime-local"
                 step="1"
                 name="date"
-                defaultValue={dataModal.date.toISOString().split('.')[0]}
+                defaultValue={dayjs(dataModal.date).format(DATE_FORMAT)}
                 required={true}
                 ref={inputDateRef}
                 lang="en"
               />
-              <span className="validity"></span>
             </div>
             {errors?.date ? <ErrorMessage errors={errors.date} /> : null}
           </label>

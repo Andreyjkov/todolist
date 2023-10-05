@@ -4,11 +4,13 @@ import { useParams } from 'react-router-dom';
 import styles from './TodoDetails.module.css';
 import { businessService } from '@/businessService/businessService';
 import { ITodoData } from '@/type/ITodoData';
-import { TODO_ACTION_TYPE, TODO_EVENT_NAME } from '@/constants';
+
 import { EditTodoPayload } from '@/type/AddTodoPayload';
 import NotFound from '@/pages/NotFound/NotFound';
 import { TodoCard } from '@/components/TodoCard/TodoCard';
 import { TodoEditModal } from '@/components/TodoEditModal/TodoEditModal';
+import { TODO_EVENT_NAME } from '@/constants/eventTypes';
+import { TODO_ACTION_TYPE } from '@/constants/actionTypes';
 
 const TodoDetails = () => {
   const params = useParams();

@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 
 import { businessService } from '@/businessService/businessService';
 import { MyForm } from '@/components/Form/MyForm';
-import { TODO_ACTION_TYPE } from '@/constants';
+import { TODO_ACTION_TYPE } from '@/constants/actionTypes';
 
 export const TodoCreate = memo(() => {
   const store = businessService.todoStore();

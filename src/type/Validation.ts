@@ -1,20 +1,39 @@
-export interface IResultValidation {
-  isValid: boolean;
+export interface IErrorsObj {
+  [key: string]: string[];
+}
+
+export interface IValidatorResult {
   name: string;
-  value: string;
-  errorsMsg?: string[];
+  errorsMsg: string[];
 }
 
 export interface IValidationData {
   ref:
     | React.MutableRefObject<HTMLInputElement>
     | React.MutableRefObject<HTMLTextAreaElement>;
-  validations?: {
-    required?: boolean;
-    minLength?: number;
-    maxLength?: number;
-    min?: string;
-    max?: string;
-    pattern?: RegExp;
+  validations?: IValidationsRule;
+}
+
+interface IValidationsRule {
+  required?: boolean;
+  minLength?: {
+    value: number;
+    message?: string;
+  };
+  maxLength?: {
+    value: number;
+    message?: string;
+  };
+  min?: {
+    value: string | number;
+    message?: string;
+  };
+  max?: {
+    value: string | number;
+    message?: string;
+  };
+  pattern?: {
+    value: RegExp;
+    message?: string;
   };
 }

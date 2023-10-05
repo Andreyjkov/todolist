@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import styles from './TodoCard.module.css';
 import { ITodoData } from '@/type/ITodoData';
-import { ROUTS } from '@/constants';
+import { ROUTS } from '@/constants/routsPath';
 
 interface IProps {
   todo: ITodoData;

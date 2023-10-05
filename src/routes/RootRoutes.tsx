@@ -1,7 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import { ROUTS } from '@/constants';
+import { ROUTS } from '@/constants/routsPath';
 import { Loading } from '@/components/Loading/Loading';
 const Home = lazy(() => import('@/pages/Home/Home'));
 const TodoDetails = lazy(() => import('@/pages/TodoDetails/TodoDetails'));

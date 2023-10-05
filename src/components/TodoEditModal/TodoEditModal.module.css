@@ -111,13 +111,3 @@ label {
 .cancelButton:hover {
   background-color: #c82333;
 }
-
-.datePicker:invalid + span::after {
-  content: '✖';
-  padding-left: 5px;
-}
-
-.datePicker:valid + span::after {
-  content: '✓';
-  padding-left: 5px;
-}

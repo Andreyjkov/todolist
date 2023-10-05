@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom';
 
 import { List } from '@/components/List/List';
 import { businessService } from '@/businessService/businessService';
-import { TODO_EVENT_NAME, TODO_ACTION_TYPE, PATH_LINK_TO } from '@/constants';
+import { TODO_EVENT_NAME } from '@/constants/eventTypes';
 import { ITodoData } from '@type/ITodoData';
+import { TODO_ACTION_TYPE } from '@/constants/actionTypes';
+import { PATH_LINK_TO } from '@/constants/routsPath';
 
 export const TodoLists = memo(() => {
   const store = businessService.todoStore();
