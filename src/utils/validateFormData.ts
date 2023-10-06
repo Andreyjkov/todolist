@@ -1,21 +1,26 @@
 import dayjs from 'dayjs';
 
-import { DATE_FORMAT } from '@/constants/dateFormat';
 import {
+  CHECK_VALID,
+  DATE_VALIDATED_TYPES,
   ERROR_TEXT,
   MIN_MAX_LENGTH_VALIDATED_TYPES,
-  MIN_MAX_VALIDATED_TYPES,
   PATTERN_VALIDATED_TYPES,
 } from '@/constants/validation';
 import {
   IErrorsObj,
-  IValidationData,
+  IFormData,
+  IValidation,
   IValidatorResult,
 } from '@/type/Validation';
 
-export const validateFormData = (data: IValidationData[]): IErrorsObj => {
-  const errorsObj = data.reduce((result, item) => {
-    const obj: IValidatorResult = myValidator(item);
+export const validateFormData = (
+  formData: IFormData,
+  config: IValidation[]
+): IErrorsObj => {
+  const errorsObj = config.reduce((result, item) => {
+    const value = formData[item.name].trim();
+    const obj: IValidatorResult = myValidator(value, item);
 
     if (obj.errorsMsg.length > 0) {
       result[obj.name] = obj.errorsMsg;
@@ -26,25 +31,31 @@ export const validateFormData = (data: IValidationData[]): IErrorsObj => {
   return errorsObj;
 };
 
-const myValidator = ({
-  ref,
-  validations,
-}: IValidationData): IValidatorResult => {
-  const name = ref.current.name;
-  const value = ref.current.value.trim();
-  const type = ref.current.type;
-
+const myValidator = (
+  value: string,
+  { validations, name, type }: IValidation
+): IValidatorResult => {
   const errorsMsg: string[] = [];
 
-  if (validations?.required) {
-    if (!value) {
-      errorsMsg.push(ERROR_TEXT.REQUIRED);
-    }
+  if (validations?.required && !value) {
+    errorsMsg.push(ERROR_TEXT.REQUIRED);
   }
 
   if (type === 'datetime-local' && errorsMsg.length === 0) {
-    if (!dayjs(value, DATE_FORMAT).isValid()) {
+    if (!dayjs(value).isValid()) {
       errorsMsg.push(ERROR_TEXT.INVALID_DATE);
+    }
+  } else if (
+    type === 'date' &&
+    validations?.required &&
+    errorsMsg.length === 0
+  ) {
+    if (!CHECK_VALID.date.test(value)) {
+      errorsMsg.push(ERROR_TEXT.INVALID_DATE);
+    }
+  } else if (type === 'number' && errorsMsg.length === 0) {
+    if (!CHECK_VALID.number.test(value)) {
+      errorsMsg.push(ERROR_TEXT.NUMBER);
     }
   }
 
@@ -86,11 +97,8 @@ const myValidator = ({
         case 'min':
           {
             const rule = validations[validation];
-            if (MIN_MAX_VALIDATED_TYPES.includes(type)) {
-              const newDate = dayjs(value, DATE_FORMAT);
-              const validatioDate = dayjs(rule.value, DATE_FORMAT);
-
-              if (newDate.isBefore(validatioDate)) {
+            if (DATE_VALIDATED_TYPES.includes(type)) {
+              if (dayjs(value).isBefore(dayjs(rule.value))) {
                 errorsMsg.push(
                   rule.message
                     ? rule.message
@@ -113,7 +121,7 @@ const myValidator = ({
         case 'max':
           {
             const rule = validations[validation];
-            if (MIN_MAX_VALIDATED_TYPES.includes(type)) {
+            if (DATE_VALIDATED_TYPES.includes(type)) {
               const newDate = dayjs(value);
               const validatioDate = dayjs(rule.value);
 

@@ -7,10 +7,26 @@ export interface IValidatorResult {
   errorsMsg: string[];
 }
 
-export interface IValidationData {
-  ref:
-    | React.MutableRefObject<HTMLInputElement>
-    | React.MutableRefObject<HTMLTextAreaElement>;
+export interface IFormData {
+  inputTypeTextarea: string;
+  inputTypeDatetimeLocal: string;
+  inputTypeText: string;
+  inputTypeNumber: string;
+  inputTypePass: string;
+  inputTypeDate: string;
+  inputTypeMonth: string;
+}
+
+export interface IValidation {
+  name: keyof IFormData;
+  type:
+    | 'textarea'
+    | 'datetime-local'
+    | 'text'
+    | 'number'
+    | 'password'
+    | 'date'
+    | 'month';
   validations?: IValidationsRule;
 }
 
