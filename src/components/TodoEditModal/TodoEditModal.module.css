@@ -27,11 +27,8 @@
 .editSection {
   display: flex;
   padding: 20px;
-  /* justify-content: space-around; */
   flex-direction: column;
   gap: 20px;
-  overflow: auto;
-  height: 700px;
 }
 .close {
   color: #aaa;

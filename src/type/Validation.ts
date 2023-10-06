@@ -10,11 +10,6 @@ export interface IValidatorResult {
 export interface IFormData {
   inputTypeTextarea: string;
   inputTypeDatetimeLocal: string;
-  inputTypeText: string;
-  inputTypeNumber: string;
-  inputTypePass: string;
-  inputTypeDate: string;
-  inputTypeMonth: string;
 }
 
 export interface IValidation {
