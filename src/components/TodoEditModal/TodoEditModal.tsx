@@ -21,18 +21,18 @@ export const TodoEditModal = ({
 }: IProps) => {
   const [errors, setErrors] = useState<IErrorsObj | null>();
 
-  const inputTextareaRef = useRef<HTMLTextAreaElement | null>(null);
-  const inputDatetimeLocalRef = useRef<HTMLInputElement | null>(null);
+  const todoValueRef = useRef<HTMLTextAreaElement | null>(null);
+  const todoDateRef = useRef<HTMLInputElement | null>(null);
 
   const handleSubmit = () => {
     const formData = {
-      inputTypeTextarea: inputTextareaRef.current.value,
-      inputTypeDatetimeLocal: inputDatetimeLocalRef.current.value,
+      todoValue: todoValueRef.current.value,
+      todoDate: todoDateRef.current.value,
     };
 
     const errorsObj = validateFormData(formData, [
       {
-        name: 'inputTypeTextarea',
+        name: 'todoValue',
         type: 'textarea',
         validations: {
           required: true,
@@ -42,7 +42,7 @@ export const TodoEditModal = ({
       },
 
       {
-        name: 'inputTypeDatetimeLocal',
+        name: 'todoDate',
         type: 'datetime-local',
         validations: {
           required: true,
@@ -61,8 +61,8 @@ export const TodoEditModal = ({
 
       const newTodoData = {
         ...dataModal,
-        value: inputTextareaRef.current.value,
-        date: dayjs(inputDatetimeLocalRef.current.value).toDate(),
+        value: todoValueRef.current.value,
+        date: dayjs(todoDateRef.current.value).toDate(),
       };
 
       submitModal(newTodoData);
@@ -84,41 +84,40 @@ export const TodoEditModal = ({
 
         <div className={styles.editSection}>
           <label>
-            inputTypeTextarea:
+            todo Value:
             <br />
             <textarea
-              name="inputTypeTextarea"
               rows={4}
               className={`${styles.textarea} ${
-                errors?.inputTypeTextarea ? styles.borderError : ''
+                errors?.todoValue ? styles.borderError : ''
               }`}
               defaultValue={dataModal.value}
-              ref={inputTextareaRef}
+              ref={todoValueRef}
             />
-            {errors?.inputTypeTextarea ? (
-              <ErrorMessage errors={errors.inputTypeTextarea} />
+            {errors?.todoValue ? (
+              <ErrorMessage errors={errors.todoValue} />
             ) : null}
           </label>
 
           <label className={styles.datePicker__label}>
-            datetime-local:
+            todo Date:
             <br />
             <div>
               <input
                 className={`${styles.datePicker} ${
-                  errors?.inputTypeDatetimeLocal ? styles.borderError : ''
+                  errors?.todoDate ? styles.borderError : ''
                 }`}
                 name="inputTypeDatetimeLocal"
                 type="datetime-local"
                 defaultValue={dayjs(dataModal.date).format(DATE_FORMAT)}
                 required={true}
-                ref={inputDatetimeLocalRef}
+                ref={todoDateRef}
                 step="1"
                 lang="en"
               />
             </div>
-            {errors?.inputTypeDatetimeLocal ? (
-              <ErrorMessage errors={errors.inputTypeDatetimeLocal} />
+            {errors?.todoDate ? (
+              <ErrorMessage errors={errors.todoDate} />
             ) : null}
           </label>
         </div>

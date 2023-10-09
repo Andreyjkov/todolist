@@ -8,8 +8,8 @@ export interface IValidatorResult {
 }
 
 export interface IFormData {
-  inputTypeTextarea: string;
-  inputTypeDatetimeLocal: string;
+  todoValue: string;
+  todoDate: string;
 }
 
 export interface IValidation {
