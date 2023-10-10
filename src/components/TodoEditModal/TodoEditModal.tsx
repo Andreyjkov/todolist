@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import dayjs from 'dayjs';
 
-import styles from './TodoEditModal.module.css';
+import * as styles from './TodoEditModal.module.css';
 import { ITodoData } from '@/type/ITodoData';
 import { validateFormData } from '@/utils/validateFormData';
 import { DATE_FORMAT } from '@/constants/dateFormat';
@@ -99,7 +99,7 @@ export const TodoEditModal = ({
             ) : null}
           </label>
 
-          <label className={styles.datePicker__label}>
+          <label>
             todo Date:
             <br />
             <div>

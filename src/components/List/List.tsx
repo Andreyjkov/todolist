@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from './List.module.css';
+import * as styles from './List.module.css';
 import { ITodoData } from '@type/ITodoData';
 
 interface Props {

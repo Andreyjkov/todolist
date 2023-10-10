@@ -10,7 +10,14 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
 
-    "plugins": [{ "name": "typescript-plugin-css-modules" }],
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules",
+        "options": {
+          "customTemplate": "./customTemplate.js"
+        }
+      }
+    ],
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],

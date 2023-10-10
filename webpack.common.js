@@ -4,14 +4,13 @@ const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
-  mode: 'development',
   entry: './src/index.tsx',
-  target: 'web',
   output: {
+    publicPath: '/',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    filename: 'main.js',
+    clean: true,
   },
-  devtool: 'source-map',
   optimization: {
     splitChunks: {
       chunks: 'async',
@@ -35,14 +34,10 @@ module.exports = {
       },
     },
   },
-  devServer: {
-    port: 3000,
-    historyApiFallback: true,
-    static: ['./public'],
-    open: true,
-    hot: true,
-    liveReload: true,
-  },
+  plugins: [
+    new HtmlWebpackPlugin({ template: './public/index.html' }),
+    new BundleAnalyzerPlugin(),
+  ],
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
@@ -53,11 +48,8 @@ module.exports = {
       '@hooks': path.resolve(__dirname, 'src/hooks'),
     },
   },
-  plugins: [
-    new HtmlWebpackPlugin({ template: './public/index.html' }),
-    new BundleAnalyzerPlugin(),
-  ],
   module: {
+    strictExportPresence: true,
     rules: [
       {
         test: /\.(js|jsx)$/,
@@ -90,8 +82,10 @@ module.exports = {
             loader: 'css-loader',
             options: {
               sourceMap: true,
+              esModule: true,
               modules: {
                 localIdentName: '[name]__[local]__[hash:base64:5]',
+                namedExport: true,
               },
             },
           },

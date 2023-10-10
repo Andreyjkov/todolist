@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import styles from './TodoDetails.module.css';
+import * as styles from './TodoDetails.module.css';
 import { businessService } from '@/businessService/businessService';
 import { ITodoData } from '@/type/ITodoData';
 

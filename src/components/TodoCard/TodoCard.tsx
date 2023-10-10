@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import styles from './TodoCard.module.css';
+import * as styles from './TodoCard.module.css';
 import { ITodoData } from '@/type/ITodoData';
 import { ROUTS } from '@/constants/routsPath';
 

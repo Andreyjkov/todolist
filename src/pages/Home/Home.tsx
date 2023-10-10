@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Home.module.css';
+import * as styles from './Home.module.css';
 
 import { TodoLists } from '@components/TodoLists/TodoLists';
 import { TodoCreate } from '@components/TodoCreate/TodoCreate';

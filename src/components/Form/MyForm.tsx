@@ -1,6 +1,7 @@
 import React, { memo, useState } from 'react';
 
-import styles from './MyForm.module.css';
+// import styles from './MyForm.module.css';
+import * as styles from './MyForm.module.css';
 
 interface Props {
   submit: (value: string) => void;
