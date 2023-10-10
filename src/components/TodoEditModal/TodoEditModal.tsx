@@ -91,7 +91,7 @@ export const TodoEditModal = ({
               className={`${styles.textarea} ${
                 errors?.todoValue ? styles.borderError : ''
               }`}
-              defaultValue={dataModal.value}
+              defaultValue={dataModal.value || ''}
               ref={todoValueRef}
             />
             {errors?.todoValue ? (

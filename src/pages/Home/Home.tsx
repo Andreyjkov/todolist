@@ -3,7 +3,6 @@ import * as styles from './Home.module.css';
 
 import { TodoLists } from '@components/TodoLists/TodoLists';
 import { TodoCreate } from '@components/TodoCreate/TodoCreate';
-// import Test from '@/components/DELETE/Test';
 
 const Home = () => {
   return (
@@ -14,7 +13,6 @@ const Home = () => {
       <div className={styles.content}>
         <TodoCreate />
         <TodoLists />
-        {/* <Test /> */}
       </div>
     </div>
   );

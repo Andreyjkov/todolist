@@ -1,5 +1,5 @@
-export const START_DATE_VALID = '2022-01-01T12:00:00';
-export const END_DATE_VALID = '2024-10-22T12:00:00';
+export const START_DATE_VALID = '2022-10-01T00:00:00';
+export const END_DATE_VALID = '2024-10-01T00:00:00';
 
 export const CHECK_VALID = {
   date: /^\d{4}-\d{2}-\d{2}$/,
@@ -37,15 +37,15 @@ export enum ERROR_TEXT {
 
   NUMBER = 'Value must be a number',
 
-  MIN_LENGTH = 'Length must be greater than or equal to',
-  MAX_LENGTH = 'Length must be less than or equal to',
+  MIN_LENGTH = 'The length must be at least',
+  MAX_LENGTH = 'The length should be no more than',
 
-  START_DATE = 'The date should be higher or equal to',
-  END_DATE = 'The date should be below or equal to',
+  START_DATE = 'The date must be at least',
+  END_DATE = 'The date must be no more than',
   INVALID_DATE = 'Invalid date is entered',
 
-  MIN_NUMBER = 'The number must be greater than or equal to',
-  MAX_NUMBER = 'The number must be less than or equal to',
+  MIN_NUMBER = 'The number must be at least',
+  MAX_NUMBER = 'The number must be no more than',
 
   INVALID_PATTERN = 'did not pass validation by pattern',
 }
