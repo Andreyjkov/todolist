@@ -16,6 +16,64 @@ import { INPUT_TYPE } from '@/constants/inputType';
 import { MODAL_MODE } from '@/constants/modalMode';
 import { IValidation } from '@/type/Validation';
 
+const validateConfigEdit: IValidation[] = [
+  {
+    name: 'value',
+    path: 'value',
+    type: INPUT_TYPE.TEXTAREA,
+    validations: {
+      required: {
+        value: true,
+      },
+      minLength: { value: 5 },
+      maxLength: { value: 20 },
+    },
+  },
+  {
+    name: 'price',
+    path: 'price',
+    type: INPUT_TYPE.NUMBER,
+    validations: {
+      required: {
+        value: true,
+      },
+      min: {
+        value: 0,
+      },
+      max: {
+        value: 10000,
+      },
+    },
+  },
+  {
+    name: 'date',
+    path: 'date',
+    type: INPUT_TYPE.DATETIME_LOCAL,
+    validations: {
+      required: {
+        value: true,
+      },
+      min: {
+        value: START_DATE_VALID,
+      },
+      max: {
+        value: END_DATE_VALID,
+      },
+    },
+  },
+  {
+    name: 'status',
+    path: 'status',
+    type: INPUT_TYPE.CHECKBOX,
+    validations: {
+      required: {
+        value: true,
+        message: 'if the task is verified, select this check box',
+      },
+    },
+  },
+];
+
 const TodoDetails = () => {
   const params = useParams();
   const store = businessService.todoStore();
@@ -52,64 +110,6 @@ const TodoDetails = () => {
   const openModal = () => {
     setIsOpenModal(true);
   };
-
-  const validateConfigEdit: IValidation[] = [
-    {
-      name: 'value',
-      path: 'value',
-      type: INPUT_TYPE.TEXTAREA,
-      validations: {
-        required: {
-          value: true,
-        },
-        minLength: { value: 5 },
-        maxLength: { value: 20 },
-      },
-    },
-    {
-      name: 'price',
-      path: 'price',
-      type: INPUT_TYPE.NUMBER,
-      validations: {
-        required: {
-          value: true,
-        },
-        min: {
-          value: 100,
-        },
-        max: {
-          value: 10000,
-        },
-      },
-    },
-    {
-      name: 'date',
-      path: 'date',
-      type: INPUT_TYPE.DATETIME_LOCAL,
-      validations: {
-        required: {
-          value: true,
-        },
-        min: {
-          value: START_DATE_VALID,
-        },
-        max: {
-          value: END_DATE_VALID,
-        },
-      },
-    },
-    {
-      name: 'status',
-      path: 'status',
-      type: INPUT_TYPE.CHECKBOX,
-      validations: {
-        required: {
-          value: true,
-          message: 'if the task is verified, select this check box',
-        },
-      },
-    },
-  ];
 
   if (!todo) {
     return <NotFound />;

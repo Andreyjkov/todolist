@@ -1,6 +1,6 @@
 {
   "name": "todolist",
-  "homepage": "./",
+  "homepage": "",
   "version": "1.0.0",
   "description": "to do list",
   "main": "./src/index.tsx",

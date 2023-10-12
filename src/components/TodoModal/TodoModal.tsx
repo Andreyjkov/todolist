@@ -102,7 +102,7 @@ export const TodoModal = ({
               className={`${styles.textarea} ${
                 errors?.value ? styles.borderError : ''
               }`}
-              defaultValue={dataModal?.value || ''}
+              defaultValue={dataModal?.value}
               ref={inputValueRef}
             />
             {errors?.value ? <ErrorMessage errors={errors.value} /> : null}
@@ -140,7 +140,7 @@ export const TodoModal = ({
                 type={INPUT_TYPE.NUMBER}
                 ref={inputPriceRef}
                 step={1}
-                defaultValue={dataModal?.price || ''}
+                defaultValue={dataModal?.price}
               />
             </div>
             {errors?.price ? <ErrorMessage errors={errors.price} /> : null}
