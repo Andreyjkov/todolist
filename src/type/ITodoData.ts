@@ -3,4 +3,6 @@ export type ITodoData = {
   value: string;
   date: Date;
   updateDate: Date;
+  price: number;
+  status: boolean;
 };

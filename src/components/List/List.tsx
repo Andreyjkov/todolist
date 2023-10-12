@@ -21,22 +21,33 @@ export const List = ({ handleBtn, items, handleLinkTo }: Props) => {
                   className={styles.valueBox}
                   onClick={() => handleLinkTo(item.id)}
                 >
-                  <li className={styles.boxId}>{item.id}</li>
-                  <li className={styles.boxTodo}>{item.value}</li>
-                  <li className={styles.boxDate}>
+                  <li className={styles.boxRow}>{item.id}</li>
+                  <li className={styles.boxRowText}>{item.value}</li>
+                  <li className={styles.boxRow}>
+                    <p>Price: </p>
+                    {item.price}
+                    <span> RUB</span>
+                  </li>
+                  <li className={styles.boxRow}>
+                    <p>Status:</p>
+                    {item.status ? 'verified' : 'pending'}
+                  </li>
+                  <li className={styles.boxRow}>
                     {item.date.toLocaleString('ru')}
                   </li>
-                  <li className={styles.boxDate}>
+                  <li className={styles.boxRow}>
                     {item.updateDate.toLocaleString('ru')}
                   </li>
                 </div>
 
-                <button
-                  className={styles.deleteButton}
-                  onClick={() => handleBtn(item)}
-                >
-                  Delete
-                </button>
+                {!item.status && (
+                  <button
+                    className={styles.deleteButton}
+                    onClick={() => handleBtn(item)}
+                  >
+                    Delete
+                  </button>
+                )}
               </div>
             );
           })}

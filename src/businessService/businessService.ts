@@ -43,8 +43,10 @@ const todosReducer = (action: Action) => {
           {
             id: date.getTime(),
             value: action.payload.value,
-            date: date,
+            date: action.payload.date,
             updateDate: date,
+            status: false,
+            price: action.payload.price,
           },
         ];
         publishEvent(TODO_EVENT_NAME.UPDATE_TODOS);
@@ -69,6 +71,8 @@ const todosReducer = (action: Action) => {
               value: action.payload.value,
               date: action.payload.date,
               updateDate: updateDate,
+              status: action.payload.status,
+              price: action.payload.price,
             };
           } else {
             return item;

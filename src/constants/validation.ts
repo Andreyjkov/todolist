@@ -4,7 +4,7 @@ export const END_DATE_VALID = '2024-10-01T00:00:00';
 export const CHECK_VALID = {
   date: /^\d{4}-\d{2}-\d{2}$/,
   week: /^(?:\d{1,4}|0{4})-W(0[1-9]|[1-4]\d|5[0-2])$/,
-  number: /^[0-9]+(\.[0-9]+)?$/,
+  number: /^-?\d+(\.\d+)?$/, //  /^-?\d+$/
 };
 
 export const MIN_MAX_LENGTH_VALIDATED_TYPES = [

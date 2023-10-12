@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import get from 'lodash-es/get';
 
 import {
   CHECK_VALID,
@@ -7,20 +8,18 @@ import {
   MIN_MAX_LENGTH_VALIDATED_TYPES,
   PATTERN_VALIDATED_TYPES,
 } from '@/constants/validation';
-import {
-  IErrorsObj,
-  IFormData,
-  IValidation,
-  IValidatorResult,
-} from '@/type/Validation';
+import { IErrorsObj, IValidation, IValidatorResult } from '@/type/Validation';
 import { DATE_DISPLAY_FORMAT } from '@/constants/dateFormat';
+import { INPUT_TYPE } from '@/constants/inputType';
 
 export const validateFormData = (
-  formData: IFormData,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  formData: any,
   config: IValidation[]
 ): IErrorsObj => {
   const errorsObj = config.reduce((result, item) => {
-    const value = formData[item.name].trim();
+    const value = get(formData, item.path);
+
     const obj: IValidatorResult = myValidator(value, item);
 
     if (obj.errorsMsg.length > 0) {
@@ -33,23 +32,32 @@ export const validateFormData = (
 };
 
 const myValidator = (
-  value: string,
+  value: string | boolean | undefined,
   { validations, name, type }: IValidation
 ): IValidatorResult => {
   const errorsMsg: string[] = [];
 
-  if (validations?.required && !value) {
-    errorsMsg.push(ERROR_TEXT.REQUIRED);
+  if (value === undefined) {
+    errorsMsg.push('invalid path to value');
+    // eslint-disable-next-line no-console
+    console.error('invalid path to value, name:', name);
     return { name: name, errorsMsg: errorsMsg };
   }
 
-  if (type === 'datetime-local' && !dayjs(value).isValid()) {
+  if (
+    (validations?.required?.value && !value.toString().trim()) ||
+    (validations?.required?.value && value === false)
+  ) {
+    errorsMsg.push(validations?.required.message || ERROR_TEXT.REQUIRED);
+    return { name: name, errorsMsg: errorsMsg };
+  }
+
+  if (typeof value === 'boolean') {
+    return { name: name, errorsMsg: errorsMsg };
+  } else if (type === INPUT_TYPE.DATETIME_LOCAL && !dayjs(value).isValid()) {
     errorsMsg.push(ERROR_TEXT.INVALID_DATE);
     return { name: name, errorsMsg: errorsMsg };
-  } else if (type === 'date' && !CHECK_VALID.date.test(value)) {
-    errorsMsg.push(ERROR_TEXT.INVALID_DATE);
-    return { name: name, errorsMsg: errorsMsg };
-  } else if (type === 'number' && !CHECK_VALID.number.test(value)) {
+  } else if (type === INPUT_TYPE.NUMBER && !CHECK_VALID.number.test(value)) {
     errorsMsg.push(ERROR_TEXT.NUMBER);
     return { name: name, errorsMsg: errorsMsg };
   }
@@ -61,7 +69,7 @@ const myValidator = (
           const rule = validations[validation];
           if (
             MIN_MAX_LENGTH_VALIDATED_TYPES.includes(type) &&
-            value.length < rule.value
+            value.trim().length < rule.value
           ) {
             errorsMsg.push(
               rule.message || `${ERROR_TEXT.MIN_LENGTH} ${rule.value}`
@@ -75,7 +83,7 @@ const myValidator = (
           const rule = validations[validation];
           if (
             MIN_MAX_LENGTH_VALIDATED_TYPES.includes(type) &&
-            value.length > rule.value
+            value.trim().length > rule.value
           ) {
             errorsMsg.push(
               rule.message || `${ERROR_TEXT.MAX_LENGTH} ${rule.value}`
@@ -98,7 +106,7 @@ const myValidator = (
                   )}`
               );
             }
-          } else if (type === 'number' && value <= rule.value) {
+          } else if (type === INPUT_TYPE.NUMBER && value < rule.value) {
             errorsMsg.push(
               rule.message || `${ERROR_TEXT.MIN_NUMBER} ${rule.value}`
             );
@@ -121,7 +129,7 @@ const myValidator = (
                   )}`
               );
             }
-          } else if (type === 'number' && value >= rule.value) {
+          } else if (type === INPUT_TYPE.NUMBER && value > rule.value) {
             errorsMsg.push(
               rule.message
                 ? rule.message

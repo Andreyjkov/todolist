@@ -7,13 +7,9 @@ export interface IValidatorResult {
   errorsMsg: string[];
 }
 
-export interface IFormData {
-  todoValue: string;
-  todoDate: string;
-}
-
 export interface IValidation {
-  name: keyof IFormData;
+  name: string;
+  path: string;
   type:
     | 'textarea'
     | 'datetime-local'
@@ -21,12 +17,16 @@ export interface IValidation {
     | 'number'
     | 'password'
     | 'date'
-    | 'month';
+    | 'month'
+    | 'checkbox';
   validations?: IValidationsRule;
 }
 
 interface IValidationsRule {
-  required?: boolean;
+  required?: {
+    value: boolean;
+    message?: string;
+  };
   minLength?: {
     value: number;
     message?: string;

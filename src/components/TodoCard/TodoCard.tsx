@@ -30,15 +30,23 @@ export const TodoCard = ({ todo, openModal }: IProps) => {
         <div className={styles.valueBox}>
           <p className={styles.valueText}>{todo?.value}</p>
         </div>
-        <button className={styles.editButton} onClick={openModal}>
-          {editSvg}
-        </button>
+        {!todo.status && (
+          <button className={styles.editButton} onClick={openModal}>
+            {editSvg}
+          </button>
+        )}
       </div>
 
       <div className={styles.dateSection}>
         <p className={styles.subTitle}>
           <span>date: </span>
           {todo?.date.toLocaleString('ru')}
+        </p>
+      </div>
+      <div className={styles.dateSection}>
+        <p className={styles.subTitle}>
+          <span>Status: </span>
+          {todo.status ? 'verified' : 'pending'}
         </p>
       </div>
       <div className={styles.footer}>

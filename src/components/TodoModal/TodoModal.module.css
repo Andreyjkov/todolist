@@ -75,12 +75,11 @@ label {
   font-size: 16px;
   width: 80%;
 }
-.error {
+.errorText {
   color: red;
 }
 .borderError {
-  border-color: red;
-  border-width: 2px;
+  border: 2px solid red;
 }
 
 .saveButton {
@@ -110,3 +109,25 @@ label {
 .cancelButton:hover {
   background-color: #c82333;
 }
+
+.checkbox {
+  display: flex;
+}
+.checkbox > span {
+  font-size: 16px;
+  font-weight: normal;
+}
+
+/* input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+} */
+
+/* input[type="number"] {
+  -moz-appearance: textfield;
+}
+input[type="number"]:hover,
+input[type="number"]:focus {
+  -moz-appearance: number-input;
+} */

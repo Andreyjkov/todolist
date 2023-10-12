@@ -11,7 +11,6 @@
   align-items: center;
   border-radius: 5px;
   margin: 10px auto;
-  padding: 10px;
   background-color: rgb(196, 196, 196);
   gap: 10px;
   box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.2);
@@ -20,7 +19,8 @@
   display: flex;
   align-items: center;
   flex-grow: 1;
-  gap: 5px;
+  gap: 10px;
+  padding: 10px;
   cursor: pointer;
 }
 .deleteButton {
@@ -29,6 +29,7 @@
   border: none;
   border-radius: 4px;
   padding: 5px 10px;
+  margin: 10px;
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease;
@@ -36,21 +37,18 @@
 .deleteButton:hover {
   background-color: #c82333;
 }
-.boxTodo {
-  flex: 10;
-  font-size: 18px;
-  word-break: break-all;
-}
-.boxDate {
-  flex: 1;
-  font-size: 14px;
-}
-.boxId {
-  flex: 1;
-  font-size: 14px;
-}
 .noTaskText {
   text-align: center;
   font-size: 30px;
   color: grey;
+  margin: 30px;
+}
+.boxRow {
+  flex: 1;
+  font-size: 14px;
+}
+.boxRowText {
+  flex: 10;
+  font-size: 18px;
+  word-break: break-all;
 }
