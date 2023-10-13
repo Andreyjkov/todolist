@@ -37,18 +37,20 @@ const myValidator = (
 ): IValidatorResult => {
   const errorsMsg: string[] = [];
 
+  const isRequired = !!validations?.required?.value;
+
   if (value === undefined) {
     errorsMsg.push('invalid path to value');
     // eslint-disable-next-line no-console
     console.error('invalid path to value, name:', name);
     return { name: name, errorsMsg: errorsMsg };
-  }
-
-  if (
-    (validations?.required?.value && !value.toString().trim()) ||
-    (validations?.required?.value && value === false)
+  } else if (
+    (isRequired && !value.toString().trim()) ||
+    (isRequired && value === false)
   ) {
-    errorsMsg.push(validations?.required.message || ERROR_TEXT.REQUIRED);
+    errorsMsg.push(validations.required.message || ERROR_TEXT.REQUIRED);
+    return { name: name, errorsMsg: errorsMsg };
+  } else if (!isRequired && value === '') {
     return { name: name, errorsMsg: errorsMsg };
   }
 

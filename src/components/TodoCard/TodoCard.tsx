@@ -45,6 +45,12 @@ export const TodoCard = ({ todo, openModal }: IProps) => {
       </div>
       <div className={styles.dateSection}>
         <p className={styles.subTitle}>
+          <span>Price: </span>
+          {todo.price} RUB
+        </p>
+      </div>
+      <div className={styles.dateSection}>
+        <p className={styles.subTitle}>
           <span>Status: </span>
           {todo.status ? 'verified' : 'pending'}
         </p>
