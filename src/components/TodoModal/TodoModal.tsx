@@ -6,13 +6,13 @@ import { ITodoData } from '@/type/ITodoData';
 import { validateFormData } from '@/utils/validateFormData';
 import { DATE_FORMAT } from '@/constants/dateFormat';
 import { IErrorsObj, IValidation } from '@/type/Validation';
-import { AddTodoPayload, EditTodoPayload } from '@/type/AddTodoPayload';
 import { INPUT_TYPE } from '@/constants/inputType';
 import { MODAL_MODE } from '@/constants/modalMode';
+import { IFormData } from '@/type/IFormData';
 
 interface IProps {
   closeModal: () => void;
-  submitModal: (todo: EditTodoPayload | AddTodoPayload) => void;
+  submitModal: (data: IFormData) => void;
   title: string;
   mode: MODAL_MODE;
   validateConfig: IValidation[];
@@ -28,58 +28,28 @@ export const TodoModal = ({
   validateConfig,
 }: IProps) => {
   const [errors, setErrors] = useState<IErrorsObj | null>();
-  const [isCheck, setIsCheck] = useState(false);
 
   const inputValueRef = useRef<HTMLTextAreaElement | null>(null);
   const inputDateRef = useRef<HTMLInputElement | null>(null);
   const inputPriceRef = useRef<HTMLInputElement | null>(null);
+  const inputIsVerifiedRef = useRef<HTMLInputElement | null>(null);
 
   const handleSubmit = () => {
-    if (mode === MODAL_MODE.CREATE) {
-      const validateCreateData = {
-        value: inputValueRef.current.value,
-        date: inputDateRef.current.value,
-        price: inputPriceRef.current.value,
-      };
+    const data = {
+      value: inputValueRef.current.value,
+      date: inputDateRef.current.value,
+      price: parseFloat(inputPriceRef?.current?.value),
+      status: inputIsVerifiedRef?.current?.checked,
+    };
 
-      const errorsObj = validateFormData(validateCreateData, validateConfig);
+    const errorsObj = validateFormData(data, validateConfig);
 
-      if (Object.keys(errorsObj).length === 0) {
-        setErrors(null);
-        submitModal({
-          value: inputValueRef.current.value.trim(),
-          date: dayjs(inputDateRef.current.value).toDate(),
-          price: +inputPriceRef.current.value,
-        });
-        closeModal();
-      } else {
-        setErrors(errorsObj);
-      }
-    } else if (mode === MODAL_MODE.EDIT) {
-      const validateEditData = {
-        value: inputValueRef.current.value,
-        date: inputDateRef.current.value,
-        price: inputPriceRef.current.value,
-        status: isCheck,
-      };
-
-      const errorsObj = validateFormData(validateEditData, validateConfig);
-
-      if (Object.keys(errorsObj).length === 0) {
-        setErrors(null);
-
-        const newTodoData = {
-          id: dataModal.id,
-          value: inputValueRef.current.value.trim(),
-          date: dayjs(inputDateRef.current.value).toDate(),
-          price: +inputPriceRef.current.value,
-          status: isCheck,
-        };
-        submitModal(newTodoData);
-        closeModal();
-      } else {
-        setErrors(errorsObj);
-      }
+    if (Object.keys(errorsObj).length === 0) {
+      setErrors(null);
+      submitModal(data);
+      closeModal();
+    } else {
+      setErrors(errorsObj);
     }
   };
 
@@ -151,11 +121,7 @@ export const TodoModal = ({
               Task status:
               <br />
               <div className={styles.checkbox}>
-                <input
-                  type={INPUT_TYPE.CHECKBOX}
-                  checked={isCheck}
-                  onChange={(e) => setIsCheck(e.target.checked)}
-                />
+                <input type={INPUT_TYPE.CHECKBOX} ref={inputIsVerifiedRef} />
                 <span>verified</span>
               </div>
               {errors?.status ? <ErrorMessage errors={errors.status} /> : null}

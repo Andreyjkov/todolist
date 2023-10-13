@@ -16,8 +16,6 @@ export interface IValidation {
     | 'text'
     | 'number'
     | 'password'
-    | 'date'
-    | 'month'
     | 'checkbox';
   validations?: IValidationsRule;
 }

@@ -4,17 +4,17 @@ import { useParams } from 'react-router-dom';
 import * as styles from './TodoDetails.module.css';
 import { businessService } from '@/businessService/businessService';
 import { ITodoData } from '@/type/ITodoData';
-
-import { EditTodoPayload } from '@/type/AddTodoPayload';
 import NotFound from '@/pages/NotFound/NotFound';
 import { TodoCard } from '@/components/TodoCard/TodoCard';
 import { TodoModal } from '@/components/TodoModal/TodoModal';
 import { TODO_EVENT_NAME } from '@/constants/eventTypes';
-import { TODO_ACTION_TYPE } from '@/constants/actionTypes';
 import { END_DATE_VALID, START_DATE_VALID } from '@/constants/validation';
 import { INPUT_TYPE } from '@/constants/inputType';
 import { MODAL_MODE } from '@/constants/modalMode';
 import { IValidation } from '@/type/Validation';
+import { IFormData } from '@/type/IFormData';
+import { TODO_ACTION_TYPE } from '@/constants/actionTypes';
+import dayjs from 'dayjs';
 
 const validateConfigEdit: IValidation[] = [
   {
@@ -97,10 +97,16 @@ const TodoDetails = () => {
     };
   }, []);
 
-  const submitModal = (data: EditTodoPayload) => {
+  const submitModal = ({ value, date, price, status }: IFormData) => {
     store.dispatch({
       type: TODO_ACTION_TYPE.EDIT_TODO,
-      payload: data,
+      payload: {
+        id: todo.id,
+        value,
+        date: dayjs(date).toDate(),
+        price,
+        status,
+      },
     });
   };
 
