@@ -32,34 +32,44 @@ export const validateFormData = (
 };
 
 const myValidator = (
-  value: string | boolean | undefined,
-  { validations, name, type }: IValidation
+  value: string | boolean | undefined | number | null,
+  { validations, name, type, path }: IValidation
 ): IValidatorResult => {
   const errorsMsg: string[] = [];
 
+  if (value === undefined || value === null) {
+    errorsMsg.push('Error: value undefined or null');
+    // eslint-disable-next-line no-console
+    console.error('Error: value undefined or null.', 'input path:', path);
+    return { name: name, errorsMsg: errorsMsg };
+  }
+
   const isRequired = !!validations?.required?.value;
 
-  if (value === undefined) {
-    errorsMsg.push('invalid path to value');
-    // eslint-disable-next-line no-console
-    console.error('invalid path to value, name:', name);
-    return { name: name, errorsMsg: errorsMsg };
-  } else if (
-    (isRequired && !value.toString().trim()) ||
-    (isRequired && value === false)
-  ) {
-    errorsMsg.push(validations.required.message || ERROR_TEXT.REQUIRED);
-    return { name: name, errorsMsg: errorsMsg };
+  if (isRequired) {
+    if (
+      value === false ||
+      (typeof value === 'string' && !value.trim()) ||
+      (typeof value === 'number' && isNaN(value))
+    ) {
+      errorsMsg.push(validations.required.message || ERROR_TEXT.REQUIRED);
+      return { name: name, errorsMsg: errorsMsg };
+    }
   } else if (!isRequired && value === '') {
     return { name: name, errorsMsg: errorsMsg };
   }
 
   if (typeof value === 'boolean') {
     return { name: name, errorsMsg: errorsMsg };
-  } else if (type === INPUT_TYPE.DATETIME_LOCAL && !dayjs(value).isValid()) {
+  }
+
+  if (type === INPUT_TYPE.DATETIME_LOCAL && !dayjs(value).isValid()) {
     errorsMsg.push(ERROR_TEXT.INVALID_DATE);
     return { name: name, errorsMsg: errorsMsg };
-  } else if (type === INPUT_TYPE.NUMBER && !CHECK_VALID.number.test(value)) {
+  } else if (
+    type === INPUT_TYPE.NUMBER &&
+    !CHECK_VALID.number.test(value.toString())
+  ) {
     errorsMsg.push(ERROR_TEXT.NUMBER);
     return { name: name, errorsMsg: errorsMsg };
   }
@@ -71,7 +81,7 @@ const myValidator = (
           const rule = validations[validation];
           if (
             MIN_MAX_LENGTH_VALIDATED_TYPES.includes(type) &&
-            value.trim().length < rule.value
+            value.toString().trim().length < rule.value
           ) {
             errorsMsg.push(
               rule.message || `${ERROR_TEXT.MIN_LENGTH} ${rule.value}`
@@ -85,7 +95,7 @@ const myValidator = (
           const rule = validations[validation];
           if (
             MIN_MAX_LENGTH_VALIDATED_TYPES.includes(type) &&
-            value.trim().length > rule.value
+            value.toString().trim().length > rule.value
           ) {
             errorsMsg.push(
               rule.message || `${ERROR_TEXT.MAX_LENGTH} ${rule.value}`
@@ -145,7 +155,7 @@ const myValidator = (
         if (PATTERN_VALIDATED_TYPES.includes(type)) {
           const pattern = validations[validation];
 
-          if (!pattern.value.test(value)) {
+          if (!pattern.value.test(value.toString())) {
             errorsMsg.push(pattern.message || `${ERROR_TEXT.INVALID_PATTERN}`);
           }
         }

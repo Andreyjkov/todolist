@@ -5,10 +5,11 @@ import { businessService } from '@/businessService/businessService';
 import { TODO_ACTION_TYPE } from '@/constants/actionTypes';
 import { END_DATE_VALID, START_DATE_VALID } from '@/constants/validation';
 import { TodoModal } from '../TodoModal/TodoModal';
-import { AddTodoPayload } from '@/type/AddTodoPayload';
 import { INPUT_TYPE } from '@/constants/inputType';
 import { MODAL_MODE } from '@/constants/modalMode';
 import { IValidation } from '@/type/Validation';
+import dayjs from 'dayjs';
+import { IFormData } from '@/type/IFormData';
 
 const validateConfigCreate: IValidation[] = [
   {
@@ -62,10 +63,10 @@ export const TodoCreate = memo(() => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const store = businessService.todoStore();
 
-  const handleNewTodo = (data: AddTodoPayload) => {
+  const handleNewTodo = ({ value, date, price }: IFormData) => {
     store.dispatch({
       type: TODO_ACTION_TYPE.ADD_TODO,
-      payload: data,
+      payload: { value, date: dayjs(date).toDate(), price },
     });
   };
 
