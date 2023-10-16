@@ -36,7 +36,7 @@ export const TodoModal = ({
 
   const handleSubmit = () => {
     const data = {
-      value: inputValueRef.current.value,
+      value: inputValueRef.current.value.replace(/\n/g, ''),
       date: inputDateRef.current.value,
       price: parseFloat(inputPriceRef?.current?.value),
       status: inputIsVerifiedRef?.current?.checked,
