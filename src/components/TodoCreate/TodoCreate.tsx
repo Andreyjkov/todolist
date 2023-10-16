@@ -82,6 +82,7 @@ export const TodoCreate = memo(() => {
         <TodoModal
           validateConfig={validateConfigCreate}
           title="Create task"
+          dataModal={{} as ITodoData}
           mode={MODAL_MODE.CREATE}
           closeModal={closeModal}
           submitModal={handleNewTodo}

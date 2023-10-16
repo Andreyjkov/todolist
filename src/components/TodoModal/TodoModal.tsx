@@ -15,7 +15,7 @@ interface IProps {
   title: string;
   mode: MODAL_MODE;
   validateConfig: IValidation[];
-  dataModal?: ITodoData;
+  dataModal: ITodoData;
 }
 
 export const TodoModal = ({
@@ -35,10 +35,9 @@ export const TodoModal = ({
 
   const handleSubmit = () => {
     const data: ITodoData = {
-      id: null,
+      ...dataModal,
       value: inputValueRef.current.value,
       date: inputDateRef.current.value,
-      updateDate: null,
       price: parseFloat(inputPriceRef?.current?.value),
       status: inputIsVerifiedRef?.current?.checked,
     };
@@ -91,7 +90,9 @@ export const TodoModal = ({
                 }`}
                 type={INPUT_TYPE.DATETIME_LOCAL}
                 defaultValue={
-                  dataModal ? dayjs(dataModal.date).format(DATE_FORMAT) : ''
+                  dataModal.date
+                    ? dayjs(dataModal.date).format(DATE_FORMAT)
+                    : ''
                 }
                 required={true}
                 ref={inputDateRef}

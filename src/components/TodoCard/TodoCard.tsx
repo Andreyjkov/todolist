@@ -42,7 +42,7 @@ export const TodoCard = ({ todo, openModal }: IProps) => {
       <div className={styles.dateSection}>
         <p className={styles.subTitle}>
           <span>date: </span>
-          {dayjs(todo?.date).format(DATE_DISPLAY_FORMAT)}
+          {todo?.date && dayjs(todo.date).format(DATE_DISPLAY_FORMAT)}
         </p>
       </div>
       <div className={styles.dateSection}>
