@@ -8,11 +8,10 @@ import { DATE_FORMAT } from '@/constants/dateFormat';
 import { IErrorsObj, IValidation } from '@/type/Validation';
 import { INPUT_TYPE } from '@/constants/inputType';
 import { MODAL_MODE } from '@/constants/modalMode';
-import { IFormData } from '@/type/IFormData';
 
 interface IProps {
   closeModal: () => void;
-  submitModal: (data: IFormData) => void;
+  submitModal: (data: ITodoData) => void;
   title: string;
   mode: MODAL_MODE;
   validateConfig: IValidation[];
@@ -35,9 +34,11 @@ export const TodoModal = ({
   const inputIsVerifiedRef = useRef<HTMLInputElement | null>(null);
 
   const handleSubmit = () => {
-    const data = {
-      value: inputValueRef.current.value.replace(/\n/g, ''),
+    const data: ITodoData = {
+      id: null,
+      value: inputValueRef.current.value,
       date: inputDateRef.current.value,
+      updateDate: null,
       price: parseFloat(inputPriceRef?.current?.value),
       status: inputIsVerifiedRef?.current?.checked,
     };
@@ -70,12 +71,14 @@ export const TodoModal = ({
             <textarea
               rows={4}
               className={`${styles.textarea} ${
-                errors?.value ? styles.borderError : ''
+                errors && errors['value'] ? styles.borderError : ''
               }`}
               defaultValue={dataModal?.value}
               ref={inputValueRef}
             />
-            {errors?.value ? <ErrorMessage errors={errors.value} /> : null}
+            {errors && errors['value'] ? (
+              <ErrorMessage errors={errors['value']} />
+            ) : null}
           </label>
 
           <label>
@@ -84,7 +87,7 @@ export const TodoModal = ({
             <div>
               <input
                 className={`${styles.datePicker} ${
-                  errors?.date ? styles.borderError : ''
+                  errors && errors['date'] ? styles.borderError : ''
                 }`}
                 type={INPUT_TYPE.DATETIME_LOCAL}
                 defaultValue={
@@ -96,7 +99,9 @@ export const TodoModal = ({
                 lang="en"
               />
             </div>
-            {errors?.date ? <ErrorMessage errors={errors.date} /> : null}
+            {errors && errors['date'] ? (
+              <ErrorMessage errors={errors['date']} />
+            ) : null}
           </label>
 
           <label>
@@ -105,7 +110,7 @@ export const TodoModal = ({
             <div>
               <input
                 className={`${styles.textarea} ${
-                  errors?.price ? styles.borderError : ''
+                  errors && errors['price'] ? styles.borderError : ''
                 }`}
                 type={INPUT_TYPE.NUMBER}
                 ref={inputPriceRef}
@@ -113,7 +118,9 @@ export const TodoModal = ({
                 defaultValue={dataModal?.price}
               />
             </div>
-            {errors?.price ? <ErrorMessage errors={errors.price} /> : null}
+            {errors && errors['price'] ? (
+              <ErrorMessage errors={errors['price']} />
+            ) : null}
           </label>
 
           {mode === MODAL_MODE.EDIT ? (
@@ -124,7 +131,9 @@ export const TodoModal = ({
                 <input type={INPUT_TYPE.CHECKBOX} ref={inputIsVerifiedRef} />
                 <span>verified</span>
               </div>
-              {errors?.status ? <ErrorMessage errors={errors.status} /> : null}
+              {errors && errors['status'] ? (
+                <ErrorMessage errors={errors['status']} />
+              ) : null}
             </label>
           ) : null}
         </div>

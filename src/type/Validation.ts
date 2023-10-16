@@ -8,7 +8,6 @@ export interface IValidatorResult {
 }
 
 export interface IValidation {
-  name: string;
   path: string;
   type:
     | 'textarea'

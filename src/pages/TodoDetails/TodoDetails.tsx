@@ -12,13 +12,10 @@ import { END_DATE_VALID, START_DATE_VALID } from '@/constants/validation';
 import { INPUT_TYPE } from '@/constants/inputType';
 import { MODAL_MODE } from '@/constants/modalMode';
 import { IValidation } from '@/type/Validation';
-import { IFormData } from '@/type/IFormData';
 import { TODO_ACTION_TYPE } from '@/constants/actionTypes';
-import dayjs from 'dayjs';
 
 const validateConfigEdit: IValidation[] = [
   {
-    name: 'value',
     path: 'value',
     type: INPUT_TYPE.TEXTAREA,
     validations: {
@@ -30,7 +27,6 @@ const validateConfigEdit: IValidation[] = [
     },
   },
   {
-    name: 'price',
     path: 'price',
     type: INPUT_TYPE.NUMBER,
     validations: {
@@ -46,7 +42,6 @@ const validateConfigEdit: IValidation[] = [
     },
   },
   {
-    name: 'date',
     path: 'date',
     type: INPUT_TYPE.DATETIME_LOCAL,
     validations: {
@@ -62,7 +57,6 @@ const validateConfigEdit: IValidation[] = [
     },
   },
   {
-    name: 'status',
     path: 'status',
     type: INPUT_TYPE.CHECKBOX,
     validations: {
@@ -97,13 +91,13 @@ const TodoDetails = () => {
     };
   }, []);
 
-  const submitModal = ({ value, date, price, status }: IFormData) => {
+  const submitModal = ({ value, date, price, status }: ITodoData) => {
     store.dispatch({
       type: TODO_ACTION_TYPE.EDIT_TODO,
       payload: {
         id: todo.id,
         value,
-        date: dayjs(date).toDate(),
+        date,
         price,
         status,
       },

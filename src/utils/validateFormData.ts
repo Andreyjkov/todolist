@@ -33,7 +33,7 @@ export const validateFormData = (
 
 const myValidator = (
   value: string | boolean | undefined | number | null,
-  { validations, name, type, path }: IValidation
+  { validations, type, path }: IValidation
 ): IValidatorResult => {
   const errorsMsg: string[] = [];
 
@@ -41,7 +41,7 @@ const myValidator = (
     errorsMsg.push('Error: value undefined or null');
     // eslint-disable-next-line no-console
     console.error('Error: value undefined or null.', 'input path:', path);
-    return { name: name, errorsMsg: errorsMsg };
+    return { name: path, errorsMsg: errorsMsg };
   }
 
   const isRequired = !!validations?.required?.value;
@@ -53,25 +53,25 @@ const myValidator = (
       (typeof value === 'number' && isNaN(value))
     ) {
       errorsMsg.push(validations.required.message || ERROR_TEXT.REQUIRED);
-      return { name: name, errorsMsg: errorsMsg };
+      return { name: path, errorsMsg: errorsMsg };
     }
   } else if (!isRequired && value === '') {
-    return { name: name, errorsMsg: errorsMsg };
+    return { name: path, errorsMsg: errorsMsg };
   }
 
   if (typeof value === 'boolean') {
-    return { name: name, errorsMsg: errorsMsg };
+    return { name: path, errorsMsg: errorsMsg };
   }
 
   if (type === INPUT_TYPE.DATETIME_LOCAL && !dayjs(value).isValid()) {
     errorsMsg.push(ERROR_TEXT.INVALID_DATE);
-    return { name: name, errorsMsg: errorsMsg };
+    return { name: path, errorsMsg: errorsMsg };
   } else if (
     type === INPUT_TYPE.NUMBER &&
     !CHECK_VALID.number.test(value.toString())
   ) {
     errorsMsg.push(ERROR_TEXT.NUMBER);
-    return { name: name, errorsMsg: errorsMsg };
+    return { name: path, errorsMsg: errorsMsg };
   }
 
   for (const validation in validations) {
@@ -81,7 +81,7 @@ const myValidator = (
           const rule = validations[validation];
           if (
             MIN_MAX_LENGTH_VALIDATED_TYPES.includes(type) &&
-            value.toString().trim().length < rule.value
+            value.toString().trim().replace(/\n/g, '').length < rule.value
           ) {
             errorsMsg.push(
               rule.message || `${ERROR_TEXT.MIN_LENGTH} ${rule.value}`
@@ -95,7 +95,7 @@ const myValidator = (
           const rule = validations[validation];
           if (
             MIN_MAX_LENGTH_VALIDATED_TYPES.includes(type) &&
-            value.toString().trim().length > rule.value
+            value.toString().trim().replace(/\n/g, '').length > rule.value
           ) {
             errorsMsg.push(
               rule.message || `${ERROR_TEXT.MAX_LENGTH} ${rule.value}`
@@ -155,7 +155,7 @@ const myValidator = (
         if (PATTERN_VALIDATED_TYPES.includes(type)) {
           const pattern = validations[validation];
 
-          if (!pattern.value.test(value.toString())) {
+          if (!pattern.value.test(value.toString().replace(/\n/g, ''))) {
             errorsMsg.push(pattern.message || `${ERROR_TEXT.INVALID_PATTERN}`);
           }
         }
@@ -163,5 +163,5 @@ const myValidator = (
     }
   }
 
-  return { name: name, errorsMsg: errorsMsg };
+  return { name: path, errorsMsg: errorsMsg };
 };

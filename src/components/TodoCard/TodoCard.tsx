@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import * as styles from './TodoCard.module.css';
 import { ITodoData } from '@/type/ITodoData';
 import { ROUTS } from '@/constants/routsPath';
+import dayjs from 'dayjs';
+import { DATE_DISPLAY_FORMAT } from '@/constants/dateFormat';
 
 interface IProps {
   todo: ITodoData;
@@ -40,7 +42,7 @@ export const TodoCard = ({ todo, openModal }: IProps) => {
       <div className={styles.dateSection}>
         <p className={styles.subTitle}>
           <span>date: </span>
-          {todo?.date.toLocaleString('ru')}
+          {dayjs(todo?.date).format(DATE_DISPLAY_FORMAT)}
         </p>
       </div>
       <div className={styles.dateSection}>

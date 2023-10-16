@@ -2,6 +2,8 @@ import React from 'react';
 
 import * as styles from './List.module.css';
 import { ITodoData } from '@type/ITodoData';
+import dayjs from 'dayjs';
+import { DATE_DISPLAY_FORMAT } from '@/constants/dateFormat';
 
 interface Props {
   handleBtn: (item: ITodoData) => void;
@@ -33,10 +35,10 @@ export const List = ({ handleBtn, items, handleLinkTo }: Props) => {
                     {item.status ? 'verified' : 'pending'}
                   </li>
                   <li className={styles.boxRow}>
-                    {item.date.toLocaleString('ru')}
+                    {dayjs(item.date).format(DATE_DISPLAY_FORMAT)}
                   </li>
                   <li className={styles.boxRow}>
-                    {item.updateDate.toLocaleString('ru')}
+                    {dayjs(item.updateDate).format(DATE_DISPLAY_FORMAT)}
                   </li>
                 </div>
 

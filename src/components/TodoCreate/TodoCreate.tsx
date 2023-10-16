@@ -8,12 +8,10 @@ import { TodoModal } from '../TodoModal/TodoModal';
 import { INPUT_TYPE } from '@/constants/inputType';
 import { MODAL_MODE } from '@/constants/modalMode';
 import { IValidation } from '@/type/Validation';
-import dayjs from 'dayjs';
-import { IFormData } from '@/type/IFormData';
+import { ITodoData } from '@/type/ITodoData';
 
 const validateConfigCreate: IValidation[] = [
   {
-    name: 'value',
     path: 'value',
     type: INPUT_TYPE.TEXTAREA,
     validations: {
@@ -26,7 +24,6 @@ const validateConfigCreate: IValidation[] = [
   },
 
   {
-    name: 'date',
     path: 'date',
     type: INPUT_TYPE.DATETIME_LOCAL,
     validations: {
@@ -42,7 +39,6 @@ const validateConfigCreate: IValidation[] = [
     },
   },
   {
-    name: 'price',
     path: 'price',
     type: INPUT_TYPE.NUMBER,
     validations: {
@@ -63,10 +59,10 @@ export const TodoCreate = memo(() => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const store = businessService.todoStore();
 
-  const handleNewTodo = ({ value, date, price }: IFormData) => {
+  const handleNewTodo = ({ value, date, price }: ITodoData) => {
     store.dispatch({
       type: TODO_ACTION_TYPE.ADD_TODO,
-      payload: { value, date: dayjs(date).toDate(), price },
+      payload: { value, date, price },
     });
   };
 

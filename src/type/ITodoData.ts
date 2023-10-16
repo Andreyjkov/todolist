@@ -1,8 +1,8 @@
 export type ITodoData = {
   id: number;
   value: string;
-  date: Date;
-  updateDate: Date;
+  date: string;
+  updateDate: string;
   price: number;
   status: boolean;
 };

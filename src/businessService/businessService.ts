@@ -44,7 +44,7 @@ const todosReducer = (action: Action) => {
             id: date.getTime(),
             value: action.payload.value,
             date: action.payload.date,
-            updateDate: date,
+            updateDate: date.toString(),
             status: false,
             price: action.payload.price,
           },
@@ -63,7 +63,7 @@ const todosReducer = (action: Action) => {
       break;
     case TODO_ACTION_TYPE.EDIT_TODO:
       {
-        const updateDate = new Date();
+        const updateDate = new Date().toString();
         todos = todos.map((item) => {
           if (item.id === action.payload.id) {
             return {

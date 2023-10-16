@@ -1,6 +1,6 @@
 export type AddTodoPayload = {
   value: string;
-  date: Date;
+  date: string;
   price: number;
 };
 
@@ -11,7 +11,7 @@ export type DeleteTodoPayload = {
 export type EditTodoPayload = {
   id: number;
   value: string;
-  date: Date;
+  date: string;
   price: number;
   status: boolean;
 };
