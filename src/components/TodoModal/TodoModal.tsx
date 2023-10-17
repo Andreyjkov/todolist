@@ -16,6 +16,7 @@ interface IProps {
   mode: MODAL_MODE;
   validateConfig: IValidation[];
   dataModal: ITodoData;
+  isLoadingButton?: boolean;
 }
 
 export const TodoModal = ({
@@ -25,6 +26,7 @@ export const TodoModal = ({
   title,
   mode,
   validateConfig,
+  isLoadingButton,
 }: IProps) => {
   const [errors, setErrors] = useState<IErrorsObj | null>();
 
@@ -47,7 +49,6 @@ export const TodoModal = ({
     if (Object.keys(errorsObj).length === 0) {
       setErrors(null);
       submitModal(data);
-      closeModal();
     } else {
       setErrors(errorsObj);
     }
@@ -139,8 +140,12 @@ export const TodoModal = ({
           ) : null}
         </div>
 
-        <button onClick={handleSubmit} className={styles.saveButton}>
-          Save
+        <button
+          onClick={handleSubmit}
+          className={styles.saveButton}
+          disabled={isLoadingButton}
+        >
+          {isLoadingButton ? 'loading...' : 'Save'}
         </button>
         <button onClick={closeModal} className={styles.cancelButton}>
           Cancel

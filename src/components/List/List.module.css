@@ -37,6 +37,11 @@
 .deleteButton:hover {
   background-color: #c82333;
 }
+.deleteButton:disabled {
+  background: #e7e8e9;
+  color: #9fa3a9;
+  cursor: not-allowed;
+}
 .noTaskText {
   text-align: center;
   font-size: 30px;
@@ -51,4 +56,10 @@
   flex: 10;
   font-size: 18px;
   word-break: break-all;
+}
+
+.loading {
+  text-align: center;
+  font-size: 25px;
+  margin: 20px;
 }

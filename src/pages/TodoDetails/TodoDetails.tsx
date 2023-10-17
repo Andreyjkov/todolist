@@ -12,7 +12,8 @@ import { END_DATE_VALID, START_DATE_VALID } from '@/constants/validation';
 import { INPUT_TYPE } from '@/constants/inputType';
 import { MODAL_MODE } from '@/constants/modalMode';
 import { IValidation } from '@/type/Validation';
-import { TODO_ACTION_TYPE } from '@/constants/actionTypes';
+import { apiService } from '@/businessService/apiService';
+import { Loading } from '@/components/Loading/Loading';
 
 const validateConfigEdit: IValidation[] = [
   {
@@ -70,38 +71,48 @@ const validateConfigEdit: IValidation[] = [
 
 const TodoDetails = () => {
   const params = useParams();
-  const store = businessService.todoStore();
+  // const store = businessService.todoStore();
 
   const [todo, setTodo] = useState<ITodoData | undefined>();
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingButton, setIsLoadingButton] = useState(false);
 
-  const updateState = () => {
-    setTodo(businessService.getTodoById(+params.id));
+  const getMockData = () => {
+    setIsLoading(true);
+    apiService.getMockDataById(+params.id).then((data) => {
+      setTodo(data);
+      setIsLoading(false);
+    });
   };
 
   useEffect(() => {
-    updateState();
-
-    businessService.subscribeEvent(TODO_EVENT_NAME.UPDATE_TODOS, updateState);
+    getMockData();
+    businessService.subscribeEvent(TODO_EVENT_NAME.UPDATE_TODOS, getMockData);
     return () => {
       businessService.unsubscribeEvent(
         TODO_EVENT_NAME.UPDATE_TODOS,
-        updateState
+        getMockData
       );
     };
   }, []);
 
-  const submitModal = ({ value, date, price, status }: ITodoData) => {
-    store.dispatch({
-      type: TODO_ACTION_TYPE.EDIT_TODO,
-      payload: {
-        id: todo.id,
+  const submitModal = ({ id, value, date, price, status }: ITodoData) => {
+    setIsLoadingButton(true);
+    apiService
+      .editMockData({
+        id,
         value,
         date,
         price,
         status,
-      },
-    });
+      } as ITodoData)
+      .then(() => {
+        closeModal();
+        document.dispatchEvent(new CustomEvent(TODO_EVENT_NAME.UPDATE_TODOS));
+      })
+      .catch((e) => alert(e))
+      .finally(() => setIsLoadingButton(false));
   };
 
   const closeModal = () => {
@@ -111,6 +122,9 @@ const TodoDetails = () => {
     setIsOpenModal(true);
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
   if (!todo) {
     return <NotFound />;
   }
@@ -126,6 +140,7 @@ const TodoDetails = () => {
           closeModal={closeModal}
           submitModal={submitModal}
           dataModal={todo}
+          isLoadingButton={isLoadingButton}
         />
       )}
     </div>

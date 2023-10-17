@@ -1,14 +1,14 @@
 import React, { memo, useState } from 'react';
 
 import * as styles from './TodoCreate.module.css';
-import { businessService } from '@/businessService/businessService';
-import { TODO_ACTION_TYPE } from '@/constants/actionTypes';
 import { END_DATE_VALID, START_DATE_VALID } from '@/constants/validation';
 import { TodoModal } from '../TodoModal/TodoModal';
 import { INPUT_TYPE } from '@/constants/inputType';
 import { MODAL_MODE } from '@/constants/modalMode';
 import { IValidation } from '@/type/Validation';
 import { ITodoData } from '@/type/ITodoData';
+import { apiService } from '@/businessService/apiService';
+import { TODO_EVENT_NAME } from '@/constants/eventTypes';
 
 const validateConfigCreate: IValidation[] = [
   {
@@ -57,13 +57,19 @@ const validateConfigCreate: IValidation[] = [
 
 export const TodoCreate = memo(() => {
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const store = businessService.todoStore();
+  const [isLoadingButton, setIsLoadingButton] = useState(false);
 
-  const handleNewTodo = ({ value, date, price }: ITodoData) => {
-    store.dispatch({
-      type: TODO_ACTION_TYPE.ADD_TODO,
-      payload: { value, date, price },
-    });
+  const handleNewTodo = async ({ value, date, price }: ITodoData) => {
+    setIsLoadingButton(true);
+
+    apiService
+      .addMockData({ value, date, price } as ITodoData)
+      .then(() => {
+        closeModal();
+        document.dispatchEvent(new CustomEvent(TODO_EVENT_NAME.UPDATE_TODOS));
+      })
+      .catch((e) => alert(e))
+      .finally(() => setIsLoadingButton(false));
   };
 
   const closeModal = () => {
@@ -86,6 +92,7 @@ export const TodoCreate = memo(() => {
           mode={MODAL_MODE.CREATE}
           closeModal={closeModal}
           submitModal={handleNewTodo}
+          isLoadingButton={isLoadingButton}
         />
       )}
     </>

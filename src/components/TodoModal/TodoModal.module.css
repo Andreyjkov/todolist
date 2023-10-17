@@ -96,6 +96,12 @@ label {
 .saveButton:hover {
   background-color: #218838;
 }
+
+.saveButton:disabled {
+  background: #e7e8e9;
+  color: #9fa3a9;
+  cursor: not-allowed;
+}
 .cancelButton {
   background-color: #dc3545;
   color: #fff;

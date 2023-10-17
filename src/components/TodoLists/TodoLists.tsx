@@ -3,36 +3,46 @@ import { useNavigate } from 'react-router-dom';
 
 import { List } from '@/components/List/List';
 import { businessService } from '@/businessService/businessService';
-import { TODO_EVENT_NAME } from '@/constants/eventTypes';
+
 import { ITodoData } from '@type/ITodoData';
-import { TODO_ACTION_TYPE } from '@/constants/actionTypes';
 import { PATH_LINK_TO } from '@/constants/routsPath';
+import { apiService } from '@/businessService/apiService';
+import { TODO_EVENT_NAME } from '@/constants/eventTypes';
 
 export const TodoLists = memo(() => {
-  const store = businessService.todoStore();
   const [todos, setTodos] = useState<ITodoData[] | undefined>();
+  const [loading, setLoading] = useState(false);
+  const [isLoadingButton, setIsLoadingButton] = useState(false);
   const navigate = useNavigate();
 
-  const updateState = () => {
-    setTodos(store.getState());
+  const fetchData = () => {
+    setLoading(true);
+    apiService
+      .fetchMockData()
+      .then((data) => setTodos(data))
+      .catch((e) => alert(e))
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
-    updateState();
-    businessService.subscribeEvent(TODO_EVENT_NAME.UPDATE_TODOS, updateState);
+    fetchData();
+    businessService.subscribeEvent(TODO_EVENT_NAME.UPDATE_TODOS, fetchData);
     return () => {
-      businessService.unsubscribeEvent(
-        TODO_EVENT_NAME.UPDATE_TODOS,
-        updateState
-      );
+      businessService.unsubscribeEvent(TODO_EVENT_NAME.UPDATE_TODOS, fetchData);
     };
   }, []);
 
-  const handleDeleteTodo = (item: ITodoData) => {
-    store.dispatch({
-      type: TODO_ACTION_TYPE.DELETE_TODO,
-      payload: { id: item.id },
-    });
+  const handleDeleteTodo = async (item: ITodoData) => {
+    setIsLoadingButton(true);
+    apiService
+      .deleteMockData(item.id)
+      .then(() =>
+        document.dispatchEvent(new CustomEvent(TODO_EVENT_NAME.UPDATE_TODOS))
+      )
+      .catch((e) => alert(e))
+      .finally(() => setIsLoadingButton(false));
   };
 
   const handleLinkTo = (id: number) => {
@@ -44,6 +54,8 @@ export const TodoLists = memo(() => {
       handleBtn={handleDeleteTodo}
       items={todos}
       handleLinkTo={handleLinkTo}
+      loading={loading}
+      isLoadingButton={isLoadingButton}
     />
   );
 });
