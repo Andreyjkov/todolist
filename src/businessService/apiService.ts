@@ -27,7 +27,7 @@ let todos: ITodoData[] = [
   },
   {
     id: 4,
-    value: 'Test3 JSON',
+    value: 'Test4 JSON',
     date: 'Mon Oct 15 2023 18:30:26 GMT+0300 (Москва, стандартное время)',
     updateDate: 'Mon Oct 15 2023 18:30:26 GMT+0300 (Москва, стандартное время)',
     price: 150,
@@ -35,7 +35,7 @@ let todos: ITodoData[] = [
   },
   {
     id: 5,
-    value: 'Test3 JSON',
+    value: 'Test5 JSON',
     date: 'Mon Oct 20 2023 21:30:26 GMT+0300 (Москва, стандартное время)',
     updateDate: 'Mon Oct 20 2023 21:30:26 GMT+0300 (Москва, стандартное время)',
     price: 200,
@@ -93,7 +93,7 @@ const getMockDataById = async (id: number): Promise<ITodoData | undefined> => {
 };
 
 const simulateDelay = (ms: number): Promise<void> => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve /* reject */) => {
     setTimeout(() => {
       resolve();
       // reject('error reject');
