@@ -6,7 +6,7 @@ const BundleAnalyzerPlugin =
 module.exports = {
   entry: './src/index.tsx',
   output: {
-    publicPath: '/',
+    publicPath: 'auto',
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
