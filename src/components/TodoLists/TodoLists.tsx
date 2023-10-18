@@ -18,7 +18,7 @@ export const TodoLists = memo(() => {
   const fetchData = () => {
     setLoading(true);
     apiService
-      .fetchMockData()
+      .fetchTodos()
       .then((data) => setTodos(data))
       .catch((e) => alert(e))
       .finally(() => {
@@ -37,7 +37,7 @@ export const TodoLists = memo(() => {
   const handleDeleteTodo = async (item: ITodoData) => {
     setIsLoadingButton(true);
     apiService
-      .deleteMockData(item.id)
+      .deleteTodo(item.id)
       .then(() =>
         document.dispatchEvent(new CustomEvent(TODO_EVENT_NAME.UPDATE_TODOS))
       )

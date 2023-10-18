@@ -61,9 +61,18 @@ export const TodoCreate = memo(() => {
 
   const handleNewTodo = async ({ value, date, price }: ITodoData) => {
     setIsLoadingButton(true);
+    const dateNow = new Date();
+    const newTodo: ITodoData = {
+      value,
+      date,
+      price,
+      id: dateNow.getTime(),
+      updateDate: dateNow.toString(),
+      status: false,
+    };
 
     apiService
-      .addMockData({ value, date, price } as ITodoData)
+      .addTodo(newTodo)
       .then(() => {
         closeModal();
         document.dispatchEvent(new CustomEvent(TODO_EVENT_NAME.UPDATE_TODOS));

@@ -71,7 +71,6 @@ const validateConfigEdit: IValidation[] = [
 
 const TodoDetails = () => {
   const params = useParams();
-  // const store = businessService.todoStore();
 
   const [todo, setTodo] = useState<ITodoData | undefined>();
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -80,7 +79,7 @@ const TodoDetails = () => {
 
   const getMockData = () => {
     setIsLoading(true);
-    apiService.getMockDataById(+params.id).then((data) => {
+    apiService.getTodoById(+params.id).then((data) => {
       setTodo(data);
       setIsLoading(false);
     });
@@ -99,14 +98,19 @@ const TodoDetails = () => {
 
   const submitModal = ({ id, value, date, price, status }: ITodoData) => {
     setIsLoadingButton(true);
+    const dateNow = new Date();
+
+    const updatedTodo: ITodoData = {
+      id,
+      value,
+      date,
+      price,
+      status,
+      updateDate: dateNow.toString(),
+    };
+
     apiService
-      .editMockData({
-        id,
-        value,
-        date,
-        price,
-        status,
-      } as ITodoData)
+      .editTodo(id, updatedTodo)
       .then(() => {
         closeModal();
         document.dispatchEvent(new CustomEvent(TODO_EVENT_NAME.UPDATE_TODOS));
