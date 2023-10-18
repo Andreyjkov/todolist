@@ -48,7 +48,7 @@ const fetchMockData = async (): Promise<ITodoData[]> => {
     setTimeout(() => {
       resolve(todos);
       // reject('fetch mock data reject');
-    }, 1000);
+    }, 0);
   });
 };
 
@@ -93,9 +93,10 @@ const getMockDataById = async (id: number): Promise<ITodoData | undefined> => {
 };
 
 const simulateDelay = (ms: number): Promise<void> => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve();
+      // reject('error reject');
     }, ms);
   });
 };

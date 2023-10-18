@@ -58,7 +58,7 @@ export const List = ({
                     onClick={() => handleBtn(item)}
                     disabled={isLoadingButton}
                   >
-                    {isLoadingButton ? 'loading...' : 'Delete'}
+                    {isLoadingButton ? 'Delete' : 'Delete'}
                   </button>
                 )}
               </div>
