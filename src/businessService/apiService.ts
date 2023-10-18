@@ -54,7 +54,7 @@ const editTodo = async (id: number, updatedTodo: ITodoData): Promise<void> => {
 
 const deleteTodo = async (id: number): Promise<void> => {
   try {
-    const response = await fetch(`${URL}/${id}`, {
+    const response = await fetch(`${SERVER_URL}/${id}`, {
       method: 'DELETE',
     });
 
