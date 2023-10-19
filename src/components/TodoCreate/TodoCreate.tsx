@@ -51,6 +51,10 @@ const validateConfigCreate: IValidation[] = [
       max: {
         value: 10000,
       },
+      pattern: {
+        value: /^\d+(\.\d\d)?$/,
+        message: 'No more than two decimal places',
+      },
     },
   },
 ];

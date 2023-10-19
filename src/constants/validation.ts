@@ -30,6 +30,7 @@ export const PATTERN_VALIDATED_TYPES = [
   'datetime-local',
   'date',
   'month',
+  'number',
 ];
 
 export enum ERROR_TEXT {

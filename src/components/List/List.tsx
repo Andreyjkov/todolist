@@ -38,7 +38,7 @@ export const List = ({
                   <li className={styles.boxRow}>
                     <p>Price: </p>
                     {item.price}
-                    <span> RUB</span>
+                    <span> ₽</span>
                   </li>
                   <li className={styles.boxRow}>
                     <p>Status:</p>
