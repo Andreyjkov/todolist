@@ -2,6 +2,14 @@ import { ITodoData } from '@/type/ITodoData';
 
 const SERVER_URL = 'http://localhost:3001/todos';
 
+enum RES_TODO_ERROR {
+  FETCH = 'Error when fetching todos',
+  ADD = 'Error when adding a todo',
+  EDIT = 'Error when editing a todo',
+  DELETE = 'Error when deleting a todo',
+  GET_BY_ID = 'Error when fetching todo by ID',
+}
+
 const handleResponse = (response: Response) => {
   if (!response.ok) {
     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -15,7 +23,7 @@ const fetchTodos = async (): Promise<ITodoData[]> => {
     return await handleResponse(response).json();
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error('Error when fetching todos', error);
+    console.error(RES_TODO_ERROR.FETCH, error);
   }
 };
 
@@ -31,7 +39,7 @@ const addTodo = async (newTodo: ITodoData): Promise<ITodoData> => {
     return await handleResponse(response).json();
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error('Error when adding a task', error);
+    console.error(RES_TODO_ERROR.ADD, error);
   }
 };
 
@@ -50,7 +58,7 @@ const editTodo = async (
     return handleResponse(response).status;
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error('Error when editing a task', error);
+    console.error(RES_TODO_ERROR.EDIT, error);
   }
 };
 
@@ -62,7 +70,7 @@ const deleteTodo = async (id: number): Promise<number> => {
     return handleResponse(response).status;
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error('Error when deleting a task', error);
+    console.error(RES_TODO_ERROR.DELETE, error);
   }
 };
 
@@ -72,7 +80,7 @@ const getTodoById = async (id: number): Promise<ITodoData> => {
     return await handleResponse(response).json();
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error('Error when fetching task by ID', error);
+    console.error(RES_TODO_ERROR.GET_BY_ID, error);
   }
 };
 
