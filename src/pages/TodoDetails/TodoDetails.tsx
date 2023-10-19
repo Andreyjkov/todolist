@@ -60,12 +60,12 @@ const validateConfigEdit: IValidation[] = [
   {
     path: 'status',
     type: INPUT_TYPE.CHECKBOX,
-    validations: {
-      required: {
-        value: true,
-        message: 'if the task is verified, select this check box',
-      },
-    },
+    // validations: {
+    //   required: {
+    //     value: true,
+    //     message: 'if the task is verified, select this check box',
+    //   },
+    // },
   },
 ];
 
