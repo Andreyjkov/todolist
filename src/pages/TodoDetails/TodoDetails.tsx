@@ -117,7 +117,7 @@ const TodoDetails = () => {
       .editTodo(id, updatedTodo)
       .then(() => {
         closeModal();
-        document.dispatchEvent(new CustomEvent(TODO_EVENT_NAME.UPDATE_TODOS));
+        businessService.publishEvent(TODO_EVENT_NAME.UPDATE_TODOS);
       })
       .catch((e) => alert(e))
       .finally(() => setIsLoadingButton(false));

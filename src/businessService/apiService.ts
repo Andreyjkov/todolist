@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { ITodoData } from '@/type/ITodoData';
 
 const SERVER_URL = 'http://localhost:3001/todos';
@@ -22,7 +23,6 @@ const fetchTodos = async (): Promise<ITodoData[]> => {
     const response = await fetch(SERVER_URL);
     return await handleResponse(response).json();
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error(RES_TODO_ERROR.FETCH, error);
   }
 };
@@ -38,7 +38,6 @@ const addTodo = async (newTodo: ITodoData): Promise<ITodoData> => {
     });
     return await handleResponse(response).json();
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error(RES_TODO_ERROR.ADD, error);
   }
 };
@@ -57,7 +56,6 @@ const editTodo = async (
     });
     return handleResponse(response).status;
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error(RES_TODO_ERROR.EDIT, error);
   }
 };
@@ -69,7 +67,6 @@ const deleteTodo = async (id: number): Promise<number> => {
     });
     return handleResponse(response).status;
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error(RES_TODO_ERROR.DELETE, error);
   }
 };
@@ -79,7 +76,6 @@ const getTodoById = async (id: number): Promise<ITodoData> => {
     const response = await fetch(`${SERVER_URL}/${id}`);
     return await handleResponse(response).json();
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error(RES_TODO_ERROR.GET_BY_ID, error);
   }
 };

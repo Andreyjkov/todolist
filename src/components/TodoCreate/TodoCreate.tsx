@@ -9,6 +9,7 @@ import { IValidation } from '@/type/Validation';
 import { ITodoData } from '@/type/ITodoData';
 import { apiService } from '@/businessService/apiService';
 import { TODO_EVENT_NAME } from '@/constants/eventTypes';
+import { businessService } from '@/businessService/businessService';
 
 const validateConfigCreate: IValidation[] = [
   {
@@ -79,7 +80,7 @@ export const TodoCreate = memo(() => {
       .addTodo(newTodo)
       .then(() => {
         closeModal();
-        document.dispatchEvent(new CustomEvent(TODO_EVENT_NAME.UPDATE_TODOS));
+        businessService.publishEvent(TODO_EVENT_NAME.UPDATE_TODOS);
       })
       .catch((e) => alert(e))
       .finally(() => setIsLoadingButton(false));

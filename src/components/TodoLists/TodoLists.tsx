@@ -38,9 +38,7 @@ export const TodoLists = memo(() => {
     setIsLoadingButton(true);
     apiService
       .deleteTodo(item.id)
-      .then(() =>
-        document.dispatchEvent(new CustomEvent(TODO_EVENT_NAME.UPDATE_TODOS))
-      )
+      .then(() => businessService.publishEvent(TODO_EVENT_NAME.UPDATE_TODOS))
       .catch((e) => alert(e))
       .finally(() => setIsLoadingButton(false));
   };
