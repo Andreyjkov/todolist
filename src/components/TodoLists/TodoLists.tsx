@@ -2,25 +2,24 @@ import React, { memo, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { List } from '@/components/List/List';
-import { businessService } from '@/businessService/businessService';
-
+import { eventService } from '@/businessService/eventService';
 import { ITodoData } from '@type/ITodoData';
 import { PATH_LINK_TO } from '@/constants/routsPath';
 import { apiService } from '@/businessService/apiService';
-import { TODO_EVENT_NAME } from '@/constants/eventTypes';
+import { EVENT_NAME } from '@/constants/eventName';
 
 export const TodoLists = memo(() => {
+  const navigate = useNavigate();
   const [todos, setTodos] = useState<ITodoData[] | undefined>();
   const [loading, setLoading] = useState(false);
   const [isLoadingButton, setIsLoadingButton] = useState(false);
-  const navigate = useNavigate();
 
   const fetchData = () => {
     setLoading(true);
     apiService
       .fetchTodos()
       .then((data) => setTodos(data))
-      .catch((e) => alert(e))
+      .catch(() => {})
       .finally(() => {
         setLoading(false);
       });
@@ -28,9 +27,9 @@ export const TodoLists = memo(() => {
 
   useEffect(() => {
     fetchData();
-    businessService.subscribeEvent(TODO_EVENT_NAME.UPDATE_TODOS, fetchData);
+    eventService.subscribeEvent(EVENT_NAME.UPDATE_TODOS, fetchData);
     return () => {
-      businessService.unsubscribeEvent(TODO_EVENT_NAME.UPDATE_TODOS, fetchData);
+      eventService.unsubscribeEvent(EVENT_NAME.UPDATE_TODOS, fetchData);
     };
   }, []);
 
@@ -38,8 +37,8 @@ export const TodoLists = memo(() => {
     setIsLoadingButton(true);
     apiService
       .deleteTodo(item.id)
-      .then(() => businessService.publishEvent(TODO_EVENT_NAME.UPDATE_TODOS))
-      .catch((e) => alert(e))
+      .then(() => eventService.publishEvent(EVENT_NAME.UPDATE_TODOS))
+      .catch(() => {})
       .finally(() => setIsLoadingButton(false));
   };
 

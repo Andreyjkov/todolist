@@ -2,18 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import * as styles from './TodoDetails.module.css';
-import { businessService } from '@/businessService/businessService';
+import { eventService } from '@/businessService/eventService';
 import { ITodoData } from '@/type/ITodoData';
 import NotFound from '@/pages/NotFound/NotFound';
 import { TodoCard } from '@/components/TodoCard/TodoCard';
 import { TodoModal } from '@/components/TodoModal/TodoModal';
-import { TODO_EVENT_NAME } from '@/constants/eventTypes';
 import { END_DATE_VALID, START_DATE_VALID } from '@/constants/validation';
 import { INPUT_TYPE } from '@/constants/inputType';
 import { MODAL_MODE } from '@/constants/modalMode';
 import { IValidation } from '@/type/Validation';
 import { apiService } from '@/businessService/apiService';
 import { Loading } from '@/components/Loading/Loading';
+import { EVENT_NAME } from '@/constants/eventName';
 
 const validateConfigEdit: IValidation[] = [
   {
@@ -81,7 +81,7 @@ const TodoDetails = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingButton, setIsLoadingButton] = useState(false);
 
-  const getMockData = () => {
+  const getTodo = () => {
     setIsLoading(true);
     apiService.getTodoById(+params.id).then((data) => {
       setTodo(data);
@@ -90,13 +90,10 @@ const TodoDetails = () => {
   };
 
   useEffect(() => {
-    getMockData();
-    businessService.subscribeEvent(TODO_EVENT_NAME.UPDATE_TODOS, getMockData);
+    getTodo();
+    eventService.subscribeEvent(EVENT_NAME.UPDATE_TODOS, getTodo);
     return () => {
-      businessService.unsubscribeEvent(
-        TODO_EVENT_NAME.UPDATE_TODOS,
-        getMockData
-      );
+      eventService.unsubscribeEvent(EVENT_NAME.UPDATE_TODOS, getTodo);
     };
   }, []);
 
@@ -117,9 +114,9 @@ const TodoDetails = () => {
       .editTodo(id, updatedTodo)
       .then(() => {
         closeModal();
-        businessService.publishEvent(TODO_EVENT_NAME.UPDATE_TODOS);
+        eventService.publishEvent(EVENT_NAME.UPDATE_TODOS);
       })
-      .catch((e) => alert(e))
+      .catch(() => {})
       .finally(() => setIsLoadingButton(false));
   };
 

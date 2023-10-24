@@ -8,8 +8,8 @@ import { MODAL_MODE } from '@/constants/modalMode';
 import { IValidation } from '@/type/Validation';
 import { ITodoData } from '@/type/ITodoData';
 import { apiService } from '@/businessService/apiService';
-import { TODO_EVENT_NAME } from '@/constants/eventTypes';
-import { businessService } from '@/businessService/businessService';
+import { eventService } from '@/businessService/eventService';
+import { EVENT_NAME } from '@/constants/eventName';
 
 const validateConfigCreate: IValidation[] = [
   {
@@ -80,9 +80,9 @@ export const TodoCreate = memo(() => {
       .addTodo(newTodo)
       .then(() => {
         closeModal();
-        businessService.publishEvent(TODO_EVENT_NAME.UPDATE_TODOS);
+        eventService.publishEvent(EVENT_NAME.UPDATE_TODOS);
       })
-      .catch((e) => alert(e))
+      .catch(() => {})
       .finally(() => setIsLoadingButton(false));
   };
 
