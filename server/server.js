@@ -62,6 +62,7 @@ app.delete('/todos/:id', (req, res) => {
   const id = +req.params.id;
   todos = todos.filter((todo) => todo.id !== id);
   res.status(204).end();
+  // res.status(403).end();
 });
 
 app.get('/todos/:id', (req, res) => {
@@ -71,5 +72,6 @@ app.get('/todos/:id', (req, res) => {
 });
 
 app.listen(port, () => {
+  // eslint-disable-next-line no-console
   console.log(`Server is running on http://localhost:${port}`);
 });

@@ -3,17 +3,19 @@ import axios from 'axios';
 import { ITodoData } from '@/type/ITodoData';
 import { TOAST_MODE } from '@/constants/toastMode';
 import { toastService } from './toastService';
+import { appService } from './appService';
+import { ROUTS } from '@/constants/routsPath';
 
 const SERVER_URL = 'http://localhost:3001/todos';
 
 axios.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   (error) => {
     if (error.response) {
-      if (error.response.status === 400) {
-        toastService.addToast(error.message, TOAST_MODE.ERROR);
+      appService.setIsForbidden(false);
+      if (error.response.status === 403) {
+        // appService.setIsForbidden(true);
+        window.location.href = ROUTS.FORBIDDEN;
         return Promise.reject(error);
       } else {
         toastService.addToast(error.message, TOAST_MODE.ERROR);
@@ -46,7 +48,7 @@ const deleteTodo = async (id: number): Promise<string> => {
 };
 
 const getTodoById = async (id: number): Promise<ITodoData> => {
-  return (await axios(`${SERVER_URL}/${id}`)).data;
+  return (await axios.get(`${SERVER_URL}/${id}`)).data;
 };
 
 export const apiService = {

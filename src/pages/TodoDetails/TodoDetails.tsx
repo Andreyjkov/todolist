@@ -14,6 +14,7 @@ import { IValidation } from '@/type/Validation';
 import { apiService } from '@/businessService/apiService';
 import { Loading } from '@/components/Loading/Loading';
 import { EVENT_NAME } from '@/constants/eventName';
+import { ToastList } from '@/components/Toast/ToastList/ToastList';
 
 const validateConfigEdit: IValidation[] = [
   {
@@ -83,10 +84,15 @@ const TodoDetails = () => {
 
   const getTodo = () => {
     setIsLoading(true);
-    apiService.getTodoById(+params.id).then((data) => {
-      setTodo(data);
-      setIsLoading(false);
-    });
+    apiService
+      .getTodoById(+params.id)
+      .then((data) => {
+        setTodo(data);
+      })
+      .catch(() => {})
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -148,6 +154,7 @@ const TodoDetails = () => {
           isLoadingButton={isLoadingButton}
         />
       )}
+      <ToastList />
     </div>
   );
 };

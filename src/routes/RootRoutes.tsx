@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import { ROUTS } from '@/constants/routsPath';
 import { Loading } from '@/components/Loading/Loading';
 const Home = lazy(() => import('@/pages/Home/Home'));
+const ForbiddenPage = lazy(() => import('@/pages/Forbidden/ForbiddenPage'));
 const TodoDetails = lazy(() => import('@/pages/TodoDetails/TodoDetails'));
 const NotFound = lazy(() => import('@/pages/NotFound/NotFound'));
 
@@ -23,6 +24,14 @@ export const RootRoutes = () => {
         element={
           <Suspense fallback={<Loading />}>
             <TodoDetails />
+          </Suspense>
+        }
+      />
+      <Route
+        path={ROUTS.FORBIDDEN}
+        element={
+          <Suspense fallback={<Loading />}>
+            <ForbiddenPage />
           </Suspense>
         }
       />

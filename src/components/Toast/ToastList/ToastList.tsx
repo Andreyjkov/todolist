@@ -28,15 +28,14 @@ export const ToastList = () => {
   return (
     toasts?.length > 0 && (
       <div className={`${styles.toastList}`}>
-        {toasts.length &&
-          toasts.map((toast) => (
-            <Toast
-              message={toast.message}
-              mode={toast.mode}
-              removeToast={() => removeToast(toast.id)}
-              key={toast.id}
-            />
-          ))}
+        {toasts.map((toast) => (
+          <Toast
+            message={toast.message}
+            mode={toast.mode}
+            removeToast={() => removeToast(toast.id)}
+            key={toast.id}
+          />
+        ))}
       </div>
     )
   );
