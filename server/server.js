@@ -41,9 +41,6 @@ app.get('/todos', (req, res) => {
 app.get('/todos/forbidden', (req, res) => {
   res.status(403).end();
 });
-app.get('/todos/notFound', (req, res) => {
-  res.status(404).end();
-});
 
 app.post('/todos', (req, res) => {
   const newTodo = req.body;

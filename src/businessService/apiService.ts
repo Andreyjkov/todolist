@@ -39,9 +39,6 @@ const getTodoById = async (id: number): Promise<ITodoData> => {
 const get403 = async (): Promise<ITodoData[]> => {
   return (await apiClient.get('/forbidden')).data;
 };
-const get404 = async (): Promise<ITodoData[]> => {
-  return (await apiClient.get('/notFound')).data;
-};
 
 export const apiService = {
   fetchTodos,
@@ -51,5 +48,4 @@ export const apiService = {
   getTodoById,
 
   get403,
-  get404,
 };

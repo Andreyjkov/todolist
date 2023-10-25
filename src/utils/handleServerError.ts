@@ -8,9 +8,6 @@ export const handleServerError = (error: any) => {
     if (error.response.status === 403) {
       window.location.href = ROUTS.FORBIDDEN;
       return Promise.reject(error);
-    } else if (error.response.status === 404) {
-      window.location.href = ROUTS.NOT_FOUND;
-      return Promise.reject(error);
     } else {
       toastService.addToast(error.message, TOAST_MODE.ERROR, 3000, true);
       return Promise.reject(error);

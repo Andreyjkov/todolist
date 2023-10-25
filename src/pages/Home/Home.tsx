@@ -12,12 +12,6 @@ const Home = () => {
       .then()
       .catch(() => {});
   };
-  const handleGet404 = () => {
-    apiService
-      .get404()
-      .then()
-      .catch(() => {});
-  };
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -25,7 +19,6 @@ const Home = () => {
       </div>
       <div>
         <button onClick={handleGet403}>get 403</button>
-        <button onClick={handleGet404}>get 404</button>
       </div>
       <div className={styles.content}>
         <TodoCreate />
