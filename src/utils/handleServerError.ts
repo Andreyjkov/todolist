@@ -12,11 +12,11 @@ export const handleServerError = (error: any) => {
       window.location.href = ROUTS.NOT_FOUND;
       return Promise.reject(error);
     } else {
-      toastService.addToast(error.message, TOAST_MODE.ERROR, 3000);
+      toastService.addToast(error.message, TOAST_MODE.ERROR, 3000, true);
       return Promise.reject(error);
     }
   } else {
-    toastService.addToast(error.message, TOAST_MODE.ERROR, 3000);
+    toastService.addToast(error.message, TOAST_MODE.ERROR, 3000, true);
     return Promise.reject(error);
   }
 };

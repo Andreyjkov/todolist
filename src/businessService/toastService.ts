@@ -12,8 +12,11 @@ const getToasts = (): IToastConfig[] => {
 const addToast = (
   message: string,
   mode: TOAST_MODE,
-  autoCloseDuration?: number
+  autoCloseDuration?: number,
+  checkDuplicateMessages?: boolean
 ) => {
+  if (checkDuplicateMessages && !isMessageUnique(message, toasts)) return;
+
   const id = new Date().getTime() + toasts.length;
   toasts = [
     ...toasts,
@@ -38,6 +41,15 @@ const deleteToast = (id: number) => {
     return toast.id !== id;
   });
   eventService.publishEvent(EVENT_NAME.UPDATE_TOASTS);
+};
+
+const isMessageUnique = (message: string, toasts: IToastConfig[]) => {
+  for (let i = 0; i < toasts.length; i++) {
+    if (toasts[i].message === message) {
+      return false;
+    }
+  }
+  return true;
 };
 
 export const toastService = {
