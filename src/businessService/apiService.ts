@@ -1,54 +1,46 @@
-/* eslint-disable no-console */
 import axios from 'axios';
 import { ITodoData } from '@/type/ITodoData';
-import { TOAST_MODE } from '@/constants/toastMode';
-import { toastService } from './toastService';
-import { appService } from './appService';
-import { ROUTS } from '@/constants/routsPath';
+import { handleServerError } from '@/utils/handleServerError';
 
 const SERVER_URL = 'http://localhost:3001/todos';
 
-axios.interceptors.response.use(
+const apiClient = axios.create({
+  baseURL: SERVER_URL,
+});
+
+apiClient.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response) {
-      appService.setIsForbidden(false);
-      if (error.response.status === 403) {
-        // appService.setIsForbidden(true);
-        window.location.href = ROUTS.FORBIDDEN;
-        return Promise.reject(error);
-      } else {
-        toastService.addToast(error.message, TOAST_MODE.ERROR);
-        return Promise.reject(error);
-      }
-    } else {
-      toastService.addToast(error.message, TOAST_MODE.ERROR);
-      return Promise.reject(error);
-    }
-  }
+  (error) => handleServerError(error)
 );
 
 const fetchTodos = async (): Promise<ITodoData[]> => {
-  return (await axios.get(SERVER_URL)).data;
+  return (await apiClient.get('/')).data;
 };
 
 const addTodo = async (newTodo: ITodoData): Promise<ITodoData> => {
-  return (await axios.post(SERVER_URL, newTodo)).data;
+  return (await apiClient.post('/', newTodo)).data;
 };
 
 const editTodo = async (
   id: number,
   updatedTodo: ITodoData
 ): Promise<string> => {
-  return (await axios.put(`${SERVER_URL}/${id}`, updatedTodo)).statusText;
+  return (await apiClient.put(`/${id}`, updatedTodo)).statusText;
 };
 
 const deleteTodo = async (id: number): Promise<string> => {
-  return (await axios.delete(`${SERVER_URL}/${id}`)).statusText;
+  return (await apiClient.delete(`/${id}`)).statusText;
 };
 
 const getTodoById = async (id: number): Promise<ITodoData> => {
-  return (await axios.get(`${SERVER_URL}/${id}`)).data;
+  return (await apiClient.get(`/${id}`)).data;
+};
+
+const get403 = async (): Promise<ITodoData[]> => {
+  return (await apiClient.get('/forbidden')).data;
+};
+const get404 = async (): Promise<ITodoData[]> => {
+  return (await apiClient.get('/notFound')).data;
 };
 
 export const apiService = {
@@ -57,20 +49,7 @@ export const apiService = {
   editTodo,
   deleteTodo,
   getTodoById,
+
+  get403,
+  get404,
 };
-
-// const promises = [
-//   axios.get('http://localhost:3001/todos1'),
-//   axios.get('http://localhost:3001/todos1'),
-//   axios.get('http://localhost:3001/todos1'),
-//   axios.get('http://localhost:3001/todos1'),
-//   axios.get('http://localhost:3001/todos1'),
-// ];
-
-// Promise.allSettled(promises)
-//   .then((responses) => {
-//     console.log('responses', responses);
-//   })
-//   .catch((errors) => {
-//     console.error('@errors', errors);
-//   });

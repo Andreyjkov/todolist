@@ -38,6 +38,13 @@ app.get('/todos', (req, res) => {
   res.json(todos);
 });
 
+app.get('/todos/forbidden', (req, res) => {
+  res.status(403).end();
+});
+app.get('/todos/notFound', (req, res) => {
+  res.status(404).end();
+});
+
 app.post('/todos', (req, res) => {
   const newTodo = req.body;
   todos.push(newTodo);
@@ -62,7 +69,6 @@ app.delete('/todos/:id', (req, res) => {
   const id = +req.params.id;
   todos = todos.filter((todo) => todo.id !== id);
   res.status(204).end();
-  // res.status(403).end();
 });
 
 app.get('/todos/:id', (req, res) => {
