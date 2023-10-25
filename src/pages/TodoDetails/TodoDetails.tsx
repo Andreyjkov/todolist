@@ -14,7 +14,8 @@ import { IValidation } from '@/type/Validation';
 import { apiService } from '@/businessService/apiService';
 import { Loading } from '@/components/Loading/Loading';
 import { EVENT_NAME } from '@/constants/eventName';
-import { ToastList } from '@/components/Toast/ToastList/ToastList';
+import { toastService } from '@/businessService/toastService';
+import { TOAST_MODE } from '@/constants/toastMode';
 
 const validateConfigEdit: IValidation[] = [
   {
@@ -120,6 +121,11 @@ const TodoDetails = () => {
       .editTodo(id, updatedTodo)
       .then(() => {
         closeModal();
+        toastService.addToast(
+          'task updated successfully',
+          TOAST_MODE.SUCCESS,
+          3000
+        );
         eventService.publishEvent(EVENT_NAME.UPDATE_TODOS);
       })
       .catch(() => {})
@@ -154,7 +160,6 @@ const TodoDetails = () => {
           isLoadingButton={isLoadingButton}
         />
       )}
-      <ToastList />
     </div>
   );
 };

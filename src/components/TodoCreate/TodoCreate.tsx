@@ -10,6 +10,8 @@ import { ITodoData } from '@/type/ITodoData';
 import { apiService } from '@/businessService/apiService';
 import { eventService } from '@/businessService/eventService';
 import { EVENT_NAME } from '@/constants/eventName';
+import { toastService } from '@/businessService/toastService';
+import { TOAST_MODE } from '@/constants/toastMode';
 
 const validateConfigCreate: IValidation[] = [
   {
@@ -81,6 +83,11 @@ export const TodoCreate = memo(() => {
       .then(() => {
         closeModal();
         eventService.publishEvent(EVENT_NAME.UPDATE_TODOS);
+        toastService.addToast(
+          'task added successfully',
+          TOAST_MODE.SUCCESS,
+          3000
+        );
       })
       .catch(() => {})
       .finally(() => setIsLoadingButton(false));

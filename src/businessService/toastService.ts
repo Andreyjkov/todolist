@@ -9,7 +9,11 @@ const getToasts = (): IToastConfig[] => {
   return toasts;
 };
 
-const addToast = (message: string, mode: TOAST_MODE) => {
+const addToast = (
+  message: string,
+  mode: TOAST_MODE,
+  autoCloseDuration?: number
+) => {
   const id = new Date().getTime() + toasts.length;
   toasts = [
     ...toasts,
@@ -19,6 +23,13 @@ const addToast = (message: string, mode: TOAST_MODE) => {
       mode,
     },
   ];
+
+  if (autoCloseDuration) {
+    setTimeout(() => {
+      deleteToast(id);
+    }, autoCloseDuration);
+  }
+
   eventService.publishEvent(EVENT_NAME.UPDATE_TOASTS);
 };
 

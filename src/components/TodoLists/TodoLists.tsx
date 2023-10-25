@@ -7,6 +7,8 @@ import { ITodoData } from '@type/ITodoData';
 import { PATH_LINK_TO } from '@/constants/routsPath';
 import { apiService } from '@/businessService/apiService';
 import { EVENT_NAME } from '@/constants/eventName';
+import { toastService } from '@/businessService/toastService';
+import { TOAST_MODE } from '@/constants/toastMode';
 
 export const TodoLists = memo(() => {
   const navigate = useNavigate();
@@ -37,7 +39,10 @@ export const TodoLists = memo(() => {
     setIsLoadingButton(true);
     apiService
       .deleteTodo(item.id)
-      .then(() => eventService.publishEvent(EVENT_NAME.UPDATE_TODOS))
+      .then(() => {
+        toastService.addToast('task deleted', TOAST_MODE.WARNING, 2000);
+        eventService.publishEvent(EVENT_NAME.UPDATE_TODOS);
+      })
       .catch(() => {})
       .finally(() => setIsLoadingButton(false));
   };
