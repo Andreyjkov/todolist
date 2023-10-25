@@ -15,7 +15,7 @@ const addToast = (
   autoCloseDuration?: number,
   checkDuplicateMessages?: boolean
 ) => {
-  if (checkDuplicateMessages && !isMessageUnique(message, toasts)) return;
+  if (checkDuplicateMessages && hasDuplicate(message, toasts)) return;
 
   const id = new Date().getTime() + toasts.length;
   toasts = [
@@ -43,13 +43,8 @@ const deleteToast = (id: number) => {
   eventService.publishEvent(EVENT_NAME.UPDATE_TOASTS);
 };
 
-const isMessageUnique = (message: string, toasts: IToastConfig[]) => {
-  for (let i = 0; i < toasts.length; i++) {
-    if (toasts[i].message === message) {
-      return false;
-    }
-  }
-  return true;
+const hasDuplicate = (message: string, toasts: IToastConfig[]) => {
+  return toasts.some((obj) => obj.message === message);
 };
 
 export const toastService = {
