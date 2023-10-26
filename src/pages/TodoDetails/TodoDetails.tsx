@@ -90,7 +90,16 @@ const TodoDetails = () => {
       .then((data) => {
         setTodo(data);
       })
-      .catch(() => {})
+      .catch((e) => {
+        setTodo({
+          id: 0,
+          value: e.message,
+          date: '',
+          updateDate: '',
+          price: 0,
+          status: true,
+        });
+      })
       .finally(() => {
         setIsLoading(false);
       });

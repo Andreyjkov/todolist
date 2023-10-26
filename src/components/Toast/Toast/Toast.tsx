@@ -1,30 +1,39 @@
 import React from 'react';
 import * as styles from './Toast.module.css';
-import { TOAST_MODE } from '@/constants/toastMode';
 import { SuccessIcon } from '@/components/Icons/SuccessIcon';
 import { WarningIcon } from '@/components/Icons/WarningIcon';
 import { ErrorIcon } from '@/components/Icons/ErrorIcon';
+import { IToastConfig } from '@/type/IToastConfig';
 
 interface IProps {
-  message: string;
-  mode: TOAST_MODE;
-  removeToast: () => void;
+  toast: IToastConfig;
+  removeToast: (id: number, timeoutId?: NodeJS.Timeout) => void;
 }
 
-export const Toast = ({ message, mode, removeToast }: IProps) => {
+export const Toast = ({ toast, removeToast }: IProps) => {
   const iconsMap = {
     success: <SuccessIcon />,
     warning: <WarningIcon />,
     error: <ErrorIcon />,
   };
 
+  let timeoutId: NodeJS.Timeout;
+  if (toast.autoCloseDuration) {
+    timeoutId = setTimeout(() => {
+      removeToast(toast.id, timeoutId);
+    }, toast.autoCloseDuration);
+  }
+
   return (
     <div className={`${styles.toast} ${styles.show}`}>
       <div className={styles.message}>
-        {mode ? <div>{iconsMap[mode]}</div> : null}
-        <p className={styles.title}>{message}</p>
+        {toast.mode ? <div>{iconsMap[toast.mode]}</div> : null}
+        <p className={styles.title}>{toast.message}</p>
       </div>
-      <span className={styles.close} onClick={removeToast}>
+      <span
+        className={styles.close}
+        onClick={() => removeToast(toast.id, timeoutId)}
+      >
         &times;
       </span>
     </div>

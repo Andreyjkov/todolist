@@ -13,8 +13,8 @@ export const ToastList = () => {
     setToasts(toastService.getToasts());
   };
 
-  const removeToast = (id: number) => {
-    toastService.deleteToast(id);
+  const removeToast = (id: number, timeoutId?: NodeJS.Timeout) => {
+    toastService.deleteToast(id, timeoutId);
   };
 
   useEffect(() => {
@@ -29,12 +29,7 @@ export const ToastList = () => {
     toasts?.length > 0 && (
       <div className={`${styles.toastList}`}>
         {toasts.map((toast) => (
-          <Toast
-            message={toast.message}
-            mode={toast.mode}
-            removeToast={() => removeToast(toast.id)}
-            key={toast.id}
-          />
+          <Toast toast={toast} removeToast={removeToast} key={toast.id} />
         ))}
       </div>
     )

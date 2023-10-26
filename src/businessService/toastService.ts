@@ -24,22 +24,21 @@ const addToast = (
       id,
       message,
       mode,
+      autoCloseDuration,
+      checkDuplicateMessages,
     },
   ];
-
-  if (autoCloseDuration) {
-    setTimeout(() => {
-      deleteToast(id);
-    }, autoCloseDuration);
-  }
 
   eventService.publishEvent(EVENT_NAME.UPDATE_TOASTS);
 };
 
-const deleteToast = (id: number) => {
+const deleteToast = (id: number, timeoutId?: NodeJS.Timeout) => {
+  timeoutId && clearTimeout(timeoutId);
+
   toasts = toasts.filter((toast) => {
     return toast.id !== id;
   });
+
   eventService.publishEvent(EVENT_NAME.UPDATE_TOASTS);
 };
 
