@@ -15,6 +15,9 @@
   gap: 10px;
   box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.2);
 }
+.loadingListRow {
+  opacity: 0.7;
+}
 .valueBox {
   display: flex;
   align-items: center;
@@ -58,7 +61,7 @@
   word-break: break-all;
 }
 
-.loading {
+.loadingText {
   text-align: center;
   font-size: 25px;
   margin: 20px;

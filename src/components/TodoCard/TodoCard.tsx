@@ -21,7 +21,7 @@ export const TodoCard = ({ todo, openModal }: IProps) => {
         <h1 className={styles.title}>Todo details</h1>
         <p className={styles.subTitle}>
           <span>id:</span>
-          {todo?.id}
+          {todo?.id || '-'}
         </p>
       </div>
 
@@ -30,9 +30,9 @@ export const TodoCard = ({ todo, openModal }: IProps) => {
           <span>Value:</span>
         </p>
         <div className={styles.valueBox}>
-          <p className={styles.valueText}>{todo?.value}</p>
+          <p className={styles.valueText}>{todo?.value || '-'}</p>
         </div>
-        {!todo.status && (
+        {todo?.status === false && (
           <button className={styles.editButton} onClick={openModal}>
             {editSvg}
           </button>
@@ -42,19 +42,23 @@ export const TodoCard = ({ todo, openModal }: IProps) => {
       <div className={styles.dateSection}>
         <p className={styles.subTitle}>
           <span>date: </span>
-          {todo?.date && dayjs(todo.date).format(DATE_DISPLAY_FORMAT)}
+          {todo?.date ? dayjs(todo.date).format(DATE_DISPLAY_FORMAT) : '-'}
         </p>
       </div>
       <div className={styles.dateSection}>
         <p className={styles.subTitle}>
           <span>Price: </span>
-          {todo.price} RUB
+          {todo?.price ? `${todo.price} RUB` : '-'}
         </p>
       </div>
       <div className={styles.dateSection}>
         <p className={styles.subTitle}>
           <span>Status: </span>
-          {todo.status ? 'verified' : 'pending'}
+          {todo?.status !== undefined
+            ? todo.status
+              ? 'verified'
+              : 'pending'
+            : '-'}
         </p>
       </div>
       <div className={styles.footer}>

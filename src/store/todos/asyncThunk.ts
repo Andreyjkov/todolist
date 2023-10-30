@@ -30,7 +30,7 @@ export const fetchTodosThunk = createAsyncThunk(
   'todos/fetchTodos',
   async (_, { dispatch }): Promise<ITodoData[]> => {
     try {
-      return (await apiClient.get('/')).data;
+      return (await apiClient.get('')).data;
     } catch (error) {
       handleApiError(error, dispatch);
       throw error;
@@ -41,7 +41,7 @@ export const addTodoThunk = createAsyncThunk(
   'todos/addTodo',
   async (newTodo: ITodoData, { dispatch }): Promise<ITodoData> => {
     try {
-      return (await apiClient.post('/', newTodo)).data;
+      return (await apiClient.post('', newTodo)).data;
     } catch (error) {
       handleApiError(error, dispatch);
       throw error;

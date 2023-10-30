@@ -9,7 +9,7 @@ import { API_STATUS } from '@constants/apiStatus';
 import { IValidation } from '@type/Validation';
 import { ITodoData } from '@type/ITodoData';
 import { useAppDispatch, useAppSelector } from '@store/hooksStore';
-import { addTodoThunk } from '@store/todos/asyncThunk';
+import { addTodoThunk, fetchTodosThunk } from '@store/todos/asyncThunk';
 
 const validateConfigCreate: IValidation[] = [
   {
@@ -64,7 +64,7 @@ export const TodoCreate = memo(() => {
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const dispatch = useAppDispatch();
-  const { status } = useAppSelector((state) => state.todos);
+  const { ApiStatus } = useAppSelector((state) => state.todos);
 
   const handleNewTodo = async ({ value, date, price }: ITodoData) => {
     const dateNow = new Date();
@@ -77,7 +77,10 @@ export const TodoCreate = memo(() => {
       status: false,
     };
     await dispatch(addTodoThunk(newTodo));
-    status !== API_STATUS.FAILED && closeModal();
+    if (ApiStatus !== API_STATUS.FAILED) {
+      dispatch(fetchTodosThunk());
+      closeModal();
+    }
   };
 
   const closeModal = () => {
@@ -100,7 +103,7 @@ export const TodoCreate = memo(() => {
           mode={MODAL_MODE.CREATE}
           closeModal={closeModal}
           submitModal={handleNewTodo}
-          isLoadingButton={status === API_STATUS.PENDING}
+          isLoadingButton={ApiStatus === API_STATUS.PENDING}
         />
       )}
     </>

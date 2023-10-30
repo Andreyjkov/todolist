@@ -68,14 +68,14 @@ const validateConfigEdit: IValidation[] = [
 const TodoDetails = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
-  const { status, error, todo } = useAppSelector((state) => state.todos);
+  const { ApiStatus, todo } = useAppSelector((state) => state.todos);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   useEffect(() => {
     dispatch(getTodoByIdThunk(+params.id));
   }, []);
 
-  const submitModal = ({ id, value, date, price, status }: ITodoData) => {
+  const submitModal = async ({ id, value, date, price, status }: ITodoData) => {
     const dateNow = new Date();
     const updatedTodo: ITodoData = {
       id,
@@ -85,8 +85,12 @@ const TodoDetails = () => {
       status,
       updateDate: dateNow.toString(),
     };
-    dispatch(editTodoThunk(updatedTodo));
-    closeModal();
+    await dispatch(editTodoThunk(updatedTodo));
+
+    if (ApiStatus === API_STATUS.SUCCEEDED) {
+      dispatch(getTodoByIdThunk(+params.id));
+      closeModal();
+    }
   };
 
   const closeModal = () => {
@@ -96,22 +100,13 @@ const TodoDetails = () => {
     setIsOpenModal(true);
   };
 
-  const errorData = {
-    id: -1,
-    value: error,
-    date: '',
-    updateDate: '',
-    price: 0,
-    status: true,
-  };
-
   return (
     <div className={styles.сontainer}>
-      {status === API_STATUS.PENDING ? (
+      {ApiStatus === API_STATUS.PENDING ? (
         <h1 className={styles.loading}>...loading</h1>
       ) : (
         <TodoCard
-          todo={status === API_STATUS.FAILED ? errorData : todo}
+          todo={ApiStatus === API_STATUS.FAILED ? ({} as ITodoData) : todo}
           openModal={openModal}
         />
       )}
@@ -123,10 +118,11 @@ const TodoDetails = () => {
           closeModal={closeModal}
           submitModal={submitModal}
           dataModal={todo}
-          isLoadingButton={false}
+          isLoadingButton={ApiStatus === API_STATUS.PENDING}
         />
       )}
     </div>
   );
 };
+
 export default TodoDetails;

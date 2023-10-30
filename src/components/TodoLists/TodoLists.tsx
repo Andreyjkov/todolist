@@ -10,20 +10,23 @@ import { deleteTodoThunk, fetchTodosThunk } from '@store/todos/asyncThunk';
 
 export const TodoLists = memo(() => {
   const navigate = useNavigate();
-
   const dispatch = useAppDispatch();
-  const { todos, status } = useAppSelector((state) => state.todos);
+  const { todos, ApiStatus } = useAppSelector((state) => state.todos);
 
   useEffect(() => {
     dispatch(fetchTodosThunk());
   }, []);
 
   const handleDeleteTodo = async (item: ITodoData) => {
-    dispatch(deleteTodoThunk(item.id));
+    if (ApiStatus !== API_STATUS.PENDING) {
+      dispatch(deleteTodoThunk(item.id));
+    }
   };
 
   const handleLinkTo = (id: number) => {
-    navigate(`${PATH_LINK_TO}${id}`);
+    if (ApiStatus !== API_STATUS.PENDING) {
+      navigate(`${PATH_LINK_TO}${id}`);
+    }
   };
 
   return (
@@ -31,8 +34,7 @@ export const TodoLists = memo(() => {
       handleBtn={handleDeleteTodo}
       items={todos}
       handleLinkTo={handleLinkTo}
-      isLoadingButton={status === API_STATUS.PENDING}
-      loading={!todos?.length && status === API_STATUS.PENDING}
+      loading={ApiStatus === API_STATUS.PENDING}
     />
   );
 });

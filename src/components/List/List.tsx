@@ -10,25 +10,23 @@ interface Props {
   items: ITodoData[] | undefined;
   handleLinkTo: (id: number) => void;
   loading: boolean;
-  isLoadingButton?: boolean;
 }
 
-export const List = ({
-  handleBtn,
-  items,
-  handleLinkTo,
-  loading,
-  isLoadingButton,
-}: Props) => {
+export const List = ({ handleBtn, items, handleLinkTo, loading }: Props) => {
   return (
     <div className={styles.container}>
-      {loading ? (
-        <p className={styles.loading}>...loading</p>
+      {loading && !items?.length ? (
+        <p className={styles.loadingText}>...loading</p>
       ) : items?.length ? (
         <ul className={styles.listSection}>
           {items.map((item) => {
             return (
-              <div key={item.id} className={styles.listRow}>
+              <div
+                key={item.id}
+                className={`${styles.listRow} ${
+                  loading ? styles.loadingListRow : ''
+                }`}
+              >
                 <div
                   className={styles.valueBox}
                   onClick={() => handleLinkTo(item.id)}
@@ -56,7 +54,6 @@ export const List = ({
                   <button
                     className={styles.deleteButton}
                     onClick={() => handleBtn(item)}
-                    disabled={isLoadingButton}
                   >
                     Delete
                   </button>
