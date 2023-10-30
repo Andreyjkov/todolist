@@ -1,4 +1,4 @@
-import { TOAST_MODE } from '@/constants/toastMode';
+import { TOAST_MODE } from '@constants/toastMode';
 
 export interface IToastConfig {
   id: number;

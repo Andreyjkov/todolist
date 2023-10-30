@@ -21,11 +21,14 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
+      "@pages/*": ["src/pages/*"],
       "@type/*": ["src/type/*"],
-      "@hooks/*": ["src/hooks/*"],
       "@constants/*": ["src/constants/*"],
-      "@components/*": ["src/components/*"]
+      "@components/*": ["src/components/*"],
+      "@toast/*": ["src/components/Toast/*"],
+      "@icons/*": ["src/components/Icons/*"],
+      "@utils/*": ["src/utils/*"],
+      "@store/*": ["src/store/*"]
     }
   }
 }

@@ -41,11 +41,14 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
-      '@': path.resolve(__dirname, 'src'),
+      '@pages': path.resolve(__dirname, 'src/pages'),
       '@type': path.resolve(__dirname, 'src/type'),
       '@constants': path.resolve(__dirname, 'src/constants'),
       '@components': path.resolve(__dirname, 'src/components'),
-      '@hooks': path.resolve(__dirname, 'src/hooks'),
+      '@toast': path.resolve(__dirname, 'src/components/Toast'),
+      '@store': path.resolve(__dirname, 'src/store'),
+      '@icons': path.resolve(__dirname, 'src/components/Icons'),
+      '@utils': path.resolve(__dirname, 'src/utils'),
     },
   },
   module: {

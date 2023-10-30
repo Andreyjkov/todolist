@@ -1,16 +1,16 @@
 import React from 'react';
+import dayjs from 'dayjs';
 
 import * as styles from './List.module.css';
 import { ITodoData } from '@type/ITodoData';
-import dayjs from 'dayjs';
-import { DATE_DISPLAY_FORMAT } from '@/constants/dateFormat';
+import { DATE_DISPLAY_FORMAT } from '@constants/dateFormat';
 
 interface Props {
   handleBtn: (item: ITodoData) => void;
   items: ITodoData[] | undefined;
   handleLinkTo: (id: number) => void;
   loading: boolean;
-  isLoadingButton: boolean;
+  isLoadingButton?: boolean;
 }
 
 export const List = ({
@@ -58,7 +58,7 @@ export const List = ({
                     onClick={() => handleBtn(item)}
                     disabled={isLoadingButton}
                   >
-                    {isLoadingButton ? 'Delete' : 'Delete'}
+                    Delete
                   </button>
                 )}
               </div>

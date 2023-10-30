@@ -1,11 +1,12 @@
 import React from 'react';
-import { RootRoutes } from '@/routes/RootRoutes';
-import { ToastList } from './components/Toast/ToastList/ToastList';
+
+import { ToastList } from '@components/Toast/ToastList/ToastList';
+import { RootRoutes } from './routes/RootRoutes';
 
 function App() {
   return (
     <>
-      <RootRoutes />
+      <RootRoutes />;
       <ToastList />
     </>
   );

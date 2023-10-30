@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 import * as styles from './TodoCard.module.css';
-import { ITodoData } from '@/type/ITodoData';
-import { ROUTS } from '@/constants/routsPath';
-import dayjs from 'dayjs';
-import { DATE_DISPLAY_FORMAT } from '@/constants/dateFormat';
+import { ITodoData } from '@type/ITodoData';
+import { ROUTS } from '@constants/routsPath';
+import { DATE_DISPLAY_FORMAT } from '@constants/dateFormat';
 
 interface IProps {
   todo: ITodoData;

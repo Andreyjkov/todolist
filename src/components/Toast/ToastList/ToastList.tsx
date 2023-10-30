@@ -1,29 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { IToastConfig } from '@/type/IToastConfig';
+import React from 'react';
+
 import * as styles from './ToastList.module.css';
-import { Toast } from '../Toast/Toast';
-import { toastService } from '@/businessService/toastService';
-import { eventService } from '@/businessService/eventService';
-import { EVENT_NAME } from '@/constants/eventName';
+import { Toast } from '@toast/Toast/Toast';
+import { useAppDispatch, useAppSelector } from '@store/hooksStore';
+import { deleteToast } from '@store/toasts/sliceToasts';
 
 export const ToastList = () => {
-  const [toasts, setToasts] = useState<IToastConfig[] | undefined>();
+  const { toasts } = useAppSelector((state) => state.toasts);
+  const dispatch = useAppDispatch();
 
-  const updateState = () => {
-    setToasts(toastService.getToasts());
+  const removeToast = (id: number) => {
+    dispatch(deleteToast(id));
   };
-
-  const removeToast = (id: number, timeoutId?: NodeJS.Timeout) => {
-    toastService.deleteToast(id, timeoutId);
-  };
-
-  useEffect(() => {
-    updateState();
-    eventService.subscribeEvent(EVENT_NAME.UPDATE_TOASTS, updateState);
-    return () => {
-      eventService.unsubscribeEvent(EVENT_NAME.UPDATE_TOASTS, updateState);
-    };
-  }, []);
 
   return (
     toasts?.length > 0 && (

@@ -7,10 +7,10 @@ import {
   ERROR_TEXT,
   MIN_MAX_LENGTH_VALIDATED_TYPES,
   PATTERN_VALIDATED_TYPES,
-} from '@/constants/validation';
-import { IErrorsObj, IValidation, IValidatorResult } from '@/type/Validation';
-import { DATE_DISPLAY_FORMAT } from '@/constants/dateFormat';
-import { INPUT_TYPE } from '@/constants/inputType';
+} from '@constants/validation';
+import { DATE_DISPLAY_FORMAT } from '@constants/dateFormat';
+import { INPUT_TYPE } from '@constants/inputType';
+import { IErrorsObj, IValidation, IValidatorResult } from '@type/Validation';
 
 export const validateFormData = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

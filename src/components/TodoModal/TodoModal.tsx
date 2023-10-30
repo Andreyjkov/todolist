@@ -2,12 +2,12 @@ import React, { useRef, useState } from 'react';
 import dayjs from 'dayjs';
 
 import * as styles from './TodoModal.module.css';
-import { ITodoData } from '@/type/ITodoData';
-import { validateFormData } from '@/utils/validateFormData';
-import { DATE_FORMAT } from '@/constants/dateFormat';
-import { IErrorsObj, IValidation } from '@/type/Validation';
-import { INPUT_TYPE } from '@/constants/inputType';
-import { MODAL_MODE } from '@/constants/modalMode';
+import { ITodoData } from '@type/ITodoData';
+import { IErrorsObj, IValidation } from '@type/Validation';
+import { validateFormData } from '@utils/validateFormData';
+import { DATE_FORMAT } from '@constants/dateFormat';
+import { INPUT_TYPE } from '@constants/inputType';
+import { MODAL_MODE } from '@constants/modalMode';
 
 interface IProps {
   closeModal: () => void;

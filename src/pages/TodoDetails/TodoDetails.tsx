@@ -2,20 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import * as styles from './TodoDetails.module.css';
-import { eventService } from '@/businessService/eventService';
-import { ITodoData } from '@/type/ITodoData';
-import NotFound from '@/pages/NotFound/NotFound';
-import { TodoCard } from '@/components/TodoCard/TodoCard';
-import { TodoModal } from '@/components/TodoModal/TodoModal';
-import { END_DATE_VALID, START_DATE_VALID } from '@/constants/validation';
-import { INPUT_TYPE } from '@/constants/inputType';
-import { MODAL_MODE } from '@/constants/modalMode';
-import { IValidation } from '@/type/Validation';
-import { apiService } from '@/businessService/apiService';
-import { Loading } from '@/components/Loading/Loading';
-import { EVENT_NAME } from '@/constants/eventName';
-import { toastService } from '@/businessService/toastService';
-import { TOAST_MODE } from '@/constants/toastMode';
+import { TodoCard } from '@components/TodoCard/TodoCard';
+import { TodoModal } from '@components/TodoModal/TodoModal';
+import { END_DATE_VALID, START_DATE_VALID } from '@constants/validation';
+import { INPUT_TYPE } from '@constants/inputType';
+import { MODAL_MODE } from '@constants/modalMode';
+import { API_STATUS } from '@constants/apiStatus';
+import { ITodoData } from '@type/ITodoData';
+import { IValidation } from '@type/Validation';
+import { useAppDispatch, useAppSelector } from '@store/hooksStore';
+import { editTodoThunk, getTodoByIdThunk } from '@store/todos/asyncThunk';
 
 const validateConfigEdit: IValidation[] = [
   {
@@ -66,57 +62,21 @@ const validateConfigEdit: IValidation[] = [
   {
     path: 'status',
     type: INPUT_TYPE.CHECKBOX,
-    // validations: {
-    //   required: {
-    //     value: true,
-    //     message: 'if the task is verified, select this check box',
-    //   },
-    // },
   },
 ];
 
 const TodoDetails = () => {
   const params = useParams();
-
-  const [todo, setTodo] = useState<ITodoData | undefined>();
+  const dispatch = useAppDispatch();
+  const { status, error, todo } = useAppSelector((state) => state.todos);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoadingButton, setIsLoadingButton] = useState(false);
-
-  const getTodo = () => {
-    setIsLoading(true);
-    apiService
-      .getTodoById(+params.id)
-      .then((data) => {
-        setTodo(data);
-      })
-      .catch((e) => {
-        setTodo({
-          id: 0,
-          value: e.message,
-          date: '',
-          updateDate: '',
-          price: 0,
-          status: true,
-        });
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
 
   useEffect(() => {
-    getTodo();
-    eventService.subscribeEvent(EVENT_NAME.UPDATE_TODOS, getTodo);
-    return () => {
-      eventService.unsubscribeEvent(EVENT_NAME.UPDATE_TODOS, getTodo);
-    };
+    dispatch(getTodoByIdThunk(+params.id));
   }, []);
 
   const submitModal = ({ id, value, date, price, status }: ITodoData) => {
-    setIsLoadingButton(true);
     const dateNow = new Date();
-
     const updatedTodo: ITodoData = {
       id,
       value,
@@ -125,20 +85,8 @@ const TodoDetails = () => {
       status,
       updateDate: dateNow.toString(),
     };
-
-    apiService
-      .editTodo(id, updatedTodo)
-      .then(() => {
-        closeModal();
-        toastService.addToast(
-          'task updated successfully',
-          TOAST_MODE.SUCCESS,
-          3000
-        );
-        eventService.publishEvent(EVENT_NAME.UPDATE_TODOS);
-      })
-      .catch(() => {})
-      .finally(() => setIsLoadingButton(false));
+    dispatch(editTodoThunk(updatedTodo));
+    closeModal();
   };
 
   const closeModal = () => {
@@ -148,16 +96,25 @@ const TodoDetails = () => {
     setIsOpenModal(true);
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
-  if (!todo) {
-    return <NotFound />;
-  }
+  const errorData = {
+    id: -1,
+    value: error,
+    date: '',
+    updateDate: '',
+    price: 0,
+    status: true,
+  };
 
   return (
     <div className={styles.сontainer}>
-      <TodoCard todo={todo} openModal={openModal} />
+      {status === API_STATUS.PENDING ? (
+        <h1 className={styles.loading}>...loading</h1>
+      ) : (
+        <TodoCard
+          todo={status === API_STATUS.FAILED ? errorData : todo}
+          openModal={openModal}
+        />
+      )}
       {isOpenModal && (
         <TodoModal
           validateConfig={validateConfigEdit}
@@ -166,7 +123,7 @@ const TodoDetails = () => {
           closeModal={closeModal}
           submitModal={submitModal}
           dataModal={todo}
-          isLoadingButton={isLoadingButton}
+          isLoadingButton={false}
         />
       )}
     </div>

@@ -59,7 +59,7 @@ app.put('/todos/:id', (req, res) => {
       return todo;
     }
   });
-  res.status(200).end();
+  res.status(200).json(updatedTodo).end();
 });
 
 app.delete('/todos/:id', (req, res) => {
