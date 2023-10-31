@@ -1,41 +1,33 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { List } from '../List/List';
-import { businessService } from '../../businessService/businessService';
-import {
-  TODO_EVENT_NAME,
-  TODO_ACTION_TYPE,
-  PATH_LINK_TO,
-} from '../../constants';
-import { ITodoData } from '../../type';
+import { List } from '@components/list/List';
+import { ITodoData } from '@type/ITodoData';
+import { PATH_LINK_TO } from '@constants/routsPath';
+import { API_STATUS } from '@constants/apiStatus';
+import { useAppDispatch, useAppSelector } from '@store/hooksStore';
+import { deleteTodoThunk, fetchTodosThunk } from '@store/todos/asyncThunk';
 
 export const TodoLists = memo(() => {
-  const store = businessService.todoStore();
-  const [todos, setTodos] = useState<ITodoData[] | undefined>();
   const navigate = useNavigate();
-
-  const updateState = () => {
-    setTodos(store.getState());
-  };
+  const dispatch = useAppDispatch();
+  const { todos, ApiStatus } = useAppSelector((state) => state.todos);
 
   useEffect(() => {
-    updateState();
-    businessService.subscribeEvent(TODO_EVENT_NAME.UPDATE_TODO, updateState);
-    return () => {
-      businessService.unsubscribeEvent(
-        TODO_EVENT_NAME.UPDATE_TODO,
-        updateState
-      );
-    };
+    dispatch(fetchTodosThunk());
   }, []);
 
-  const handleDeleteTodo = (item: ITodoData) => {
-    store.dispatch({ type: TODO_ACTION_TYPE.DELETE_TODO, id: item.id });
+  const handleDeleteTodo = async (item: ITodoData) => {
+    if (ApiStatus !== API_STATUS.PENDING) {
+      await dispatch(deleteTodoThunk(item.id));
+      dispatch(fetchTodosThunk());
+    }
   };
 
   const handleLinkTo = (id: number) => {
-    navigate(`${PATH_LINK_TO}${id}`);
+    if (ApiStatus !== API_STATUS.PENDING) {
+      navigate(`${PATH_LINK_TO}${id}`);
+    }
   };
 
   return (
@@ -43,6 +35,7 @@ export const TodoLists = memo(() => {
       handleBtn={handleDeleteTodo}
       items={todos}
       handleLinkTo={handleLinkTo}
+      loading={ApiStatus === API_STATUS.PENDING}
     />
   );
 });

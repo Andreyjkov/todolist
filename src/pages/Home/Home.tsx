@@ -1,7 +1,8 @@
 import React from 'react';
-import styles from './Home.module.css';
 
-import { TodoLists, TodoCreate } from '../../components';
+import * as styles from './Home.module.css';
+import { TodoLists } from '@components/todoLists/TodoLists';
+import { TodoCreate } from '@components/todoCreate/TodoCreate';
 
 const Home = () => {
   return (
@@ -9,7 +10,6 @@ const Home = () => {
       <div className={styles.header}>
         <h1 className={styles.title}>Todo App</h1>
       </div>
-
       <div className={styles.content}>
         <TodoCreate />
         <TodoLists />

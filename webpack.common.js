@@ -1,13 +1,15 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const BundleAnalyzerPlugin =
+  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
-  mode: 'development',
   entry: './src/index.tsx',
-  target: 'web',
   output: {
+    publicPath: '/',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    filename: 'main.js',
+    clean: true,
   },
   optimization: {
     splitChunks: {
@@ -32,19 +34,23 @@ module.exports = {
       },
     },
   },
-  devServer: {
-    port: '3000',
-    historyApiFallback: true,
-    static: ['./public'],
-    open: true,
-    hot: true,
-    liveReload: true,
-  },
+  plugins: [
+    new HtmlWebpackPlugin({ template: './public/index.html' }),
+    new BundleAnalyzerPlugin(),
+  ],
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    alias: {
+      '@pages': path.resolve(__dirname, 'src/pages'),
+      '@type': path.resolve(__dirname, 'src/type'),
+      '@constants': path.resolve(__dirname, 'src/constants'),
+      '@components': path.resolve(__dirname, 'src/components'),
+      '@store': path.resolve(__dirname, 'src/store'),
+      '@utils': path.resolve(__dirname, 'src/utils'),
+    },
   },
-  plugins: [new HtmlWebpackPlugin({ template: './public/index.html' })],
   module: {
+    strictExportPresence: true,
     rules: [
       {
         test: /\.(js|jsx)$/,
@@ -53,8 +59,8 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: [
-              '@babel/preset-env', //compiling ES2015+ syntax
-              '@babel/preset-react', //for react
+              '@babel/preset-env',
+              '@babel/preset-react',
               '@babel/preset-typescript',
             ],
             plugins: ['@babel/plugin-transform-runtime'],
@@ -77,8 +83,10 @@ module.exports = {
             loader: 'css-loader',
             options: {
               sourceMap: true,
+              esModule: true,
               modules: {
                 localIdentName: '[name]__[local]__[hash:base64:5]',
+                namedExport: true,
               },
             },
           },

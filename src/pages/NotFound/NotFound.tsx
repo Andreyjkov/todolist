@@ -1,15 +1,21 @@
 import React from 'react';
-import styles from './NotFound.module.css';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+import * as styles from './NotFound.module.css';
 
 const NotFound = () => {
+  const navigate = useNavigate();
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>Page not found</h1>
-        <Link to={'/'} className={styles.link}>
+        <button
+          onClick={() => navigate('/', { replace: true })}
+          className={styles.button}
+        >
           go home
-        </Link>
+        </button>
       </div>
     </div>
   );

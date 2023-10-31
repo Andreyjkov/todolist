@@ -1,39 +1,63 @@
 import React from 'react';
-import styles from './List.module.css';
-import { ITodoData } from '../../type';
+import dayjs from 'dayjs';
+
+import * as styles from './List.module.css';
+import { ITodoData } from '@type/ITodoData';
+import { DATE_DISPLAY_FORMAT } from '@constants/dateFormat';
 
 interface Props {
   handleBtn: (item: ITodoData) => void;
   items: ITodoData[] | undefined;
   handleLinkTo: (id: number) => void;
+  loading: boolean;
 }
 
-export const List = ({ handleBtn, items, handleLinkTo }: Props) => {
+export const List = ({ handleBtn, items, handleLinkTo, loading }: Props) => {
   return (
     <div className={styles.container}>
-      {items?.length ? (
+      {loading && !items?.length ? (
+        <p className={styles.loadingText}>...loading</p>
+      ) : items?.length ? (
         <ul className={styles.listSection}>
           {items.map((item) => {
             return (
-              <div key={item.id} className={styles.listRow}>
+              <div
+                key={item.id}
+                className={`${styles.listRow} ${
+                  loading ? styles.loadingListRow : ''
+                }`}
+              >
                 <div
+                  className={styles.valueBox}
                   onClick={() => handleLinkTo(item.id)}
-                  className={styles.link}
                 >
-                  <div className={styles.valueBox}>
-                    <li className={styles.boxId}>{item.id}</li>
-                    <li className={styles.boxTodo}>{item.value}</li>
-                    <li className={styles.boxDate}>
-                      {item.date.toLocaleString('ru')}
-                    </li>
-                  </div>
+                  <li className={styles.boxRow}>{item.id}</li>
+                  <li className={styles.boxRowText}>{item.value}</li>
+                  <li className={styles.boxRow}>
+                    <p>Price: </p>
+                    {item.price}
+                    <span> ₽</span>
+                  </li>
+                  <li className={styles.boxRow}>
+                    <p>Status:</p>
+                    {item.status ? 'verified' : 'pending'}
+                  </li>
+                  <li className={styles.boxRow}>
+                    {dayjs(item.date).format(DATE_DISPLAY_FORMAT)}
+                  </li>
+                  <li className={styles.boxRow}>
+                    {dayjs(item.updateDate).format(DATE_DISPLAY_FORMAT)}
+                  </li>
                 </div>
-                <button
-                  className={styles.button}
-                  onClick={() => handleBtn(item)}
-                >
-                  Delete
-                </button>
+
+                {!item.status && (
+                  <button
+                    className={styles.deleteButton}
+                    onClick={() => handleBtn(item)}
+                  >
+                    Delete
+                  </button>
+                )}
               </div>
             );
           })}
