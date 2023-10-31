@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import * as styles from './TodoDetails.module.css';
-import { TodoCard } from '@components/TodoCard/TodoCard';
-import { TodoModal } from '@components/TodoModal/TodoModal';
+import { TodoModal } from '@components/todoModal/TodoModal';
+import { TodoCard } from '@components/todoCard/TodoCard';
 import { END_DATE_VALID, START_DATE_VALID } from '@constants/validation';
 import { INPUT_TYPE } from '@constants/inputType';
 import { MODAL_MODE } from '@constants/modalMode';

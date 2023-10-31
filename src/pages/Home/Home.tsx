@@ -1,8 +1,8 @@
 import React from 'react';
 
 import * as styles from './Home.module.css';
-import { TodoLists } from '@components/TodoLists/TodoLists';
-import { TodoCreate } from '@components/TodoCreate/TodoCreate';
+import { TodoLists } from '@components/todoLists/TodoLists';
+import { TodoCreate } from '@components/todoCreate/TodoCreate';
 
 const Home = () => {
   return (

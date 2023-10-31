@@ -1,7 +1,7 @@
 import React, { memo, useState } from 'react';
 
 import * as styles from './TodoCreate.module.css';
-import { TodoModal } from '@components/TodoModal/TodoModal';
+import { TodoModal } from '@components/todoModal/TodoModal';
 import { END_DATE_VALID, START_DATE_VALID } from '@constants/validation';
 import { INPUT_TYPE } from '@constants/inputType';
 import { MODAL_MODE } from '@constants/modalMode';

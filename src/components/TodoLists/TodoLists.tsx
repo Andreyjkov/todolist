@@ -1,7 +1,7 @@
 import React, { memo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { List } from '@components/List/List';
+import { List } from '@components/list/List';
 import { ITodoData } from '@type/ITodoData';
 import { PATH_LINK_TO } from '@constants/routsPath';
 import { API_STATUS } from '@constants/apiStatus';

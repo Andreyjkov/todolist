@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 
 import * as styles from './Toast.module.css';
-import { SuccessIcon } from '@icons/SuccessIcon';
-import { WarningIcon } from '@icons/WarningIcon';
-import { ErrorIcon } from '@icons/ErrorIcon';
+import { SuccessIcon } from '@components/icons/SuccessIcon';
+import { WarningIcon } from '@components/icons/WarningIcon';
+import { ErrorIcon } from '@components/icons/ErrorIcon';
 import { IToastConfig } from '@type/IToastConfig';
 
 interface IProps {

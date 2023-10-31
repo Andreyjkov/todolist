@@ -1,7 +1,7 @@
 import React from 'react';
 
 import * as styles from './ToastList.module.css';
-import { Toast } from '@toast/Toast/Toast';
+import { Toast } from '@components/toast/Toast/Toast';
 import { useAppDispatch, useAppSelector } from '@store/hooksStore';
 import { deleteToast } from '@store/toasts/sliceToasts';
 

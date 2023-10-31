@@ -2,11 +2,11 @@ import React, { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { ROUTS } from '@constants/routsPath';
-import { Loading } from '@components/Loading/Loading';
-const Home = lazy(() => import('@pages/Home/Home'));
-const ErrorsPage = lazy(() => import('@pages/ErrorsPage/ErrorsPage'));
-const TodoDetails = lazy(() => import('@pages/TodoDetails/TodoDetails'));
-const NotFound = lazy(() => import('@pages/NotFound/NotFound'));
+import { Loading } from '@components/loading/Loading';
+const Home = lazy(() => import('@pages/home/Home'));
+const ErrorsPage = lazy(() => import('@pages/errorsPage/ErrorsPage'));
+const TodoDetails = lazy(() => import('@pages/todoDetails/TodoDetails'));
+const NotFound = lazy(() => import('@pages/notFound/NotFound'));
 
 export const RootRoutes = () => {
   return (
