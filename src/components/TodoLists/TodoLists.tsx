@@ -19,7 +19,8 @@ export const TodoLists = memo(() => {
 
   const handleDeleteTodo = async (item: ITodoData) => {
     if (ApiStatus !== API_STATUS.PENDING) {
-      dispatch(deleteTodoThunk(item.id));
+      await dispatch(deleteTodoThunk(item.id));
+      dispatch(fetchTodosThunk());
     }
   };
 

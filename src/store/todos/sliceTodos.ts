@@ -44,9 +44,8 @@ const sliceTodos = createSlice({
         state.ApiStatus = API_STATUS.SUCCEEDED;
         state.todo = action.payload;
       })
-      .addCase(deleteTodoThunk.fulfilled, (state, action) => {
+      .addCase(deleteTodoThunk.fulfilled, (state) => {
         state.ApiStatus = API_STATUS.SUCCEEDED;
-        state.todos = state.todos.filter((todo) => todo.id !== action.payload);
       });
 
     builder.addMatcher(
