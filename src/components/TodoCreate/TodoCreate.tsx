@@ -10,6 +10,7 @@ import { IValidation } from '@type/Validation';
 import { ITodoData } from '@type/ITodoData';
 import { useAppDispatch, useAppSelector } from '@store/hooksStore';
 import { addTodoThunk, fetchTodosThunk } from '@store/todos/asyncThunk';
+import { Button } from '@components/button/Button';
 
 const validateConfigCreate: IValidation[] = [
   {
@@ -92,9 +93,11 @@ export const TodoCreate = memo(() => {
 
   return (
     <>
-      <button onClick={openModal} className={styles.button}>
-        Add task
-      </button>
+      <div className={styles.buttonContainer}>
+        <Button color={'Green'} onClick={openModal}>
+          Add task
+        </Button>
+      </div>
       {isOpenModal && (
         <TodoModal
           validateConfig={validateConfigCreate}

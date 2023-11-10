@@ -6,6 +6,7 @@ import * as styles from './TodoCard.module.css';
 import { ITodoData } from '@type/ITodoData';
 import { ROUTS } from '@constants/routsPath';
 import { DATE_DISPLAY_FORMAT } from '@constants/dateFormat';
+import { Button } from '@components/button/Button';
 
 interface IProps {
   todo: ITodoData;
@@ -61,13 +62,10 @@ export const TodoCard = ({ todo, openModal }: IProps) => {
             : '-'}
         </p>
       </div>
-      <div className={styles.footer}>
-        <button
-          onClick={() => navigate(ROUTS.HOME)}
-          className={styles.goBackButton}
-        >
+      <div className={styles.buttonContainer}>
+        <Button color="Blue" onClick={() => navigate(ROUTS.HOME)}>
           Go back
-        </button>
+        </Button>
       </div>
     </div>
   );
