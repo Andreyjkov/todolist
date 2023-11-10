@@ -8,6 +8,7 @@ import { validateFormData } from '@utils/validateFormData';
 import { DATE_FORMAT } from '@constants/dateFormat';
 import { INPUT_TYPE } from '@constants/inputType';
 import { MODAL_MODE } from '@constants/modalMode';
+import { Button } from '@components/button/Button';
 
 interface IProps {
   closeModal: () => void;
@@ -140,16 +141,18 @@ export const TodoModal = ({
           ) : null}
         </div>
 
-        <button
-          onClick={handleSubmit}
-          className={styles.saveButton}
-          disabled={isLoadingButton}
-        >
-          {isLoadingButton ? 'loading...' : 'Save'}
-        </button>
-        <button onClick={closeModal} className={styles.cancelButton}>
-          Cancel
-        </button>
+        <div className={styles.buttonContainer}>
+          <Button
+            color={'Green'}
+            onClick={handleSubmit}
+            disabled={isLoadingButton}
+          >
+            {isLoadingButton ? 'loading...' : 'Save'}
+          </Button>
+          <Button color="Red" onClick={closeModal}>
+            Cancel
+          </Button>
+        </div>
       </div>
     </div>
   );

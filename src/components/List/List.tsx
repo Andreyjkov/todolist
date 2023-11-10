@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import * as styles from './List.module.css';
 import { ITodoData } from '@type/ITodoData';
 import { DATE_DISPLAY_FORMAT } from '@constants/dateFormat';
+import { Button } from '@components/button/Button';
 
 interface Props {
   handleBtn: (item: ITodoData) => void;
@@ -51,12 +52,11 @@ export const List = ({ handleBtn, items, handleLinkTo, loading }: Props) => {
                 </div>
 
                 {!item.status && (
-                  <button
-                    className={styles.deleteButton}
-                    onClick={() => handleBtn(item)}
-                  >
-                    Delete
-                  </button>
+                  <div className={styles.buttonContainer}>
+                    <Button color="Red" onClick={() => handleBtn(item)}>
+                      Delete
+                    </Button>
+                  </div>
                 )}
               </div>
             );

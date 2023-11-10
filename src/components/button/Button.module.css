@@ -1,0 +1,33 @@
+.button {
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.buttonRed {
+  background-color: #dc3545;
+}
+
+.buttonRed:hover {
+  background-color: #c82333;
+}
+
+.buttonBlue {
+  background-color: #007bff;
+}
+
+.buttonBlue:hover {
+  background-color: #0056b3;
+}
+
+.buttonGreen {
+  background-color: #28a745;
+}
+
+.buttonGreen:hover {
+  background-color: #218838;
+}

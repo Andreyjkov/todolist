@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import * as styles from './ErrorsPage.module.css';
 import { useAppSelector } from '@store/hooksStore';
+import { Button } from '@components/button/Button';
 
 const ErrorsPage = () => {
   const navigate = useNavigate();
@@ -12,12 +13,9 @@ const ErrorsPage = () => {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>{error}</h1>
-        <button
-          onClick={() => navigate('/', { replace: true })}
-          className={styles.button}
-        >
+        <Button color="Blue" onClick={() => navigate('/', { replace: true })}>
           go home
-        </button>
+        </Button>
       </div>
     </div>
   );
