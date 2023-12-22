@@ -1,0 +1,11 @@
+.toastList {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  top: 20px;
+  right: 20px;
+  gap: 10px;
+  z-index: 10;
+  width: 100%;
+  max-width: 300px;
+}

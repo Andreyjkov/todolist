@@ -15,47 +15,38 @@
   gap: 10px;
   box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.2);
 }
-.link {
-  padding: 7px 20px;
-  flex: 1;
-  color: black;
-  text-decoration: none;
+.loadingListRow {
+  opacity: 0.7;
 }
 .valueBox {
   display: flex;
   align-items: center;
   flex-grow: 1;
-}
-.button {
-  padding: 5px 20px;
-  margin-right: 20px;
-  border: none;
+  gap: 10px;
+  padding: 10px;
   cursor: pointer;
-  border-radius: 5px;
 }
-
-.button:hover {
-  background-color: #dbdbdb;
-}
-.button:active {
-  transform: translateY(1px);
-}
-.boxTodo {
-  flex: 5;
-  font-size: 18px;
-  word-break: break-all;
-}
-.boxDate {
-  flex: 1;
-  font-size: 14px;
-}
-.boxId {
-  flex: 1;
-  font-size: 14px;
+.buttonContainer {
   margin-right: 10px;
 }
 .noTaskText {
   text-align: center;
   font-size: 30px;
   color: grey;
+  margin: 30px;
+}
+.boxRow {
+  flex: 1;
+  font-size: 14px;
+}
+.boxRowText {
+  flex: 10;
+  font-size: 18px;
+  word-break: break-all;
+}
+
+.loadingText {
+  text-align: center;
+  font-size: 25px;
+  margin: 20px;
 }

@@ -1,35 +1,33 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { List } from '../List/List';
-import { businessService } from '../../businessService/businessService';
-import { ACTION_TYPE_DELETE, EVENT_NAME } from '../../constants';
+import { List } from '@components/list/List';
+import { ITodoData } from '@type/ITodoData';
+import { PATH_LINK_TO } from '@constants/routsPath';
+import { API_STATUS } from '@constants/apiStatus';
+import { useAppDispatch, useAppSelector } from '@store/hooksStore';
+import { deleteTodoThunk, fetchTodosThunk } from '@store/todos/asyncThunk';
 
 export const TodoLists = memo(() => {
-  const store = businessService.todoStore();
-  const [todos, setTodos] = useState(store.getState());
   const navigate = useNavigate();
-
-  const listener = () => {
-    setTodos(store.getState());
-  };
+  const dispatch = useAppDispatch();
+  const { todos, ApiStatus } = useAppSelector((state) => state.todos);
 
   useEffect(() => {
-    businessService.subscribeEvent(EVENT_NAME, listener);
-    return () => {
-      return businessService.unsubscribeEvent(EVENT_NAME, listener);
-    };
+    dispatch(fetchTodosThunk());
   }, []);
 
-  const handleDeleteTodo = (id: number) => {
-    store.dispatch({ type: ACTION_TYPE_DELETE, id });
-
-    const data = store.getState();
-    setTodos(data);
+  const handleDeleteTodo = async (item: ITodoData) => {
+    if (ApiStatus !== API_STATUS.PENDING) {
+      await dispatch(deleteTodoThunk(item.id));
+      dispatch(fetchTodosThunk());
+    }
   };
 
   const handleLinkTo = (id: number) => {
-    navigate(`${id}`);
+    if (ApiStatus !== API_STATUS.PENDING) {
+      navigate(`${PATH_LINK_TO}${id}`);
+    }
   };
 
   return (
@@ -37,6 +35,7 @@ export const TodoLists = memo(() => {
       handleBtn={handleDeleteTodo}
       items={todos}
       handleLinkTo={handleLinkTo}
+      loading={ApiStatus === API_STATUS.PENDING}
     />
   );
 });
